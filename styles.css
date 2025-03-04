@@ -1,0 +1,106 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.download-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    margin: 10px;
+    border-radius: 5px;
+    font-size: 18px;
+    transition: background 0.3s;
+}
+
+.codex-btn {
+    background-color: red;
+}
+
+.download-btn:hover {
+    opacity: 0.8;
+}
+
+.social-links {
+    margin-top: 20px;
+}
+
+.social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: #444;
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.youtube-btn {
+    background-color: #ff0000;
+}
+
+.discord-btn {
+    background-color: #5865F2;
+}
+
+.social-links a:hover {
+    opacity: 0.8;
+}
+
+.icon {
+    width: 20px;
+    height: 20px;
+}
+
+.small-img {
+    width: 40px;
+    height: 40px;
+}
+
+.delta-info {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.delta-info h2 {
+    color: #222;
+    margin-bottom: 15px;
+}
+
+.delta-info p {
+    color: #444;
+    font-size: 16px;
+    line-height: 1.6;
+}
