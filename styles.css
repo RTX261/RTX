@@ -1,0 +1,131 @@
+/* إعادة تعيين الإعدادات الافتراضية */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Cairo', 'Tajawal', sans-serif;
+}
+
+body {
+    background-color: #111;
+    color: white;
+    text-align: center;
+    direction: rtl;
+}
+
+/* تصميم الحاوية الرئيسية */
+.container {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+h1 {
+    font-size: 50px;
+    font-weight: 900;
+    margin-bottom: 20px;
+    color: white;
+}
+
+p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+/* تصميم أزرار التحميل */
+.download-btn {
+    display: block;
+    color: white;
+    padding: 15px;
+    margin: 10px auto;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+    width: 85%;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 2px solid white;
+}
+
+.delta-btn {
+    background-color: black;
+}
+
+.delta-btn:hover {
+    background-color: #222;
+}
+
+.codex-btn {
+    background-color: red;
+}
+
+.codex-btn:hover {
+    background-color: darkred;
+}
+
+/* روابط التواصل الاجتماعي */
+.social-links {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.youtube-btn, .discord-btn {
+    color: white;
+    padding: 12px 20px;
+    margin: 10px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    border: 2px solid white;
+}
+
+.youtube-btn {
+    background-color: red;
+}
+
+.youtube-btn:hover {
+    background-color: darkred;
+}
+
+.discord-btn {
+    background-color: #5865F2;
+}
+
+.discord-btn:hover {
+    background-color: #4752c4;
+}
+
+/* تصميم قسم لماذا تختار دلتا iOS */
+.delta-info, .install-guide {
+    margin-top: 30px;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: right;
+}
+
+.delta-info h2, .install-guide h2 {
+    text-align: center;
+    color: #f1c40f;
+    margin-bottom: 15px;
+}
+
+.delta-info ul, .install-guide ul {
+    list-style-type: none;
+}
+
+.delta-info li, .install-guide li {
+    font-size: 16px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-left: 4px solid #f1c40f;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
