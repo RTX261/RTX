@@ -9,10 +9,7 @@
 body {
     background: radial-gradient(circle, rgba(19, 19, 19, 1) 0%, rgba(52, 152, 219, 1) 100%);
     color: white;
-    font-family: 'Poppins', sans-serif;
     text-align: center;
-    margin: 0;
-    padding: 0;
     direction: rtl;
     overflow-x: hidden;
 }
@@ -33,15 +30,11 @@ h1 {
     font-weight: 900;
     color: #f1c40f;
     margin-bottom: 20px;
-    text-shadow: 0px 4px 6px rgba(0, 0, 0, 0.7);
 }
 
 .welcome-text {
     font-size: 22px;
-    line-height: 1.6;
-    color: white;
     margin-bottom: 30px;
-    text-shadow: 0px 4px 6px rgba(0, 0, 0, 0.7);
 }
 
 /* الأزرار */
@@ -59,10 +52,8 @@ h1 {
     font-size: 20px;
     font-weight: bold;
     border-radius: 12px;
-    width: auto;
-    text-align: center;
-    transition: all 0.3s ease;
     border: 3px solid white;
+    transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
 }
 
@@ -71,7 +62,6 @@ h1 {
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
 }
 
-/* زر Delta */
 .delta-btn {
     background-color: #2980b9;
 }
@@ -80,7 +70,6 @@ h1 {
     background-color: #1abc9c;
 }
 
-/* زر CODEX */
 .codex-btn {
     background-color: #e74c3c;
 }
@@ -102,9 +91,8 @@ h1 {
     border-radius: 8px;
     font-size: 18px;
     font-weight: bold;
-    transition: all 0.3s ease;
     border: 2px solid white;
-    background-color: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
 }
 
 .social-btn:hover {
@@ -112,29 +100,16 @@ h1 {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* الأزرار الخاصة */
 .youtube-btn {
     background-color: red;
-}
-
-.youtube-btn:hover {
-    background-color: darkred;
 }
 
 .discord-btn {
     background-color: #5865F2;
 }
 
-.discord-btn:hover {
-    background-color: #4752c4;
-}
-
 .app-btn {
     background-color: green;
-}
-
-.app-btn:hover {
-    background-color: darkgreen;
 }
 
 /* قسم "لماذا تختار دلتا iOS" */
@@ -147,51 +122,19 @@ h1 {
     animation: fadeInUp 1s ease-in-out;
 }
 
-.delta-info h2 {
-    color: #f1c40f;
-    margin-bottom: 20px;
-    text-shadow: 0px 4px 6px rgba(0, 0, 0, 0.7);
-}
-
-.delta-info ul {
-    list-style-type: none;
-}
-
-.delta-info li {
-    font-size: 16px;
-    margin-bottom: 12px;
-    padding: 10px;
-    border-left: 4px solid #f1c40f;
-    background-color: rgba(0, 0, 0, 0.4);
-    border-radius: 5px;
-    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.6);
-}
-
-/* تأثيرات الرسوم المتحركة */
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes fadeInUp {
-    0% {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
 h2 {
     font-size: 24px;
     color: #f1c40f;
     margin-bottom: 25px;
+}
+
+/* تأثيرات الرسوم المتحركة */
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+    0% { opacity: 0; transform: translateY(30px); }
+    100% { opacity: 1; transform: translateY(0); }
 }
