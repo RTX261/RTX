@@ -9,7 +9,10 @@
 body {
     background-color: #111;
     color: white;
+    font-family: Arial, sans-serif;
     text-align: center;
+    margin: 0;
+    padding: 0;
     direction: rtl;
 }
 
@@ -23,15 +26,16 @@ body {
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
 }
 
+/* تصميم العنوان */
 h1 {
     font-size: 50px;
     font-weight: 900;
+    margin-bottom: 20px;
     color: white;
 }
 
 .welcome-text {
     font-size: 18px;
-    font-weight: bold;
     color: white;
     margin-bottom: 20px;
 }
@@ -39,6 +43,7 @@ h1 {
 /* تصميم أزرار التحميل */
 .download-btn {
     display: block;
+    color: white;
     padding: 15px;
     margin: 10px auto;
     text-decoration: none;
@@ -51,17 +56,23 @@ h1 {
     border: 2px solid white;
 }
 
+.download-btn:hover {
+    transform: translateY(-3px);
+}
+
+/* زر Delta */
 .delta-btn {
     background-color: black;
-    color: white;
 }
 
 .delta-btn:hover {
     background-color: #222;
 }
 
+/* زر CODEX */
 .codex-btn {
     background-color: red;
+    border: 2px solid white;
     color: white;
 }
 
@@ -69,21 +80,21 @@ h1 {
     background-color: darkred;
 }
 
-/* تصميم أزرار التواصل الاجتماعي */
+/* أزرار التواصل الاجتماعي */
 .social-links {
     display: flex;
     justify-content: center;
-    gap: 15px;
+    gap: 10px;
     margin-top: 20px;
 }
 
 .social-btn {
-    padding: 12px 25px;
+    color: white;
+    padding: 12px 20px;
+    text-decoration: none;
+    border-radius: 8px;
     font-size: 18px;
     font-weight: bold;
-    border-radius: 8px;
-    text-decoration: none;
-    color: white;
     transition: all 0.3s ease;
     border: 2px solid white;
 }
@@ -104,8 +115,45 @@ h1 {
     background-color: #4752c4;
 }
 
-/* تصميم الأقسام */
-.delta-info, .how-to-install, .faq {
+/* زر تنزيل التطبيق */
+.app-btn {
+    background-color: green;
+}
+
+.app-btn:hover {
+    background-color: darkgreen;
+}
+
+/* تصميم قسم "لماذا تختار دلتا iOS" */
+.delta-info {
+    margin-top: 30px;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: right;
+}
+
+.delta-info h2 {
+    text-align: center;
+    color: #f1c40f;
+    margin-bottom: 15px;
+}
+
+.delta-info ul {
+    list-style-type: none;
+}
+
+.delta-info li {
+    font-size: 16px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-left: 4px solid #f1c40f;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+/* تصميم الأقسام الإضافية */
+.install-steps, .faq {
     margin-top: 30px;
     background-color: rgba(255, 255, 255, 0.1);
     padding: 20px;
@@ -117,32 +165,4 @@ h2 {
     text-align: center;
     color: #f1c40f;
     margin-bottom: 15px;
-}
-
-.delta-info ul, .faq ul {
-    list-style-type: none;
-}
-
-.delta-info li, .faq li {
-    font-size: 16px;
-    margin-bottom: 10px;
-    padding: 10px;
-    border-left: 4px solid #f1c40f;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 5px;
-}
-
-/* تصميم طريقة التحميل */
-.how-to-install ol {
-    list-style-type: decimal;
-    padding-right: 20px;
-}
-
-.how-to-install li {
-    font-size: 16px;
-    margin-bottom: 10px;
-    padding: 10px;
-    border-right: 4px solid #f1c40f;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 5px;
 }
