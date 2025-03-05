@@ -1,148 +1,168 @@
-/* إعادة تعيين القيم الافتراضية */
+/* إعادة تعيين الإعدادات الافتراضية */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Tajawal', sans-serif;
+‏    margin: 0;
+‏    padding: 0;
+‏    box-sizing: border-box;
+‏    font-family: 'Cairo', 'Tajawal', sans-serif;
 }
 
-body {
-    background: linear-gradient(135deg, #141e30, #243b55);
-    color: white;
-    text-align: center;
-    direction: rtl;
-    overflow-x: hidden;
+‏body {
+‏    background-color: #111;
+‏    color: white;
+‏    font-family: Arial, sans-serif;
+‏    text-align: center;
+‏    margin: 0;
+‏    padding: 0;
+‏    direction: rtl;
 }
 
 /* تصميم الحاوية الرئيسية */
-.container {
-    max-width: 700px;
-    margin: 50px auto;
-    padding: 40px;
-    background: rgba(0, 0, 0, 0.6);
-    border-radius: 20px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-    animation: fadeIn 1s ease-in-out;
+‏.container {
+‏    max-width: 500px;
+‏    margin: 50px auto;
+‏    padding: 30px;
+‏    background-color: rgba(255, 255, 255, 0.1);
+‏    border-radius: 15px;
+‏    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
 }
 
-/* تأثيرات النصوص */
-h1.logo {
-    font-size: 60px;
-    font-weight: bold;
-    color: #f1c40f;
-    text-shadow: 0 4px 6px rgba(0, 0, 0, 0.7);
+/* تصميم العنوان */
+‏h1 {
+‏    font-size: 50px;
+‏    font-weight: 900;
+‏    margin-bottom: 20px;
+‏    color: white;
 }
 
-.welcome-text {
-    font-size: 22px;
-    margin-bottom: 30px;
+‏.welcome-text {
+‏    font-size: 18px;
+‏    color: white;
+‏    margin-bottom: 20px;
 }
 
-.welcome-text span {
-    color: #f1c40f;
-    font-weight: bold;
+/* تصميم أزرار التحميل */
+‏.download-btn {
+‏    display: block;
+‏    color: white;
+‏    padding: 15px;
+‏    margin: 10px auto;
+‏    text-decoration: none;
+‏    font-size: 18px;
+‏    font-weight: bold;
+‏    border-radius: 8px;
+‏    width: 85%;
+‏    text-align: center;
+‏    transition: all 0.3s ease;
+‏    border: 2px solid white;
 }
 
-/* تصميم الأزرار */
-.buttons-container {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
+‏.download-btn:hover {
+‏    transform: translateY(-3px);
 }
 
-.download-btn {
-    display: block;
-    color: white;
-    padding: 15px 25px;
-    font-size: 20px;
-    font-weight: bold;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: 0.3s;
-    border: 2px solid white;
+/* زر Delta */
+‏.delta-btn {
+‏    background-color: black;
 }
 
-.download-btn:hover {
-    transform: scale(1.05);
+‏.delta-btn:hover {
+‏    background-color: #222;
 }
 
-/* تخصيص ألوان الأزرار */
-.delta-btn {
-    background-color: #2980b9;
+/* زر CODEX */
+‏.codex-btn {
+‏    background-color: red;
+‏    border: 2px solid white;
+‏    color: white;
 }
 
-.delta-btn:hover {
-    background-color: #1abc9c;
+‏.codex-btn:hover {
+‏    background-color: darkred;
 }
 
-.codex-btn {
-    background-color: #e74c3c;
+/* أزرار التواصل الاجتماعي */
+‏.social-links {
+‏    display: flex;
+‏    justify-content: center;
+‏    gap: 10px;
+‏    margin-top: 20px;
 }
 
-.codex-btn:hover {
-    background-color: #c0392b;
+‏.social-btn {
+‏    color: white;
+‏    padding: 12px 20px;
+‏    text-decoration: none;
+‏    border-radius: 8px;
+‏    font-size: 18px;
+‏    font-weight: bold;
+‏    transition: all 0.3s ease;
+‏    border: 2px solid white;
 }
 
-/* تصميم روابط التواصل */
-.social-links {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 30px;
+‏.youtube-btn {
+‏    background-color: red;
 }
 
-.social-btn {
-    padding: 12px 20px;
-    border-radius: 8px;
-    font-size: 18px;
-    font-weight: bold;
-    text-decoration: none;
-    transition: 0.3s;
-    border: 2px solid white;
+‏.youtube-btn:hover {
+‏    background-color: darkred;
 }
 
-.youtube-btn {
-    background-color: red;
+‏.discord-btn {
+‏    background-color: #5865F2;
 }
 
-.youtube-btn:hover {
-    background-color: darkred;
+‏.discord-btn:hover {
+‏    background-color: #4752c4;
 }
 
-.discord-btn {
-    background-color: #5865F2;
+/* زر تنزيل التطبيق */
+‏.app-btn {
+‏    background-color: green;
 }
 
-.discord-btn:hover {
-    background-color: #4752c4;
+‏.app-btn:hover {
+‏    background-color: darkgreen;
 }
 
-.app-btn {
-    background-color: green;
+/* تصميم قسم "لماذا تختار دلتا iOS" */
+‏.delta-info {
+‏    margin-top: 30px;
+‏    background-color: rgba(255, 255, 255, 0.1);
+‏    padding: 20px;
+‏    border-radius: 10px;
+‏    text-align: right;
 }
 
-.app-btn:hover {
-    background-color: darkgreen;
+‏.delta-info h2 {
+‏    text-align: center;
+‏    color: #f1c40f;
+‏    margin-bottom: 15px;
 }
 
-/* تحسين الأقسام */
-.delta-info, .install-steps {
-    margin-top: 40px;
-    background: rgba(0, 0, 0, 0.6);
-    padding: 30px;
-    border-radius: 10px;
-    text-align: right;
+‏.delta-info ul {
+‏    list-style-type: none;
 }
 
-/* تأثيرات العناوين */
-h2 {
-    text-align: center;
-    color: #f1c40f;
-    margin-bottom: 15px;
+‏.delta-info li {
+‏    font-size: 16px;
+‏    margin-bottom: 10px;
+‏    padding: 10px;
+‏    border-left: 4px solid #f1c40f;
+‏    background-color: rgba(255, 255, 255, 0.1);
+‏    border-radius: 5px;
 }
 
-/* تأثيرات الحركات */
-@keyframes fadeIn {
-    0% { opacity: 0; transform: translateY(20px); }
-    100% { opacity: 1; transform: translateY(0); }
+/* تصميم الأقسام الإضافية */
+‏.install-steps, .faq {
+‏    margin-top: 30px;
+‏    background-color: rgba(255, 255, 255, 0.1);
+‏    padding: 20px;
+‏    border-radius: 10px;
+‏    text-align: right;
+}
+
+‏h2 {
+‏    text-align: center;
+‏    color: #f1c40f;
+‏    margin-bottom: 15px;
 }
