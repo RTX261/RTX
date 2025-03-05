@@ -87,6 +87,41 @@ h1 {
     background-color: darkred;
 }
 
+/* روابط التواصل الاجتماعي */
+.social-links {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.social-btn {
+    color: white;
+    padding: 12px 20px;
+    margin: 10px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    border: 2px solid white;
+}
+
+.youtube-btn {
+    background-color: red;
+}
+
+.youtube-btn:hover {
+    background-color: darkred;
+}
+
+.discord-btn {
+    background-color: #5865F2;
+}
+
+.discord-btn:hover {
+    background-color: #4752c4;
+}
+
 /* تصميم قسم لماذا تختار دلتا iOS */
 .delta-info, .download-guide, .faq {
     margin-top: 30px;
