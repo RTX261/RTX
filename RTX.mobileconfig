@@ -3,11 +3,9 @@
 <plist version="1.0">
 <dict>
     <key>PayloadDisplayName</key>
-    <string>RTX</string>
+    <string>RTX App</string>
     <key>PayloadDescription</key>
-    <string>تطبيق RTX الرسمي</string>
-    <key>PayloadOrganization</key>
-    <string>RTX Team</string>
+    <string>إضافة تطبيق RTX إلى شاشة iPhone الرئيسية</string>
     <key>PayloadIdentifier</key>
     <string>com.rtx.ios</string>
     <key>PayloadType</key>
@@ -31,7 +29,7 @@
             <string>https://rtx261.github.io/RTX/</string>
             <key>Icon</key>
             <data>
-                <!-- تأكد أن الصورة تعمل -->
+                <!-- أيقونة التطبيق -->
                 https://rtx261.github.io/RTX/logo.png
             </data>
             <key>IsRemovable</key>
