@@ -13,7 +13,7 @@
     <key>PayloadType</key>
     <string>Configuration</string>
     <key>PayloadUUID</key>
-    <string>UNIQUE-UUID-HERE</string>
+    <string>550e8400-e29b-41d4-a716-446655440000</string>
     <key>PayloadVersion</key>
     <integer>1</integer>
     <key>PayloadContent</key>
@@ -22,7 +22,7 @@
             <key>PayloadType</key>
             <string>com.apple.webClip.managed</string>
             <key>PayloadUUID</key>
-            <string>UNIQUE-UUID-HERE</string>
+            <string>e29b8400-41d4-a716-550e-446655440000</string>
             <key>PayloadVersion</key>
             <integer>1</integer>
             <key>Label</key>
@@ -31,7 +31,7 @@
             <string>https://rtx261.github.io/RTX/</string>
             <key>Icon</key>
             <data>
-                <!-- ضع رابط الصورة هنا -->
+                <!-- تأكد أن الصورة تعمل -->
                 https://rtx261.github.io/RTX/logo.png
             </data>
             <key>IsRemovable</key>
