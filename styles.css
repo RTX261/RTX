@@ -3,13 +3,13 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Cairo', 'Tajawal', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 body {
-    background-color: #111;
+    background: linear-gradient(45deg, #111, #333);
     color: white;
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
     text-align: center;
     margin: 0;
     padding: 0;
@@ -21,9 +21,9 @@ body {
     max-width: 500px;
     margin: 50px auto;
     padding: 30px;
-    background-color: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 15px;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
 }
 
 /* تصميم العنوان */
@@ -31,20 +31,20 @@ h1 {
     font-size: 50px;
     font-weight: 900;
     margin-bottom: 20px;
-    color: white;
+    color: #f1c40f;
 }
 
 .welcome-text {
-    font-size: 18px;
-    color: white;
+    font-size: 20px;
     margin-bottom: 20px;
+    line-height: 1.5;
 }
 
 /* تصميم أزرار التحميل */
 .download-btn {
     display: block;
     color: white;
-    padding: 15px;
+    padding: 15px 25px;
     margin: 10px auto;
     text-decoration: none;
     font-size: 18px;
@@ -53,31 +53,29 @@ h1 {
     width: 85%;
     text-align: center;
     transition: all 0.3s ease;
-    border: 2px solid white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .download-btn:hover {
-    transform: translateY(-3px);
+    transform: scale(1.05);
 }
 
-/* زر Delta */
 .delta-btn {
-    background-color: black;
+    background: linear-gradient(135deg, #f1c40f, #e67e22);
+    border: none;
 }
 
 .delta-btn:hover {
-    background-color: #222;
+    background: linear-gradient(135deg, #e67e22, #f39c12);
 }
 
-/* زر CODEX */
 .codex-btn {
-    background-color: red;
-    border: 2px solid white;
-    color: white;
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    border: none;
 }
 
 .codex-btn:hover {
-    background-color: darkred;
+    background: linear-gradient(135deg, #c0392b, #e74c3c);
 }
 
 /* أزرار التواصل الاجتماعي */
@@ -89,14 +87,18 @@ h1 {
 }
 
 .social-btn {
-    color: white;
     padding: 12px 20px;
-    text-decoration: none;
     border-radius: 8px;
     font-size: 18px;
     font-weight: bold;
     transition: all 0.3s ease;
     border: 2px solid white;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.social-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .youtube-btn {
@@ -115,7 +117,6 @@ h1 {
     background-color: #4752c4;
 }
 
-/* زر تنزيل التطبيق */
 .app-btn {
     background-color: green;
 }
