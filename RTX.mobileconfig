@@ -2,39 +2,42 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>PayloadDisplayName</key>
-    <string>RTX App</string>
-    <key>PayloadDescription</key>
-    <string>إضافة تطبيق RTX إلى شاشة iPhone الرئيسية</string>
-    <key>PayloadIdentifier</key>
-    <string>com.rtx.ios</string>
-    <key>PayloadType</key>
-    <string>Configuration</string>
-    <key>PayloadUUID</key>
-    <string>550e8400-e29b-41d4-a716-446655440000</string>
-    <key>PayloadVersion</key>
-    <integer>1</integer>
     <key>PayloadContent</key>
     <array>
         <dict>
+            <key>FullScreen</key>
+            <true/>
+            <key>Label</key>
+            <string>RTX</string>
+            <key>PayloadDisplayName</key>
+            <string>RTX</string>
+            <key>PayloadIdentifier</key>
+            <string>com.rtx.ios</string>
             <key>PayloadType</key>
             <string>com.apple.webClip.managed</string>
             <key>PayloadUUID</key>
-            <string>e29b8400-41d4-a716-550e-446655440000</string>
+            <string>12345678-ABCD-1234-ABCD-123456789ABC</string>
             <key>PayloadVersion</key>
             <integer>1</integer>
-            <key>Label</key>
-            <string>RTX</string>
+            <key>Precomposed</key>
+            <true/>
             <key>URL</key>
             <string>https://rtx261.github.io/RTX/</string>
-            <key>Icon</key>
-            <data>
-                <!-- أيقونة التطبيق -->
-                https://rtx261.github.io/RTX/logo.png
-            </data>
             <key>IsRemovable</key>
             <true/>
         </dict>
     </array>
+    <key>PayloadDisplayName</key>
+    <string>RTX Web App</string>
+    <key>PayloadIdentifier</key>
+    <string>com.rtx.mobileconfig</string>
+    <key>PayloadOrganization</key>
+    <string>RTX</string>
+    <key>PayloadType</key>
+    <string>Configuration</string>
+    <key>PayloadUUID</key>
+    <string>87654321-DCBA-4321-DCBA-987654321ABC</string>
+    <key>PayloadVersion</key>
+    <integer>1</integer>
 </dict>
 </plist>
