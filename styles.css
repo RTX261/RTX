@@ -10,8 +10,6 @@ body {
     background-color: #111;
     color: white;
     text-align: center;
-    margin: 0;
-    padding: 0;
     direction: rtl;
 }
 
@@ -38,12 +36,7 @@ h1 {
     margin-bottom: 20px;
 }
 
-.highlight {
-    color: #f1c40f;
-    font-weight: bold;
-}
-
-/* أزرار التحميل */
+/* تصميم أزرار التحميل */
 .download-btn {
     display: block;
     color: white;
@@ -59,23 +52,27 @@ h1 {
     border: 2px solid white;
 }
 
-.download-btn i {
-    margin-left: 8px;
+.download-btn:hover {
+    transform: translateY(-3px);
 }
 
 .delta-btn {
     background-color: black;
 }
 
+.delta-btn:hover {
+    background-color: #222;
+}
+
 .codex-btn {
     background-color: red;
 }
 
-.download-btn:hover {
-    transform: translateY(-3px);
+.codex-btn:hover {
+    background-color: darkred;
 }
 
-/* روابط التواصل الاجتماعي */
+/* أزرار التواصل الاجتماعي */
 .social-links {
     display: flex;
     justify-content: center;
@@ -98,34 +95,62 @@ h1 {
     background-color: red;
 }
 
+.youtube-btn:hover {
+    background-color: darkred;
+}
+
 .discord-btn {
     background-color: #5865F2;
+}
+
+.discord-btn:hover {
+    background-color: #4752c4;
 }
 
 .app-btn {
     background-color: green;
 }
 
-/* تحسين عرض "لماذا تختار دلتا iOS" */
+.app-btn:hover {
+    background-color: darkgreen;
+}
+
+/* تحسين تنسيق "لماذا تختار دلتا iOS" */
 .delta-info {
     margin-top: 30px;
     background: rgba(255, 255, 255, 0.1);
     padding: 20px;
     border-radius: 10px;
-    text-align: right;
+    text-align: center;
+}
+
+.delta-info h2 {
+    text-align: center;
+    color: #f1c40f;
+    margin-bottom: 15px;
+}
+
+.delta-info ul {
+    list-style: none;
+    padding: 0;
 }
 
 .delta-info li {
     display: flex;
     align-items: center;
-    gap: 10px;
     font-size: 16px;
+    padding: 10px;
+    border-left: 4px solid #f1c40f;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    margin-bottom: 10px;
+    text-align: right;
 }
 
-/* تحسين طريقة التحميل والأسئلة الشائعة */
+/* تصميم الأقسام الإضافية */
 .install-steps, .faq {
     margin-top: 30px;
-    background: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.1);
     padding: 20px;
     border-radius: 10px;
     text-align: right;
