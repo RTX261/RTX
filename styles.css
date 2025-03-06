@@ -57,7 +57,7 @@ h1 {
     text-align: center;
     transition: all 0.3s ease;
     border: 2px solid white;
-    user-select: none; /* منع تحديد النص */
+    user-select: none;
 }
 
 .download-btn i {
@@ -99,22 +99,22 @@ h1 {
 }
 
 .youtube-btn {
-    background-color: #FF0000; /* أحمر */
+    background-color: #FF0000;
 }
 
 .discord-btn {
-    background-color: #5865F2; /* أزرق */
+    background-color: #5865F2;
 }
 
 .app-btn {
-    background-color: #008000; /* أخضر */
+    background-color: #008000;
 }
 
 .social-btn:hover {
     opacity: 0.8;
 }
 
-/* صناديق المعلومات */
+/* تصميم مربعات المعلومات */
 .info-box {
     margin-top: 30px;
     background: rgba(255, 255, 255, 0.1);
