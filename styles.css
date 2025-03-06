@@ -25,7 +25,7 @@ body {
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
 }
 
-/* تصميم العنوان */
+/* العناوين */
 h1 {
     font-size: 50px;
     font-weight: 900;
@@ -33,9 +33,10 @@ h1 {
     color: white;
 }
 
-.welcome-text {
-    font-size: 18px;
-    margin-bottom: 20px;
+h2 {
+    text-align: center;
+    color: #f1c40f;
+    margin-bottom: 15px;
 }
 
 .highlight {
@@ -75,76 +76,34 @@ h1 {
     transform: translateY(-3px);
 }
 
-/* روابط التواصل الاجتماعي */
-.social-links {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
+/* مربعات المعلومات */
+.info-box {
     margin-top: 20px;
-}
-
-.social-btn {
-    color: white;
-    padding: 12px 20px;
-    text-decoration: none;
-    border-radius: 8px;
-    font-size: 18px;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    border: 2px solid white;
-}
-
-.youtube-btn {
-    background-color: red;
-}
-
-.discord-btn {
-    background-color: #5865F2;
-}
-
-.app-btn {
-    background-color: green;
-}
-
-/* تحسين عرض "لماذا تختار دلتا iOS" */
-.section {
-    margin-top: 30px;
     background: rgba(255, 255, 255, 0.1);
     padding: 20px;
     border-radius: 10px;
+    border: 2px solid #f1c40f;
     text-align: right;
+    box-shadow: 0 0 15px rgba(241, 196, 15, 0.3);
 }
 
-h2 {
-    text-align: center;
-    color: #f1c40f;
-    margin-bottom: 15px;
+.info-box ul, .info-box ol {
+    padding: 10px;
 }
 
-.delta-list {
-    list-style: none;
-    padding: 0;
-}
-
-.delta-list li {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.info-box li {
     font-size: 16px;
     margin-bottom: 10px;
+    padding: 10px;
+    border-left: 4px solid #f1c40f;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
 }
 
-/* تحسين طريقة التحميل */
-.install-steps {
-    list-style-type: decimal;
-    padding-left: 20px;
+.info-box p {
     font-size: 16px;
-}
-
-/* تصميم الأسئلة الشائعة */
-.faq-box {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 15px;
-    border-radius: 8px;
     margin-bottom: 10px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
 }
