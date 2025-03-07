@@ -123,6 +123,14 @@ h1 {
     text-align: right;
 }
 
+.info-box ul, .info-box ol {
+    padding-right: 20px;
+}
+
+.info-box li {
+    margin-bottom: 10px;
+}
+
 h2 {
     text-align: center;
     color: #f1c40f;
