@@ -26,10 +26,7 @@
             <key>IsRemovable</key>
             <true/>
             <key>Icon</key>
-            <dict>
-                <key>URL</key>
-                <string>https://raw.githubusercontent.com/RTX261/good-/593e3ad043c9eb9f93e4e6e2efaff41b0f186158/IMG_9290.png</string>
-            </dict>
+            <string>https://raw.githubusercontent.com/RTX261/good-/593e3ad043c9eb9f93e4e6e2efaff41b0f186158/IMG_9290.png</string>
         </dict>
     </array>
     <key>PayloadDisplayName</key>
