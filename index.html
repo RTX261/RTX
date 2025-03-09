@@ -9,14 +9,30 @@
 </head>
 <body>
 
-    <div class="container">
+    <!-- زر القائمة -->
+    <div class="menu-icon" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <!-- القائمة الجانبية -->
+    <div class="sidebar" id="sidebar">
+        <ul>
+            <li onclick="showContent('roblox')">روبلكس</li>
+            <li onclick="showContent('fortnite')">فورت نايت</li>
+            <li onclick="showContent('esaign')">إيساين</li>
+            <li onclick="showContent('shahid')">شهايد</li>
+        </ul>
+    </div>
+
+    <!-- المحتوى الرئيسي -->
+    <div class="container" id="content">
         <h1>RTX</h1>
         <p class="welcome-text">مرحباً بك في موقع <span class="highlight">RTX</span> هنا لدينا هاك كوديكس و دلتا للايفون</p>
 
-        <a href="itms-services://?action=download-manifest&url=https://deltaios-executor.com/Install.plist" class="download-btn delta-btn" onmousedown="return false" oncontextmenu="return false">
+        <a href="itms-services://?action=download-manifest&url=https://deltaios-executor.com/Install.plist" class="download-btn delta-btn">
             <i class="fas fa-download"></i> Delta Install
         </a>
-        <a href="itms-services://?action=download-manifest&url=https://codex-ios.com/Install.plist" class="download-btn codex-btn" onmousedown="return false" oncontextmenu="return false">
+        <a href="itms-services://?action=download-manifest&url=https://codex-ios.com/Install.plist" class="download-btn codex-btn">
             <i class="fas fa-download"></i> CODEX Install
         </a>
 
@@ -67,8 +83,29 @@
             <p><strong>كم مرة يتم تحديث التطبيق؟</strong><br>
             نقوم بتحديث تطبيقنا بانتظام لضمان حصولك على إمكانية الوصول إلى أحدث الإصدارات والميزات.</p>
         </div>
-
     </div>
+
+    <!-- محتوى "قريبًا" -->
+    <div class="coming-soon" id="comingSoon">
+        <h2>قريبًا</h2>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById("sidebar").classList.toggle("active");
+        }
+
+        function showContent(section) {
+            if (section === 'roblox') {
+                document.getElementById("content").style.display = "block";
+                document.getElementById("comingSoon").style.display = "none";
+            } else {
+                document.getElementById("content").style.display = "none";
+                document.getElementById("comingSoon").style.display = "flex";
+            }
+            document.getElementById("sidebar").classList.remove("active");
+        }
+    </script>
 
 </body>
 </html>
