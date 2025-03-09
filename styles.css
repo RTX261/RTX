@@ -15,6 +15,49 @@ body {
     direction: rtl;
 }
 
+/* زر الثلاثة خطوط */
+.menu-icon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 30px;
+    cursor: pointer;
+    color: white;
+}
+
+/* القائمة الجانبية */
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: -250px;
+    width: 250px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    padding-top: 50px;
+    transition: 0.3s;
+    text-align: right;
+}
+
+.sidebar.active {
+    right: 0;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    padding: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.sidebar ul li:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
 /* تصميم الحاوية الرئيسية */
 .container {
     max-width: 500px;
@@ -65,6 +108,7 @@ h1 {
     text-align: center;
     transition: all 0.3s ease;
     border: 2px solid white;
+    user-select: none;
 }
 
 .download-btn i {
@@ -83,68 +127,10 @@ h1 {
     transform: translateY(-3px);
 }
 
-/* روابط التواصل الاجتماعي */
-.social-links {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.social-btn {
-    color: white;
-    padding: 12px 20px;
-    text-decoration: none;
-    border-radius: 8px;
-    font-size: 18px;
+/* تصميم صفحة "قريباً" */
+.soon-page {
+    display: none;
+    font-size: 50px;
     font-weight: bold;
-    transition: all 0.3s ease;
-    border: 2px solid white;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.youtube-btn {
-    background-color: #FF0000; /* أحمر */
-}
-
-.discord-btn {
-    background-color: #5865F2; /* أزرق */
-}
-
-.app-btn {
-    background-color: #008000; /* أخضر */
-}
-
-.social-btn:hover {
-    opacity: 0.8;
-}
-
-/* صناديق المعلومات */
-.info-box {
-    margin-top: 30px;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 20px;
-    border-radius: 10px;
-    text-align: right;
-}
-
-.info-box ul, .info-box ol {
-    padding-right: 20px;
-}
-
-.info-box li {
-    margin-bottom: 10px;
-}
-
-h2 {
-    text-align: center;
     color: #f1c40f;
-    margin-bottom: 15px;
-}
-
-/* منع تحديد النصوص ونسخها من أزرار Delta Install و CODEX Install */
-.delta-btn, .codex-btn {
-    user-select: none; /* منع تحديد النص */
 }
