@@ -1,79 +1,74 @@
-/* تصميم القائمة الجانبية */
-.menu-icon {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    font-size: 24px;
-    cursor: pointer;
-}
+‏<!DOCTYPE html>
+‏<html lang="ar">
+‏<head>
+‏    <meta charset="UTF-8">
+‏    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+‏    <title>RTX</title>
+‏    <link rel="stylesheet" href="styles.css">
+‏    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+‏</head>
+‏<body>
 
-.sidebar {
-    position: fixed;
-    top: 0;
-    right: -250px;
-    width: 250px;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    padding-top: 60px;
-    transition: 0.3s;
-}
+‏    <div class="container">
+‏        <h1>RTX</h1>
+‏        <p class="welcome-text">مرحباً بك في موقع <span class="highlight">RTX</span> هنا لدينا هاك كوديكس و دلتا للايفون</p>
 
-.sidebar.active {
-    right: 0;
-}
+‏        <a href="itms-services://?action=download-manifest&url=https://deltaios-executor.com/Install.plist" class="download-btn delta-btn" onmousedown="return false" oncontextmenu="return false">
+‏            <i class="fas fa-download"></i> Delta Install
+‏        </a>
+‏        <a href="itms-services://?action=download-manifest&url=https://codex-ios.com/Install.plist" class="download-btn codex-btn" onmousedown="return false" oncontextmenu="return false">
+‏            <i class="fas fa-download"></i> CODEX Install
+‏        </a>
 
-.sidebar ul {
-    list-style: none;
-    padding: 0;
-}
+        <!-- روابط التواصل الاجتماعي -->
+‏        <div class="social-links">
+‏            <a href="https://youtube.com/@rtxtop1-rtx" target="_blank" class="social-btn youtube-btn">
+‏                <i class="fab fa-youtube"></i> يوتيوب
+‏            </a>
+‏            <a href="https://discord.gg/rtxtop1" target="_blank" class="social-btn discord-btn">
+‏                <i class="fab fa-discord"></i> ديسكورد
+‏            </a>
+‏            <a href="https://rtx261.github.io/RTX/RTX.mobileconfig" class="social-btn app-btn">
+‏                <i class="fas fa-mobile-alt"></i> تنزيل الموقع
+‏            </a>
+‏        </div>
 
-.sidebar ul li {
-    padding: 15px;
-    text-align: center;
-    cursor: pointer;
-    color: white;
-    font-size: 18px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-}
+        <!-- قسم لماذا تختار دلتا iOS -->
+‏        <div class="info-box">
+‏            <h2>لماذا تختار <span class="highlight">دلتا iOS</span>؟</h2>
+‏            <ul>
+‏                <li><strong>التثبيت الآمن:</strong> نستخدم تشفيرًا متقدمًا لضمان أمان التطبيق.</li>
+‏                <li><strong>تحديثات منتظمة:</strong> احصل على أحدث الإصدارات باستمرار.</li>
+‏                <li><strong>توافق واسع:</strong> دعم لجميع إصدارات iOS الحديثة.</li>
+‏                <li><strong>سرعات تنزيل سريعة:</strong> تحميل موثوق وسريع.</li>
+‏            </ul>
+‏        </div>
 
-.sidebar ul li:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
+        <!-- طريقة تحميل الهاك -->
+‏        <div class="info-box">
+‏            <h2>طريقة تحميل الهاك</h2>
+‏            <ol>
+‏                <li>اضغط على زر <span class="highlight">"Delta Install"</span> أو <span class="highlight">"CODEX Install"</span> بالأعلى.</li>
+‏                <li>عند الضغط على الزر اضغط على كلمة <span class="highlight">"تثبيت"</span>.</li>
+‏                <li>بعد التحميل، انتقل إلى الإعدادات > عام > إدارة الأجهزة.</li>
+‏                <li>ثق في ملف تعريف المطور.</li>
+‏            </ol>
+‏        </div>
 
-/* تنسيق كلمة RTX */
-@keyframes glow {
-    0% { text-shadow: 0 0 10px red, 0 0 20px red; }
-    50% { text-shadow: 0 0 15px #f1c40f, 0 0 30px #f1c40f; }
-    100% { text-shadow: 0 0 10px red, 0 0 20px red; }
-}
+        <!-- الأسئلة الشائعة -->
+‏        <div class="info-box">
+‏            <h2>الأسئلة الشائعة</h2>
+‏            <p><strong>هل استخدام الهاك آمن؟</strong><br>
+            نعم، يضع سيرفر RTX أمان المستخدم وخصوصيته في المقام الأول. يتم فحص جميع التطبيقات والتحقق منها بدقة قبل إتاحتها للتثبيت.</p>
 
-h1 {
-    font-size: 50px;
-    font-weight: 900;
-    margin-bottom: 20px;
-    color: white;
-    animation: glow 2s infinite alternate;
-}
+‏            <p><strong>ما هي إصدارات iOS المدعومة؟</strong><br>
+            يدعم Delta iOS و CODEX iOS نظام التشغيل iOS 12.0 والإصدارات الأحدث، مما يضمن التوافق مع مجموعة واسعة من الأجهزة وإصدارات النظام.</p>
 
-/* تنسيق قسم "قريبًا" */
-.coming-soon {
-    display: none;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    font-size: 30px;
-    font-weight: bold;
-    color: #f1c40f;
-}
+‏            <p><strong>كم مرة يتم تحديث التطبيق؟</strong><br>
+            نقوم بتحديث تطبيقنا بانتظام لضمان حصولك على إمكانية الوصول إلى أحدث الإصدارات والميزات.</p>
+‏        </div>
 
-/* تنسيق باقي الصفحة */
-.container {
-    max-width: 500px;
-    margin: 50px auto;
-    padding: 30px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-}
+‏    </div>
 
-/* باقي التنسيقات كما هي */
+‏</body>
+‏</html>
