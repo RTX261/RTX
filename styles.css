@@ -15,56 +15,6 @@ body {
     direction: rtl;
 }
 
-/* القائمة الجانبية */
-.menu-icon {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    font-size: 30px;
-    cursor: pointer;
-    color: white;
-}
-
-.sidebar {
-    position: fixed;
-    top: 0;
-    right: -250px;
-    width: 200px;
-    height: 100%;
-    background: #222;
-    padding-top: 50px;
-    transition: 0.3s;
-    z-index: 1000;
-}
-
-.sidebar.active {
-    right: 0;
-}
-
-.sidebar ul {
-    list-style: none;
-    padding: 0;
-}
-
-.sidebar ul li {
-    padding: 15px;
-    cursor: pointer;
-    color: white;
-    text-align: center;
-    font-size: 18px;
-    transition: 0.3s;
-}
-
-.sidebar ul li:hover {
-    background: #f1c40f;
-    color: black;
-}
-
-/* إخفاء الصفحات عند البداية */
-.soon-page {
-    display: none;
-}
-
 /* تصميم الحاوية الرئيسية */
 .container {
     max-width: 500px;
@@ -189,17 +139,74 @@ h1 {
     margin-bottom: 10px;
 }
 
-/* عنوان الأقسام */
 h2 {
     text-align: center;
     color: #f1c40f;
     margin-bottom: 15px;
 }
 
-/* تحسين عرض "قريبًا" */
-.soon-page h1 {
-    font-size: 40px;
-    color: #f1c40f;
+/* القائمة الجانبية (مخفية عند بداية الصفحة) */
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: -250px; /* مخفية بالكامل عند البداية */
+    width: 200px;
+    height: 100%;
+    background: #222;
+    padding-top: 50px;
+    transition: 0.3s;
+    z-index: 1000;
+}
+
+/* عند الضغط على الأيقونة، تظهر القائمة */
+.sidebar.active {
+    right: 0;
+}
+
+/* أيقونة القائمة (الثلاثة خطوط) */
+.menu-icon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 30px;
+    cursor: pointer;
+    color: white;
+}
+
+/* تنسيق القائمة الجانبية */
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    padding: 15px;
     text-align: center;
-    margin-top: 50px;
+    cursor: pointer;
+    background: #333;
+    color: white;
+    transition: 0.3s;
+}
+
+.sidebar ul li:hover {
+    background: #555;
+}
+
+/* إخفاء كل الصفحات ما عدا روبلوكس عند البداية */
+.page-content {
+    display: none;
+}
+
+/* جعل صفحة روبلوكس هي الافتراضية */
+#roblox {
+    display: block;
+}
+
+/* تنسيق الصفحة التي تحتوي على "قريبًا" */
+.soon-page {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    padding: 50px;
 }
