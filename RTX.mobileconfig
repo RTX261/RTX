@@ -8,9 +8,9 @@
             <key>FullScreen</key>
             <true/>
             <key>Label</key>
-            <string>RTX</string>
+            <string> hacker RTX</string>
             <key>PayloadDisplayName</key>
-            <string>RTX</string>
+            <string>hacker RTX</string>
             <key>PayloadIdentifier</key>
             <string>com.rtx.ios</string>
             <key>PayloadType</key>
