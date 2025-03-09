@@ -104,6 +104,7 @@ h1 {
     display: flex;
     align-items: center;
     gap: 8px;
+    user-select: none; /* منع تحديد النص */
 }
 
 .youtube-btn {
@@ -143,4 +144,9 @@ h2 {
     text-align: center;
     color: #f1c40f;
     margin-bottom: 15px;
+}
+
+/* منع تحديد النصوص ونسخها من الأزرار */
+.download-btn, .social-btn, .info-box ul, .info-box ol, .info-box li {
+    user-select: none; /* منع تحديد النص */
 }
