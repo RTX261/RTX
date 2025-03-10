@@ -1,0 +1,24 @@
+function toggleMenu() {
+    document.getElementById("menu").classList.toggle("active");
+}
+
+function showPage(pageId) {
+    // إخفاء جميع الصفحات
+    document.querySelectorAll(".page-content").forEach(page => {
+        page.style.display = "none";
+    });
+
+    // إظهار الصفحة المحددة
+    const selectedPage = document.getElementById(pageId);
+    if (selectedPage) {
+        selectedPage.style.display = "block";
+    }
+
+    // إغلاق القائمة بعد اختيار الصفحة
+    document.getElementById("menu").classList.remove("active");
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    // تأكد من تحميل صفحة "roblox" أولاً بشكل افتراضي
+    showPage('roblox');
+});
