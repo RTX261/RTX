@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RTX</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+
+    <!-- قائمة التنقل -->
+    <nav>
+        <div class="menu-icon" onclick="toggleMenu()">☰</div>
+        <ul id="menu">
+            <li onclick="showPage('roblox')">روبلوكس</li>
+            <li onclick="showPage('fortnite')">فورت نايت</li>
+            <li onclick="showPage('esaign')">ايساين</li>
+            <li onclick="showPage('shahid')">شهايد</li>
+        </ul>
+    </nav>
+
+    <!-- صفحة روبلوكس -->
+    <div id="roblox" class="page-content">
+        <div class="container">
+            <h1>RTX</h1>
+            <p class="welcome-text">مرحباً بك في موقع <span class="highlight">RTX</span> هنا لدينا هاك كوديكس و دلتا للايفون</p>
+
+            <a href="#" class="download-btn delta-btn"><i class="fas fa-download"></i> Delta Install</a>
+            <a href="#" class="download-btn codex-btn"><i class="fas fa-download"></i> CODEX Install</a>
+
+            <!-- روابط التواصل الاجتماعي -->
+            <div class="social-links">
+                <a href="#" class="social-btn youtube-btn"><i class="fab fa-youtube"></i> يوتيوب</a>
+                <a href="#" class="social-btn discord-btn"><i class="fab fa-discord"></i> ديسكورد</a>
+                <a href="#" class="social-btn app-btn"><i class="fas fa-mobile-alt"></i> تنزيل الموقع</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- صفحة فورت نايت -->
+    <div id="fortnite" class="page-content">
+        <h1 class="fortnite-title">RTX</h1>
+        <p class="fortnite-text">
+            قم بتنزيل فورت نايت و تثبيته على جهازك الخاص بك. استمتع ب لعبة باتل رويال اينما ذهبت، مجانًا تمامًا. احصل على أحدث إصدار الآن!
+        </p>
+        <a href="#" class="fortnite-btn">Fortnite Install</a>
+    </div>
+
+    <!-- صفحات "قريباً" -->
+    <div id="esaign" class="page-content coming-soon"><h1>قريباً</h1></div>
+    <div id="shahid" class="page-content coming-soon"><h1>قريباً</h1></div>
+
+</body>
+</html>
