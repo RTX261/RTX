@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RTX</title>
+    
+    <!-- رابط ملف CSS -->
+    <link rel="stylesheet" href="./styles.css">
+    
+    <!-- مكتبة FontAwesome للأيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" 
+          integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" 
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- تحسين دعم الروابط على GitHub Pages -->
+    <base href="./">
+</head>
+<body>
+
+    <!-- قائمة التنقل -->
+    <nav>
+        <div class="menu-icon" onclick="toggleMenu()">☰</div>
+        <ul id="menu">
+            <li onclick="showPage('roblox')">روبلوكس</li>
+            <li onclick="showPage('fortnite')">فورت نايت</li>
+            <li onclick="showPage('esaign')">ايساين</li>
+            <li onclick="showPage('shahid')">شهايد</li>
+        </ul>
+    </nav>
+
+    <!-- صفحة روبلوكس -->
+    <div id="roblox" class="page-content">
+        <div class="container">
+            <h1>RTX</h1>
+            <p class="welcome-text">مرحباً بك في موقع <span class="highlight">RTX</span> هنا لدينا هاك كوديكس و دلتا للايفون</p>
+
+            <a href="itms-services://?action=download-manifest&url=https://deltaios-executor.com/Install.plist" 
+               class="download-btn delta-btn" onmousedown="return false" oncontextmenu="return false">
+                <i class="fas fa-download"></i> Delta Install
+            </a>
+            <a href="itms-services://?action=download-manifest&url=https://codex-ios.com/Install.plist" 
+               class="download-btn codex-btn" onmousedown="return false" oncontextmenu="return false">
+                <i class="fas fa-download"></i> CODEX Install
+            </a>
+
+            <!-- روابط التواصل الاجتماعي -->
+            <div class="social-links">
+                <a href="https://youtube.com/@rtxtop1-rtx" target="_blank" class="social-btn youtube-btn" onmousedown="return false" oncontextmenu="return false">
+                    <i class="fab fa-youtube"></i> يوتيوب
+                </a>
+                <a href="https://discord.gg/rtxtop1" target="_blank" class="social-btn discord-btn" onmousedown="return false" oncontextmenu="return false">
+                    <i class="fab fa-discord"></i> ديسكورد
+                </a>
+                <a href="https://rtx261.github.io/RTX/RTX.mobileconfig" class="social-btn app-btn" onmousedown="return false" oncontextmenu="return false">
+                    <i class="fas fa-mobile-alt"></i> تنزيل الموقع
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- صفحة فورت نايت -->
+    <div id="fortnite" class="page-content fortnite-page">
+        <h1 class="fortnite-title">RTX</h1>
+        <p class="fortnite-text">قم بتنزيل فورت نايت و تثبيته على جهازك الخاص بك. استمتع بلعبة باتل رويال اينما ذهبت، مجانًا تمامًا. احصل على أحدث إصدار الآن!</p>
+        <a href="itms-services://?action=download-manifest&url=https://fortnite-ios.com/Install.plist" 
+           class="fortnite-btn" onmousedown="return false" oncontextmenu="return false">
+            <i class="fas fa-download"></i> Fortnite Install
+        </a>
+    </div>
+
+    <!-- صفحات "قريباً" -->
+    <div id="esaign" class="coming-soon page-content">
+        <h1>قريباً</h1>
+    </div>
+    <div id="shahid" class="coming-soon page-content">
+        <h1>قريباً</h1>
+    </div>
+
+    <!-- تحميل ملف JavaScript -->
+    <script src="./script.js" defer></script>
+
+</body>
+</html>
