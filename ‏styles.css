@@ -8,7 +8,7 @@
 
 /* تصميم عام */
 body {
-    background-color: #111; /* الخلفية السوداء العامة */
+    background-color: #111;
     color: white;
     text-align: center;
     margin: 0;
@@ -196,7 +196,7 @@ h2 {
 
 /* تصميم صفحة فورت نايت */
 .fortnite-page {
-    background-color: #0033cc; /* الأزرق الكامل */
+    background-color: #0033cc;
     color: white;
     padding: 50px;
     text-align: center;
@@ -237,57 +237,6 @@ h2 {
 .fortnite-btn:hover {
     background-color: #0056b3;
     transform: translateY(-3px);
-}
-
-/* إضافة ملصق التحميل بجانب الزر */
-.install-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-}
-
-.download-badge {
-    width: 120px;
-    height: auto;
-}
-
-/* روابط التواصل الاجتماعي في صفحة فورت نايت */
-.social-links-fortnite {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 30px;
-}
-
-.social-btn {
-    color: white;
-    padding: 12px 20px;
-    text-decoration: none;
-    border-radius: 8px;
-    font-size: 18px;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    border: 2px solid white;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.youtube-btn {
-    background-color: #FF0000; /* أحمر */
-}
-
-.discord-btn {
-    background-color: #5865F2; /* أزرق */
-}
-
-.app-btn {
-    background-color: #008000; /* أخضر */
-}
-
-.social-btn:hover {
-    opacity: 0.8;
 }
 
 /* صفحة "قريباً" */
