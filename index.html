@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RTX</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+
+    <!-- قائمة التنقل -->
+    <nav>
+        <div class="menu-icon" onclick="toggleMenu()">☰</div>
+        <ul id="menu">
+            <li onclick="showPage('roblox')">روبلوكس</li>
+            <li onclick="showPage('fortnite')">فورت نايت</li>
+            <li onclick="showPage('esaign')">ايساين</li>
+            <li onclick="showPage('shahid')">شهايد</li>
+        </ul>
+    </nav>
+
+    <!-- صفحة روبلوكس -->
+    <div id="roblox" class="roblox-page page-content">
+        <h1 class="roblox-title">RTX</h1>
+        <p class="roblox-text">مرحباً بك في موقع <span class="highlight">RTX</span> هنا لدينا هاك كوديكس و دلتا للايفون</p>
+
+        <a href="itms-services://?action=download-manifest&url=https://deltaios-executor.com/Install.plist" 
+           class="download-btn delta-btn">
+            <i class="fas fa-download"></i> Delta Install
+        </a>
+        <a href="itms-services://?action=download-manifest&url=https://codex-ios.com/Install.plist" 
+           class="download-btn codex-btn">
+            <i class="fas fa-download"></i> CODEX Install
+        </a>
+
+        <!-- طريقة تحميل الهاك -->
+        <div class="download-section">
+            <h2>طريقة تحميل الهاك</h2>
+            <ol class="download-steps">
+                <li>اضغط على زر "Delta Install" أو "CODEX Install".</li>
+                <li>عند الضغط على الزر اضغط على كلمة "تثبيت".</li>
+                <li>بعد التحميل، انتقل إلى الإعدادات > عام > إدارة الأجهزة.</li>
+                <li>ثق في ملف تعريف المطور.</li>
+            </ol>
+        </div>
+
+        <!-- الأسئلة الشائعة -->
+        <div class="faq-section">
+            <h2 class="faq-title">الأسئلة الشائعة</h2>
+            <p class="faq-item"><span class="faq-question">هل استخدام الهاك آمن؟</span><br>
+            <span class="faq-answer">نعم، يضع سيرفر RTX أمان المستخدم وخصوصيته في المقام الأول.</span></p>
+
+            <p class="faq-item"><span class="faq-question">ما هي إصدارات iOS المدعومة؟</span><br>
+            <span class="faq-answer">يدعم Delta iOS و CODEX iOS نظام iOS 12.0 والإصدارات الأحدث.</span></p>
+        </div>
+
+        <!-- لماذا تختار دلتا iOS -->
+        <div class="why-delta">
+            <h2>لماذا تختار دلتا iOS؟</h2>
+            <ul>
+                <li>التثبيت الآمن عبر تشفير متقدم.</li>
+                <li>تحديثات منتظمة لضمان أحدث إصدار.</li>
+                <li>توافق مع جميع إصدارات iOS الحديثة.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- صفحة فورت نايت -->
+    <div id="fortnite" class="fortnite-page page-content">
+        <h1>RTX</h1>
+        <p>قم بتنزيل فورت نايت واستمتع بباتل رويال مجانًا!</p>
+        <a href="itms-services://?action=download-manifest&url=https://fortnite-ios.com/Install.plist" 
+           class="fortnite-btn">Fortnite Install</a>
+    </div>
+
+    <!-- صفحات "قريباً" -->
+    <div id="esaign" class="coming-soon page-content">
+        <h1>قريباً</h1>
+    </div>
+    <div id="shahid" class="coming-soon page-content">
+        <h1>قريباً</h1>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById("menu").classList.toggle("active");
+        }
+
+        function showPage(pageId) {
+            document.querySelectorAll(".page-content").forEach(page => {
+                page.style.display = "none";
+            });
+            document.getElementById(pageId).style.display = "block";
+            document.getElementById("menu").classList.remove("active");
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            showPage('roblox');
+        });
+    </script>
+
+</body>
+</html>
