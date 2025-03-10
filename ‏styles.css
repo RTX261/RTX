@@ -1,0 +1,302 @@
+/* إعادة تعيين القيم الافتراضية */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Cairo', 'Tajawal', sans-serif;
+}
+
+body {
+    background-color: #111;
+    color: white;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    direction: rtl;
+}
+
+/* قائمة التنقل */
+nav {
+    position: fixed;
+    top: 10px;
+    right: 15px;
+    z-index: 1000;
+}
+
+.menu-icon {
+    font-size: 30px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#menu {
+    display: none;
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+    list-style: none;
+}
+
+#menu.active {
+    display: block;
+}
+
+#menu li {
+    padding: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-align: right;
+    font-size: 18px;
+}
+
+#menu li:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* الحاوية الرئيسية */
+.container {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+}
+
+/* تأثير متغير على كلمة RTX */
+@keyframes glow {
+    0% { text-shadow: 0 0 10px red; }
+    50% { text-shadow: 0 0 15px yellow; }
+    100% { text-shadow: 0 0 10px red; }
+}
+
+h1 {
+    font-size: 50px;
+    font-weight: 900;
+    animation: glow 2s infinite alternate;
+}
+
+/* تحسين شكل الجملة الترحيبية */
+.welcome-text {
+    font-size: 20px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    display: inline-block;
+    line-height: 1.6;
+}
+
+/* أزرار التحميل */
+.download-btn, .fortnite-btn {
+    display: block;
+    color: white;
+    padding: 15px;
+    margin: 10px auto;
+    text-decoration: none;
+    font-size: 18px;
+    border-radius: 8px;
+    width: 85%;
+    text-align: center;
+    border: 2px solid white;
+    transition: all 0.3s ease;
+    user-select: none; /* منع تحديد النص */
+}
+
+.delta-btn {
+    background-color: black;
+}
+
+.codex-btn {
+    background-color: red;
+}
+
+/* روابط التواصل الاجتماعي */
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.social-btn {
+    color: white;
+    padding: 12px 20px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    border: 2px solid white;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.youtube-btn {
+    background-color: #FF0000;
+}
+
+.discord-btn {
+    background-color: #5865F2;
+}
+
+.app-btn {
+    background-color: #008000;
+}
+
+.social-btn:hover {
+    opacity: 0.8;
+}
+
+/* صناديق المعلومات */
+.info-box {
+    margin-top: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: right;
+}
+
+.info-box ul, .info-box ol {
+    padding-right: 20px;
+}
+
+.info-box li {
+    margin-bottom: 10px;
+}
+
+h2 {
+    text-align: center;
+    color: #f1c40f;
+    margin-bottom: 15px;
+}
+
+/* تصميم صفحة فورت نايت */
+.fortnite-page {
+    background-color: #0066ff;
+    color: white;
+    padding: 50px;
+    text-align: center;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.fortnite-title {
+    font-size: 50px;
+    font-weight: 900;
+    animation: glow 2s infinite alternate;
+}
+
+.fortnite-text {
+    font-size: 18px;
+    margin-top: 20px;
+    line-height: 1.6;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    display: inline-block;
+}
+
+.fortnite-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 15px 30px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 10px;
+    border: 2px solid white;
+    transition: all 0.3s ease;
+    user-select: none; /* منع تحديد النص */
+}
+
+.fortnite-btn i {
+    margin-left: 8px;
+}
+
+.fortnite-btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-3px);
+}
+
+.fortnite-social {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* صفحة "قريباً" */
+.coming-soon {
+    background-color: #222;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.highlight {
+    color: #f1c40f;
+    font-weight: bold;
+}
+
+/* تعديلات للأجهزة المحمولة */
+@media (max-width: 600px) {
+    .container {
+        width: 95%;
+        padding: 20px;
+    }
+    
+    .social-links {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    
+    .social-btn {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
+
+/* تعديل عرض أزرار التواصل الاجتماعي في صفحة فورت نايت */
+.fortnite-social .social-btn {
+    max-width: 30%;
+}
+
+/* تحسين قائمة التنقل */
+#menu.active {
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 5px;
+    position: absolute;
+    top: 50px;
+    right: 10px;
+    list-style: none;
+}
+
+#menu li {
+    padding: 10px;
+    text-align: right;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#menu li:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* تحسين شاشات قريبًا */
+.coming-soon h1 {
+    font-size: 50px;
+    font-weight: bold;
+    color: #f1c40f;
+}
