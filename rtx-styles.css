@@ -4,6 +4,13 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Cairo', 'Tajawal', sans-serif;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE/Edge */
+    user-select: none; /* غير قابل للتحديد */
+    -webkit-tap-highlight-color: transparent; /* منع تظليل اللمس */
 }
 
 /* تصميم عام */
@@ -204,7 +211,7 @@ h2 {
     display: none;
 }
 
-/* تصميم صفحة فورت نايت */
+/* تصميم صفحة فورت نايت وايساين */
 .fortnite-page {
     background-color: #0066ff;
     color: white;
@@ -212,6 +219,21 @@ h2 {
     text-align: center;
     height: 100vh;
     overflow-y: auto;
+}
+
+/* تصميم خاص لصفحة ايساين */
+#esaign.fortnite-page {
+    background-color: #4a00b0;
+}
+
+/* تصميم خاص لصفحة DNS */
+#dns.fortnite-page {
+    background-color: #006644;
+}
+
+/* تصميم خاص لصفحة شهايد */
+#shahid.fortnite-page {
+    background-color: #8E44AD;
 }
 
 .fortnite-title {
@@ -264,8 +286,6 @@ h2 {
     transform: translateY(-3px);
 }
 
-
-
 .fortnite-social {
     margin-top: 20px;
     display: flex;
@@ -298,12 +318,12 @@ h2 {
         width: 95%;
         padding: 20px;
     }
-    
+
     .social-links {
         flex-direction: row;
         flex-wrap: wrap;
     }
-    
+
     .social-btn {
         flex: 0 0 auto;
         font-size: 14px;
@@ -328,6 +348,65 @@ h2 {
     max-width: 30%;
 }
 
+/* تنسيق أزرار ايساين */
+.esaign-buttons-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin: 20px auto;
+    max-width: 600px;
+}
+
+.esaign-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.esaign-item a {
+    text-decoration: none;
+    display: block;
+    transition: all 0.3s ease;
+}
+
+.esaign-item a:hover {
+    transform: translateY(-3px);
+}
+
+.esaign-btn {
+    display: block;
+    padding: 15px;
+    background-color: #7928ca;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 10px 10px 0 0;
+    border: 2px solid white;
+    border-bottom: none;
+    user-select: none;
+    text-align: center;
+}
+
+.esaign-btn i {
+    margin-left: 8px;
+}
+
+.certificate-name {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 0 0 10px 10px;
+    border: 2px solid white;
+    border-top: none;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .esaign-buttons-container {
+        grid-template-columns: 1fr;
+    }
+}
+
 .fortnite-instructions h2 {
     color: #f1c40f;
     margin-bottom: 15px;
@@ -340,4 +419,200 @@ h2 {
 
 .fortnite-instructions li {
     margin-bottom: 10px;
+}
+
+/* تنسيق أزرار DNS */
+.dns-buttons-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin: 20px auto;
+    max-width: 600px;
+}
+
+.dns-item {
+    margin-bottom: 15px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.dns-item a {
+    text-decoration: none;
+    display: block;
+    transition: all 0.3s ease;
+}
+
+.dns-item a:hover {
+    transform: translateY(-3px);
+}
+
+.dns-btn {
+    display: block;
+    padding: 15px;
+    background-color: #00a67c;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 10px;
+    border: 2px solid white;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-touch-callout: none;
+    pointer-events: auto;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+/* إضافة طبقة حماية غير مرئية فوق الأزرار */
+.dns-btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    cursor: pointer;
+}
+
+.dns-btn i {
+    margin-left: 10px;
+}
+
+.dns-label {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 0 0 10px 10px;
+    border: 2px solid white;
+    border-top: none;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .dns-buttons-container {
+        grid-template-columns: 1fr;
+        width: 90%;
+    }
+}
+
+/* تنسيق عناصر DNS مع زر النسخ */
+.dns-item {
+    margin-bottom: 15px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.copy-btn {
+    background-color: #f1c40f;
+    color: black;
+    border: none;
+    padding: 8px 10px;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 0 0 10px 10px;
+    transition: all 0.3s ease;
+    margin-top: -2px;
+    font-size: 14px;
+    user-select: none;
+}
+
+.copy-btn:hover {
+    background-color: #e0b50c;
+}
+
+.dns-btn {
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+@media (max-width: 600px) {
+    .dns-buttons-container {
+        width: 90%;
+    }
+}
+
+/* تنسيق أزرار Certificate */
+.certificate-buttons-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin: 20px auto;
+    max-width: 600px;
+}
+
+.certificate-item {
+    margin-bottom: 15px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.certificate-item a {
+    text-decoration: none;
+    display: block;
+    transition: all 0.3s ease;
+}
+
+.certificate-item a:hover {
+    transform: translateY(-3px);
+}
+
+.certificate-btn {
+    display: block;
+    padding: 15px;
+    background-color: #ca7928;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 10px;
+    border: 2px solid white;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-touch-callout: none;
+    pointer-events: auto;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.certificate-btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    cursor: pointer;
+}
+
+.certificate-btn i {
+    margin-left: 10px;
+}
+
+.certificate-label {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 0 0 10px 10px;
+    border: 2px solid white;
+    border-top: none;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .certificate-buttons-container {
+        grid-template-columns: 1fr;
+        width: 90%;
+    }
 }
