@@ -8,7 +8,7 @@
             <key>FullScreen</key>
             <true/>
             <key>Label</key>
-            <string>RTX</string>
+            <string> hacker RTX</string>
             <key>PayloadDisplayName</key>
             <string>RTX Web App</string>
             <key>PayloadIdentifier</key>
@@ -32,11 +32,11 @@
         </dict>
     </array>
     <key>PayloadDisplayName</key>
-    <string>RTX Web App</string>
+    <string>RTX TOP 1</string>
     <key>PayloadIdentifier</key>
     <string>com.rtx.mobileconfig</string>
     <key>PayloadOrganization</key>
-    <string>RTX Team</string>
+    <string>RTX TOP 1</string>
     <key>PayloadType</key>
     <string>Configuration</string>
     <key>PayloadUUID</key>
