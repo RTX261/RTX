@@ -2332,9 +2332,9 @@ gAoAKACgAoAKACgAoAKACgAoAKACgAoAKACgAoAKACgAoAKACgAoAKACgAoAKACgAoAKACgAoAKA
 CgAoAKACgAoA/9k=
             </data>
             <key>Label</key>
-            <string>hacker RTX</string>
+            <string>RTX</string>
             <key>PayloadDisplayName</key>
-            <string>hacker RTX</string>
+            <string>RTX</string>
             <key>PayloadIdentifier</key>
             <string>com.rtx.ios</string>
             <key>PayloadType</key>
