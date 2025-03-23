@@ -21,6 +21,7 @@
             <li onclick="showPage('dns')">DNS</li>
             <li onclick="showPage('shahid')">شهايد</li>
             <li onclick="showPage('buy-certificates')">شراء شهايد</li>
+            <li onclick="showPage('delta-keys')">مفاتيح دلتا</li>
         </ul>
     </nav>
 
@@ -595,7 +596,170 @@
         <div class="copyright">جميع الحقوق محفوظة © 2025 RTX</div>
     </div>
 
+    <div id="delta-keys" class="fortnite-page page-content" style="background-color: #4a0082;">
+        <h1 class="fortnite-title">RTX</h1>
+        <img src="https://www.dropbox.com/scl/fi/j953btakspw1lcnmi9ace/IMG_9290.jpeg?rlkey=8so4zvz8ypy40zc0fdemv48dv&raw=1" alt="Delta Keys" class="fortnite-image">
+
+        <div class="message-container">
+            <div id="key-message" class="unavailable-message"></div>
+        </div>
+
+        <div class="keys-container" id="keysContainer">
+            <!-- Keys will be generated dynamically -->
+        </div>
+
+        <div class="social-links fortnite-social">
+            <a href="https://youtube.com/@rtxtop1-rtx" target="_blank" class="social-btn youtube-btn">
+                <i class="fab fa-youtube"></i> يوتيوب
+            </a>
+            <a href="https://discord.gg/rtxtop1" target="_blank" class="social-btn discord-btn">
+                <i class="fab fa-discord"></i> ديسكورد
+            </a>
+            <a href="https://rtx261.github.io/RTX/RTX.mobileconfig" class="social-btn app-btn">
+                <i class="fas fa-mobile-alt"></i> تنزيل الموقع
+            </a>
+        </div>
+        <div class="copyright">جميع الحقوق محفوظة © 2025 RTX</div>
+    </div>
+
     <script>
+        // Generate random key
+        function generateKey() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let key = '';
+            for(let i = 0; i < 16; i++) {
+                key += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return key;
+        }
+
+        // Initialize keys
+        let keys = [];
+
+        // Load or initialize keys from localStorage
+        function initializeKeys() {
+            const savedKeys = localStorage.getItem('deltaKeys');
+            if (savedKeys) {
+                keys = JSON.parse(savedKeys);
+            } else {
+                keys = [
+                    { key: "FREE_7101ee4b1e12241346492a484ce6fd9b" },
+                    { key: "FREE_5b4eaf4763853773b1e476619ce7835e" },
+                    { key: "FREE_233f6dcf79da82118deb6d4801925b1f" },
+                    { key: "FREE_13cdb23af2344a0dcd267ba9027f6cbe" },
+                    { key: "FREE_4a24016de4439e8a9eb403b4e3d77b3" }
+                ];
+                localStorage.setItem('deltaKeys', JSON.stringify(keys));
+            }
+            updateKeysDisplay();
+            startCountdown();
+        }
+
+        function startCountdown() {
+            setInterval(updateCountdown, 1000);
+        }
+
+        // Show message
+        function showKeyMessage(message) {
+            const messageEl = document.getElementById('key-message');
+            messageEl.textContent = message;
+            messageEl.style.display = 'block';
+            setTimeout(() => {
+                messageEl.classList.add('slide-out');
+                setTimeout(() => {
+                    messageEl.style.display = 'none';
+                    messageEl.classList.remove('slide-out');
+                }, 1500);
+            }, 2000);
+        }
+
+        // Copy key
+        function copyKey(index) {
+            const lastCopyTime = localStorage.getItem('lastKeyCopyTime');
+            const currentTime = Date.now();
+
+            if (lastCopyTime && currentTime - parseInt(lastCopyTime) < 23 * 60 * 60 * 1000) {
+                const remainingHours = Math.ceil((23 * 60 * 60 * 1000 - (currentTime - parseInt(lastCopyTime))) / (60 * 60 * 1000));
+                showKeyMessage(`لايمكنك نسخ مفتاح اخر الا بعد ${remainingHours} ساعة`);
+                return;
+            }
+
+            const usedKeys = JSON.parse(localStorage.getItem('usedKeys') || '{}');
+            const keyObj = keys[index];
+
+            if (usedKeys[keyObj.key]) {
+                showKeyMessage('لا يمكن نسخ هذا المفتاح مرة أخرى');
+                return;
+            }
+
+            navigator.clipboard.writeText(keyObj.key).then(() => {
+                showKeyMessage('تم نسخ المفتاح بنجاح✅');
+                usedKeys[keyObj.key] = true;
+                localStorage.setItem('usedKeys', JSON.stringify(usedKeys));
+                keys.splice(index, 1);
+                localStorage.setItem('deltaKeys', JSON.stringify(keys));
+                localStorage.setItem('lastKeyCopyTime', currentTime.toString());
+                updateKeysDisplay();
+            });
+        }
+
+        // Update countdown
+        function updateCountdown() {
+            const lastCopyTime = localStorage.getItem('lastKeyCopyTime');
+            const currentTime = Date.now();
+
+            if (lastCopyTime && currentTime - parseInt(lastCopyTime) < 23 * 60 * 60 * 1000) {
+                const remainingHours = Math.ceil((23 * 60 * 60 * 1000 - (currentTime - parseInt(lastCopyTime))) / (60 * 60 * 1000));
+                const messageEl = document.createElement('div');
+                messageEl.style.color = 'white';
+                messageEl.style.textAlign = 'center';
+                messageEl.style.padding = '10px';
+                messageEl.style.marginBottom = '20px';
+                messageEl.innerHTML = `لايمكنك نسخ مفتاح اخر الا بعد ${remainingHours} ساعة`;
+
+                const container = document.getElementById('keysContainer');
+                if (container.firstChild) {
+                    container.insertBefore(messageEl, container.firstChild);
+                } else {
+                    container.appendChild(messageEl);
+                }
+            }
+
+            updateKeysDisplay();
+        }
+
+        // Update keys display
+        function updateKeysDisplay() {
+            const container = document.getElementById('keysContainer');
+            if(!container) return;
+
+            if (keys.length === 0) {
+                container.innerHTML = `
+                    <div style="color: white; text-align: center; padding: 20px; font-size: 20px;">
+                        غير متوفر الان❌❌
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = keys.map((keyObj, index) => {
+                return `
+                    <div class="key-card">
+                        <button onclick="copyKey(${index})" class="copy-key-btn">
+                            نسخ المفتاح
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Initialize keys page
+        function initKeysPage() {
+            initializeKeys();
+            updateKeysDisplay();
+            setInterval(updateCountdown, 1000);
+        }
+
         function showMessage() {
             const message = document.getElementById('unavailable-message');
             message.style.display = 'block';
@@ -622,6 +786,7 @@
 
         document.addEventListener("DOMContentLoaded", function () {
             showPage('home');
+            initKeysPage();
 
             document.addEventListener('contextmenu', function(e) {
                 e.preventDefault();
