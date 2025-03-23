@@ -1,4 +1,3 @@
-
 /* إعادة تعيين الإعدادات الافتراضية */
 * {
     margin: 0;
@@ -12,6 +11,47 @@
     -ms-user-select: none; /* IE/Edge */
     user-select: none; /* غير قابل للتحديد */
     -webkit-tap-highlight-color: transparent; /* منع تظليل اللمس */
+}
+
+/* تصميم الصفحة الرئيسية */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin: 30px 0;
+}
+
+.feature-item {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    transition: transform 0.3s;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+}
+
+.feature-item i {
+    font-size: 30px;
+    color: #f1c40f;
+    margin-bottom: 10px;
+}
+
+.feature-item h3 {
+    color: white;
+    margin: 10px 0;
+}
+
+.feature-item p {
+    color: #ddd;
+    font-size: 14px;
+}
+
+@media (max-width: 600px) {
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* تصميم عام */
@@ -44,13 +84,56 @@ nav {
 #menu {
     display: none;
     position: absolute;
-    top: 40px;
+    top: 45px;
     right: 0;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 10px;
-    border-radius: 5px;
+    background: rgba(0, 0, 0, 0.95);
+    padding: 15px;
+    border-radius: 15px;
     list-style: none;
     text-align: right;
+    min-width: 250px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(15px);
+    transform-origin: top right;
+    animation: menuFade 0.3s ease;
+    z-index: 1000;
+}
+
+@keyframes menuFade {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+#menu li {
+    padding: 15px 20px;
+    margin: 8px 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 12px;
+    font-weight: bold;
+    color: #fff;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+#menu li:hover {
+    background: linear-gradient(45deg, rgba(241, 196, 15, 0.1), rgba(255, 255, 255, 0.2));
+    transform: translateX(-12px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    border-color: rgba(241, 196, 15, 0.5);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #f1c40f;
 }
 
 #menu.active {
@@ -124,7 +207,11 @@ h1 {
     text-align: center;
     transition: all 0.3s ease;
     border: 2px solid white;
-    user-select: none; /* منع تحديد النص */
+    user-select: none;
+}
+
+.download-btn:hover {
+    transform: translateY(-3px);
 }
 
 .download-btn i {
@@ -139,9 +226,6 @@ h1 {
     background-color: red;
 }
 
-.download-btn:hover {
-    transform: translateY(-3px);
-}
 
 /* روابط التواصل الاجتماعي */
 .social-links {
@@ -237,6 +321,105 @@ h2 {
     background-color: #8E44AD;
 }
 
+/* تصميم خاص لصفحة روبلوكس اندرويد */
+#roblox-android.fortnite-page {
+    background: linear-gradient(135deg, #00796B, #004D40);
+}
+
+.android-btn {
+    background: linear-gradient(45deg, #43A047, #2E7D32);
+    margin: 15px auto;
+    width: 280px;
+    padding: 18px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    transform-origin: center;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.unavailable-message .close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0 10px;
+}
+
+@keyframes slideOut {
+    0% { transform: translateX(0); opacity: 1; }
+    100% { transform: translateX(100%); opacity: 0; }
+}
+
+.message-container {
+    position: fixed;
+    top: 20px;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.unavailable-message {
+    background: #fff;
+    color: #000;
+    padding: 15px 25px;
+    border-radius: 8px;
+    font-weight: 900;
+    font-size: 20px;
+    display: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-transform: uppercase;
+    position: relative;
+}
+
+.unavailable-message::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: #000;
+    transform-origin: right;
+}
+
+@keyframes slideRightAndOut {
+    0% { 
+        transform: translateX(0); 
+        opacity: 1; 
+    }
+    100% { 
+        transform: translateX(200%); 
+        opacity: 0; 
+    }
+}
+
+@keyframes lineSlideRight {
+    0% { transform: scaleX(1); transform-origin: right; }
+    100% { transform: scaleX(0); transform-origin: right; }
+}
+
+.slide-out::after {
+    animation: lineSlideRight 1.5s ease forwards;
+}
+
+.slide-out {
+    animation: slideRightAndOut 1.5s ease forwards;
+}
+
+.android-btn:hover {
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    background: linear-gradient(45deg, #2E7D32, #1B5E20);
+}
+
+.android-btn:active {
+    transform: scale(0.98);
+}
+
 .fortnite-title {
     font-size: 50px;
     font-weight: 900;
@@ -251,6 +434,14 @@ h2 {
     border-radius: 10px;
     border: 3px solid white;
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+#buy-certificates .fortnite-image {
+    width: 280px;
+    height: auto;
+    margin: 30px auto;
+    border-width: 4px;
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.4);
 }
 
 .fortnite-text {
