@@ -21,7 +21,7 @@
             <li onclick="showPage('dns')">DNS</li>
             <li onclick="showPage('shahid')">شهايد</li>
             <li onclick="showPage('buy-certificates')">شراء شهايد</li>
-            <li onclick="showPage('delta-keys')">مفاتيح دلتا</li>
+            <li onclick="showPage('scripts')">سكربتات</li>
         </ul>
     </nav>
 
@@ -596,16 +596,19 @@
         <div class="copyright">جميع الحقوق محفوظة © 2025 RTX</div>
     </div>
 
-    <div id="delta-keys" class="fortnite-page page-content" style="background-color: #4a0082;">
+    <div id="scripts" class="fortnite-page page-content" style="background-color: #4a0082;">
         <h1 class="fortnite-title">RTX</h1>
-        <img src="https://www.dropbox.com/scl/fi/j953btakspw1lcnmi9ace/IMG_9290.jpeg?rlkey=8so4zvz8ypy40zc0fdemv48dv&raw=1" alt="Delta Keys" class="fortnite-image">
+        <img src="https://www.dropbox.com/scl/fi/j953btakspw1lcnmi9ace/IMG_9290.jpeg?rlkey=8so4zvz8ypy40zc0fdemv48dv&raw=1" alt="Scripts" class="fortnite-image">
 
-        <div class="message-container">
-            <div id="key-message" class="unavailable-message"></div>
-        </div>
-
-        <div class="keys-container" id="keysContainer">
-            <!-- Keys will be generated dynamically -->
+        <div class="scripts-container">
+            <h2 style="color: white; margin-bottom: 20px;">البحث عن السكربتات</h2>
+            <div class="search-container">
+                <input type="text" id="scriptSearch" placeholder="اكتب اسم الماب بالإنجليزية..." class="script-search">
+                <button onclick="searchScripts()" class="search-btn">
+                    <i class="fas fa-search"></i> بحث
+                </button>
+            </div>
+            <div id="scriptsResults" class="scripts-results"></div>
         </div>
 
         <div class="social-links fortnite-social">
@@ -623,6 +626,74 @@
     </div>
 
     <script>
+        async function searchScripts() {
+            const searchInput = document.getElementById('scriptSearch').value.trim();
+            if (!searchInput) return;
+
+            const resultsContainer = document.getElementById('scriptsResults');
+            resultsContainer.innerHTML = '<div style="color: white; text-align: center;">جاري البحث...</div>';
+
+            try {
+                const searchQuery = searchInput.trim();
+                const response = await fetch(`/search-scripts?q=${encodeURIComponent(searchQuery)}`, {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Accept-Charset': 'UTF-8'
+                    }
+                });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                
+                if (data.result && data.result.scripts && data.result.scripts.length > 0) {
+                    resultsContainer.innerHTML = data.result.scripts.map((script, index) => {
+                        const scriptDate = script.date ? new Date(script.date) : null;
+                        const formattedDate = scriptDate ? new Intl.DateTimeFormat('ar-SA', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        }).format(scriptDate) : 'غير متوفر';
+                        
+                        return `
+                        <div class="script-card">
+                            <div class="script-title">${script.title || 'بدون عنوان'}</div>
+                            <pre class="script-description" style="white-space: pre-wrap; direction: ltr; text-align: left; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 5px;">${(script.script || '').slice(0, 150)}...</pre>
+                            <div style="color: #f1c40f; margin: 10px 0;">
+                                <div style="background: rgba(0,0,0,0.2); padding: 5px; border-radius: 5px; margin: 5px 0;">
+                                    <i class="fas fa-calendar"></i> تاريخ آخر تحديث: ${formattedDate}
+                                </div>
+                                <div style="background: rgba(0,0,0,0.2); padding: 5px; border-radius: 5px; margin: 5px 0;">
+                                    <i class="fas fa-key"></i> يحتاج مفتاح: ${script.isUniversal ? 'لا' : 'نعم'}
+                                </div>
+                                <div style="background: rgba(0,0,0,0.2); padding: 5px; border-radius: 5px; margin: 5px 0;">
+                                    <i class="fas fa-star"></i> عدد التقييمات: ${script.features?.length || 0}
+                                </div>
+                            </div>
+                            <button onclick="copyScript(${index})" class="copy-script-btn">
+                                <i class="fas fa-copy"></i> نسخ السكربت
+                            </button>
+                        </div>
+                    `}).join('');
+                    window.scriptResults = data.result.scripts;
+                } else {
+                    resultsContainer.innerHTML = '<div style="color: white; text-align: center;">لم يتم العثور على نتائج</div>';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                resultsContainer.innerHTML = '<div style="color: white; text-align: center;">حدث خطأ في البحث. حاول مرة أخرى لاحقاً.</div>';
+            }
+        }
+
+        function copyScript(index) {
+            const script = window.scriptResults[index].script;
+            navigator.clipboard.writeText(script).then(() => {
+                alert('تم نسخ السكربت بنجاح!');
+            }).catch(() => {
+                alert('حدث خطأ أثناء نسخ السكربت');
+            });
+        }
+
         // Generate random key
         function generateKey() {
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -671,7 +742,7 @@
         function copyKey(index) {
             const lastCopyTime = localStorage.getItem('lastKeyCopyTime');
             const currentTime = Date.now();
-            
+
             // التحقق من وقت النسخ الأخير
             if (lastCopyTime && currentTime - parseInt(lastCopyTime) < 23 * 60 * 60 * 1000) {
                 const remainingHours = Math.ceil((23 * 60 * 60 * 1000 - (currentTime - parseInt(lastCopyTime))) / (60 * 60 * 1000));
