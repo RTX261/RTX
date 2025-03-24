@@ -637,22 +637,16 @@
         let keys = [];
 
         // Load or initialize keys from localStorage
-        function initializeKeys() {
-            const savedKeys = localStorage.getItem('deltaKeys');
-            if (savedKeys) {
-                keys = JSON.parse(savedKeys);
-            } else {
-                keys = [
-                    { key: "FREE_7101ee4b1e12241346492a484ce6fd9b" },
-                    { key: "FREE_5b4eaf4763853773b1e476619ce7835e" },
-                    { key: "FREE_233f6dcf79da82118deb6d4801925b1f" },
-                    { key: "FREE_13cdb23af2344a0dcd267ba9027f6cbe" },
-                    { key: "FREE_4a24016de4439e8a9eb403b4e3d77b3" }
-                ];
-                localStorage.setItem('deltaKeys', JSON.stringify(keys));
+        async function initializeKeys() {
+            try {
+                const response = await fetch('/keys');
+                const availableKeys = await response.json();
+                keys = availableKeys.map(key => ({ key }));
+                updateKeysDisplay();
+                startCountdown();
+            } catch (error) {
+                console.error('Error fetching keys:', error);
             }
-            updateKeysDisplay();
-            startCountdown();
         }
 
         function startCountdown() {
@@ -677,10 +671,17 @@
         function copyKey(index) {
             const lastCopyTime = localStorage.getItem('lastKeyCopyTime');
             const currentTime = Date.now();
-
+            
+            // التحقق من وقت النسخ الأخير
             if (lastCopyTime && currentTime - parseInt(lastCopyTime) < 23 * 60 * 60 * 1000) {
                 const remainingHours = Math.ceil((23 * 60 * 60 * 1000 - (currentTime - parseInt(lastCopyTime))) / (60 * 60 * 1000));
-                showKeyMessage(`لايمكنك نسخ مفتاح اخر الا بعد ${remainingHours} ساعة`);
+                showKeyMessage(`لا يمكنك نسخ مفتاح آخر إلا بعد ${remainingHours} ساعة`);
+                return;
+            }
+
+            // التحقق من حالة المفتاح
+            if (!keys[index] || keys[index].used) {
+                showKeyMessage('هذا المفتاح غير متوفر أو تم استخدامه');
                 return;
             }
 
@@ -692,14 +693,16 @@
                 return;
             }
 
-            navigator.clipboard.writeText(keyObj.key).then(() => {
-                showKeyMessage('تم نسخ المفتاح بنجاح✅');
-                usedKeys[keyObj.key] = true;
-                localStorage.setItem('usedKeys', JSON.stringify(usedKeys));
-                keys.splice(index, 1);
-                localStorage.setItem('deltaKeys', JSON.stringify(keys));
-                localStorage.setItem('lastKeyCopyTime', currentTime.toString());
-                updateKeysDisplay();
+            navigator.clipboard.writeText(keyObj.key).then(async () => {
+                try {
+                    await fetch(`/use_key/${keyObj.key}`);
+                    showKeyMessage('تم نسخ المفتاح بنجاح✅');
+                    localStorage.setItem('lastKeyCopyTime', currentTime.toString());
+                    await initializeKeys(); // تحديث القائمة من الخادم
+                } catch (error) {
+                    console.error('Error marking key as used:', error);
+                    showKeyMessage('حدث خطأ أثناء نسخ المفتاح');
+                }
             });
         }
 
