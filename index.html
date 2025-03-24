@@ -505,8 +505,7 @@
             </div>
             <div class="certificate-item">
                 <a href="https://www.mediafire.com/file/18tijnhkymv864j/ESign+Sunshine+4.esigncert/file" target="_blank">
-                    <div class="certificate-btn">
-                        <i class="fas fa-download">i> Certificate 10
+                    <div class="certificate-btn"><i class="fas fa-download"></i> Certificate 10
                     </div>
                     <div class="certificate-name">Sunshine 4</div>
                 </a>
@@ -563,7 +562,7 @@
             <h3>تفعيل فوري:</h3>
             <ul>
                 <li>شهادة جوال شغال سنه كامله مع ضمان سنه كامله ب 20 ايتونز امريكي</li>
-                <li>شهادة ايباد شغال سنه كامله مع ضمان سنه كt�مله ب 15 ايتونز امريكي</li>
+                <li>شهادة ايباد شغال سنه كامله مع ضمان سنه كامله ب 15 ايتوe�ز امريكي</li>
             </ul>
 
             <p class="highlight">للشراء افتح تكت في الديسكورد</p>
@@ -635,11 +634,12 @@
 
             try {
                 const searchQuery = searchInput.trim();
-                const response = await fetch(`https://scriptblox.com/api/script/search?q=${encodeURIComponent(searchQuery)}&mode=free`, {
+                const response = await fetch(`https://cors-anywhere.herokuapp.com/https://scriptblox.com/api/script/search?q=${encodeURIComponent(searchQuery)}&mode=free`, {
                     headers: {
                         'Accept': 'application/json',
                         'User-Agent': 'Mozilla/5.0',
-                        'Accept-Language': 'ar,en-US;q=0.9,en;q=0.8'
+                        'Accept-Language': 'ar,en-US;q=0.9,en;q=0.8',
+                        'X-Requested-With': 'XMLHttpRequest'
                     }
                 });
                 if (!response.ok) {
