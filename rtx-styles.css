@@ -1,4 +1,4 @@
-/* إعادة تعيين الإعدادات الافتراضية */
+/* Ø¥Ø¹Ø§Ø¯Ø© ØªØ¹ÙÙÙ Ø§ÙØ¥Ø¹Ø¯Ø§Ø¯Ø§Øª Ø§ÙØ§ÙØªØ±Ø§Ø¶ÙØ© */
 * {
     margin: 0;
     padding: 0;
@@ -9,11 +9,11 @@
     -khtml-user-select: none; /* Konqueror HTML */
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* IE/Edge */
-    user-select: none; /* غير قابل للتحديد */
-    -webkit-tap-highlight-color: transparent; /* منع تظليل اللمس */
+    user-select: none; /* ØºÙØ± ÙØ§Ø¨Ù ÙÙØªØ­Ø¯ÙØ¯ */
+    -webkit-tap-highlight-color: transparent; /* ÙÙØ¹ ØªØ¸ÙÙÙ Ø§ÙÙÙØ³ */
 }
 
-/* تصميم الصفحة الرئيسية */
+/* ØªØµÙÙÙ Ø§ÙØµÙØ­Ø© Ø§ÙØ±Ø¦ÙØ³ÙØ© */
 .features-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -54,7 +54,7 @@
     }
 }
 
-/* تصميم عام */
+/* ØªØµÙÙÙ Ø¹Ø§Ù */
 body {
     background-color: #111;
     color: white;
@@ -64,7 +64,7 @@ body {
     direction: rtl;
 }
 
-/* قائمة التنقل */
+/* ÙØ§Ø¦ÙØ© Ø§ÙØªÙÙÙ */
 nav {
     position: fixed;
     top: 10px;
@@ -150,7 +150,7 @@ nav {
     background: rgba(255, 255, 255, 0.2);
 }
 
-/* الحاوية الرئيسية */
+/* Ø§ÙØ­Ø§ÙÙØ© Ø§ÙØ±Ø¦ÙØ³ÙØ© */
 .container {
     max-width: 500px;
     margin: 50px auto;
@@ -160,14 +160,14 @@ nav {
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
 }
 
-/* تأثير متغير على كلمة RTX */
+/* ØªØ£Ø«ÙØ± ÙØªØºÙØ± Ø¹ÙÙ ÙÙÙØ© RTX */
 @keyframes glow {
     0% { text-shadow: 0 0 10px red, 0 0 20px red; }
     50% { text-shadow: 0 0 15px #f1c40f, 0 0 30px #f1c40f; }
     100% { text-shadow: 0 0 10px red, 0 0 20px red; }
 }
 
-/* تحسين للعرض على GitHub Pages */
+/* ØªØ­Ø³ÙÙ ÙÙØ¹Ø±Ø¶ Ø¹ÙÙ GitHub Pages */
 html, body {
     height: 100%;
     width: 100%;
@@ -182,7 +182,7 @@ h1 {
     animation: glow 2s infinite alternate;
 }
 
-/* تحسين الجملة الترحيبية */
+/* ØªØ­Ø³ÙÙ Ø§ÙØ¬ÙÙØ© Ø§ÙØªØ±Ø­ÙØ¨ÙØ© */
 .welcome-text {
     font-size: 20px;
     margin-bottom: 20px;
@@ -193,7 +193,7 @@ h1 {
     line-height: 1.6;
 }
 
-/* أزرار التحميل */
+/* Ø£Ø²Ø±Ø§Ø± Ø§ÙØªØ­ÙÙÙ */
 .download-btn {
     display: block;
     color: white;
@@ -227,7 +227,7 @@ h1 {
 }
 
 
-/* روابط التواصل الاجتماعي */
+/* Ø±ÙØ§Ø¨Ø· Ø§ÙØªÙØ§ØµÙ Ø§ÙØ§Ø¬ØªÙØ§Ø¹Ù */
 .social-links {
     display: flex;
     justify-content: center;
@@ -253,22 +253,22 @@ h1 {
 }
 
 .youtube-btn {
-    background-color: #FF0000; /* أحمر */
+    background-color: #FF0000; /* Ø£Ø­ÙØ± */
 }
 
 .discord-btn {
-    background-color: #5865F2; /* أزرق */
+    background-color: #5865F2; /* Ø£Ø²Ø±Ù */
 }
 
 .app-btn {
-    background-color: #008000; /* أخضر */
+    background-color: #008000; /* Ø£Ø®Ø¶Ø± */
 }
 
 .social-btn:hover {
     opacity: 0.8;
 }
 
-/* صناديق المعلومات */
+/* ØµÙØ§Ø¯ÙÙ Ø§ÙÙØ¹ÙÙÙØ§Øª */
 .info-box {
     margin-top: 30px;
     background: rgba(255, 255, 255, 0.1);
@@ -291,12 +291,12 @@ h2 {
     margin-bottom: 15px;
 }
 
-/* تصميم صفحات الأقسام */
+/* ØªØµÙÙÙ ØµÙØ­Ø§Øª Ø§ÙØ£ÙØ³Ø§Ù */
 .page-content {
     display: none;
 }
 
-/* تصميم صفحة فورت نايت وايساين */
+/* ØªØµÙÙÙ ØµÙØ­Ø© ÙÙØ±Øª ÙØ§ÙØª ÙØ§ÙØ³Ø§ÙÙ */
 .fortnite-page {
     background-color: #0066ff;
     color: white;
@@ -306,22 +306,22 @@ h2 {
     overflow-y: auto;
 }
 
-/* تصميم خاص لصفحة ايساين */
+/* ØªØµÙÙÙ Ø®Ø§Øµ ÙØµÙØ­Ø© Ø§ÙØ³Ø§ÙÙ */
 #esaign.fortnite-page {
     background-color: #4a00b0;
 }
 
-/* تصميم خاص لصفحة DNS */
+/* ØªØµÙÙÙ Ø®Ø§Øµ ÙØµÙØ­Ø© DNS */
 #dns.fortnite-page {
     background-color: #006644;
 }
 
-/* تصميم خاص لصفحة شهايد */
+/* ØªØµÙÙÙ Ø®Ø§Øµ ÙØµÙØ­Ø© Ø´ÙØ§ÙØ¯ */
 #shahid.fortnite-page {
     background-color: #8E44AD;
 }
 
-/* تصميم خاص لصفحة روبلوكس اندرويد */
+/* ØªØµÙÙÙ Ø®Ø§Øµ ÙØµÙØ­Ø© Ø±ÙØ¨ÙÙÙØ³ Ø§ÙØ¯Ø±ÙÙØ¯ */
 #roblox-android.fortnite-page {
     background: linear-gradient(135deg, #00796B, #004D40);
 }
@@ -466,7 +466,7 @@ h2 {
     border-radius: 10px;
     border: 2px solid white;
     transition: all 0.3s ease;
-    user-select: none; /* منع تحديد النص */
+    user-select: none; /* ÙÙØ¹ ØªØ­Ø¯ÙØ¯ Ø§ÙÙØµ */
 }
 
 .fortnite-btn i {
@@ -489,7 +489,7 @@ h2 {
     flex-direction: row;
 }
 
-/* صفحة "قريباً" */
+/* ØµÙØ­Ø© "ÙØ±ÙØ¨Ø§Ù" */
 .coming-soon {
     background-color: #222;
     color: white;
@@ -504,7 +504,7 @@ h2 {
     font-weight: bold;
 }
 
-/* تعديلات للأجهزة المحمولة */
+/* ØªØ¹Ø¯ÙÙØ§Øª ÙÙØ£Ø¬ÙØ²Ø© Ø§ÙÙØ­ÙÙÙØ© */
 @media (max-width: 600px) {
     .container {
         width: 95%;
@@ -534,13 +534,13 @@ h2 {
     margin-right: auto;
 }
 
-/* تعديل عرض أزرار التواصل الاجتماعي في صفحة فورت نايت */
+/* ØªØ¹Ø¯ÙÙ Ø¹Ø±Ø¶ Ø£Ø²Ø±Ø§Ø± Ø§ÙØªÙØ§ØµÙ Ø§ÙØ§Ø¬ØªÙØ§Ø¹Ù ÙÙ ØµÙØ­Ø© ÙÙØ±Øª ÙØ§ÙØª */
 .fortnite-social .social-btn {
     flex: 1;
     max-width: 30%;
 }
 
-/* تنسيق أزرار ايساين */
+/* ØªÙØ³ÙÙ Ø£Ø²Ø±Ø§Ø± Ø§ÙØ³Ø§ÙÙ */
 .esaign-buttons-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -613,7 +613,7 @@ h2 {
     margin-bottom: 10px;
 }
 
-/* تنسيق أزرار DNS */
+/* ØªÙØ³ÙÙ Ø£Ø²Ø±Ø§Ø± DNS */
 .dns-buttons-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -659,7 +659,7 @@ h2 {
     z-index: 1;
 }
 
-/* إضافة طبقة حماية غير مرئية فوق الأزرار */
+/* Ø¥Ø¶Ø§ÙØ© Ø·Ø¨ÙØ© Ø­ÙØ§ÙØ© ØºÙØ± ÙØ±Ø¦ÙØ© ÙÙÙ Ø§ÙØ£Ø²Ø±Ø§Ø± */
 .dns-btn::before {
     content: "";
     position: absolute;
@@ -693,7 +693,7 @@ h2 {
     }
 }
 
-/* تنسيق عناصر DNS مع زر النسخ */
+/* ØªÙØ³ÙÙ Ø¹ÙØ§ØµØ± DNS ÙØ¹ Ø²Ø± Ø§ÙÙØ³Ø® */
 .dns-item {
     margin-bottom: 15px;
     position: relative;
@@ -730,7 +730,7 @@ h2 {
     }
 }
 
-/* تنسيق أزرار Certificate */
+/* ØªÙØ³ÙÙ Ø£Ø²Ø±Ø§Ø± Certificate */
 .certificate-buttons-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
