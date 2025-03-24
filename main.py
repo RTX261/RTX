@@ -1,120 +1,111 @@
 
-import base64
+from http.server import HTTPServer, SimpleHTTPRequestHandler
+import json
 import os
-import sys
+from urllib.parse import urlparse, parse_qs
+import urllib.request
+import ssl
 
-def convert_image_to_base64(image_path):
-    try:
-        # التحقق من وجود الملف
-        if not os.path.exists(image_path):
-            print(f"❌ الملف غير موجود في المسار: {image_path}")
-            return None
-            
-        print(f"✅ تم العثور على الملف في المسار: {image_path}")
-        with open(image_path, "rb") as image_file:
-            encoded_string = base64.b64encode(image_file.read())
-            base64_data = encoded_string.decode('utf-8')
-            # التأكد من أن البيانات متوافقة مع تنسيق XML
-            # إضافة فواصل سطر كل 76 حرفًا لتحسين التوافق
-            lines = [base64_data[i:i+76] for i in range(0, len(base64_data), 76)]
-            formatted_base64 = '\n'.join(lines)
-            return formatted_base64
-    except Exception as e:
-        print(f"❌ حدث خطأ في تحويل الصورة: {e}")
-        return None
+class KeyServer(SimpleHTTPRequestHandler):
+    def do_GET(self):
+        parsed_path = urlparse(self.path)
+        
+        if parsed_path.path.startswith('/search-scripts'):
+            query = parse_qs(parsed_path.query).get('q', [''])[0]
+            try:
+                # Create SSL context that doesn't verify certificates
+                ctx = ssl.create_default_context()
+                ctx.check_hostname = False
+                ctx.verify_mode = ssl.CERT_NONE
+                
+                # تحويل النص العربي إلى إنجليزي إذا كان باللغة العربية
+                arabic_to_english = {
+                    'بلوكس فروت': 'blox fruits',
+                    'ام ام تو': 'mm2',
+                    'ميردر مستري': 'murder mystery',
+                    'بيت سيم': 'pet simulator',
+                    'ادبتت مي': 'adopt me',
+                    'بروكن بون': 'broken bones',
+                    'دورز': 'doors',
+                    'بي اس اكس': 'psx',
+                    'بلوكس فروتس': 'blox fruits',
+                    'نينجا ليجندز': 'ninja legends',
+                    'بي جي اس': 'bgs',
+                    'بيست سويرم': 'beast swarm',
+                    'كينج ليجاسي': 'king legacy',
+                    'ارسنال': 'arsenal',
+                    'بروجكت سلاير': 'project slayers',
+                    'جيلبريك': 'jailbreak',
+                    'ماب البيوت': 'brookhaven',
+                    'بروك هيفن': 'brookhaven',
+                    'بلوكس فروتس': 'blox fruits',
+                    'روبلوكس': 'roblox',
+                    'بيت سيمليتور': 'pet simulator x',
+                    'ماب القتل': 'murder mystery 2',
+                    'ماب الابطال': 'superhero tycoon',
+                    'ماب المطاعم': 'restaurant tycoon',
+                    'ماب السجن': 'jailbreak',
+                    'ماب الزومبي': 'zombie attack'
+                }
+                
+                # تحسين البحث باستخدام كلمات مفتاحية إضافية
+                search_query = query.lower()
+                for ar, en in arabic_to_english.items():
+                    if ar in search_query:
+                        search_query = en
+                        break
+                
+                search_query = arabic_to_english.get(query.lower(), query)
+                url = f'https://scriptblox.com/api/script/search?q={urllib.parse.quote(search_query)}&mode=free'
+                req = urllib.request.Request(
+                    url,
+                    headers={
+                        'User-Agent': 'Mozilla/5.0',
+                        'Accept': 'application/json',
+                        'Accept-Language': 'ar,en-US;q=0.9,en;q=0.8',
+                        'Accept-Charset': 'UTF-8'
+                    }
+                )
+                response = urllib.request.urlopen(req, context=ctx, timeout=15)
+                data = response.read()
+                
+                # التحقق من البيانات المستلمة
+                try:
+                    json_data = json.loads(data)
+                    if not json_data.get('result', {}).get('scripts'):
+                        # إذا لم يتم العثور على نتائج، جرب البحث بدون تحويل اللغة
+                        url = f'https://scriptblox.com/api/script/search?q={query}&mode=free'
+                        req = urllib.request.Request(
+                            url,
+                            headers={
+                                'User-Agent': 'Mozilla/5.0',
+                                'Accept': 'application/json',
+                                'Accept-Language': 'en-US,en;q=0.9'
+                            }
+                        )
+                        response = urllib.request.urlopen(req, context=ctx, timeout=15)
+                        data = response.read()
+                
+                    self.send_response(200)
+                    self.send_header('Content-type', 'application/json')
+                    self.send_header('Access-Control-Allow-Origin', '*')
+                    self.end_headers()
+                    self.wfile.write(data)
+                    return
+                except json.JSONDecodeError:
+                    print("Error decoding JSON from API")
+                    raise
+            except Exception as e:
+                print(f"Error searching scripts: {str(e)}")
+                self.send_response(500)
+                self.send_header('Content-type', 'application/json')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                self.wfile.write(json.dumps({"error": str(e)}).encode())
+                return
+                
+        return super().do_GET()
 
-def create_mobileconfig(image_base64, output_file="RTX.mobileconfig"):
-    """إنشاء ملف mobileconfig مع الصورة المشفرة"""
-    mobileconfig_template = """<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-    <key>PayloadContent</key>
-    <array>
-        <dict>
-            <key>FullScreen</key>
-            <true/>
-            <key>Icon</key>
-            <data>
-            {icon_data}
-            </data>
-            <key>Label</key>
-            <string>hacker RTX</string>
-            <key>PayloadDisplayName</key>
-            <string>hacker RTX</string>
-            <key>PayloadIdentifier</key>
-            <string>com.rtx.ios</string>
-            <key>PayloadType</key>
-            <string>com.apple.webClip.managed</string>
-            <key>PayloadUUID</key>
-            <string>12345678-ABCD-1234-ABCD-123456789ABC</string>
-            <key>PayloadVersion</key>
-            <integer>1</integer>
-            <key>Precomposed</key>
-            <true/>
-            <key>URL</key>
-            <string>https://rtx261.github.io/RTX/</string>
-            <key>IsRemovable</key>
-            <true/>
-        </dict>
-    </array>
-    <key>PayloadDisplayName</key>
-    <string>RTX Web App</string>
-    <key>PayloadIdentifier</key>
-    <string>com.rtx.mobileconfig</string>
-    <key>PayloadOrganization</key>
-    <string>RTX</string>
-    <key>PayloadType</key>
-    <string>Configuration</string>
-    <key>PayloadUUID</key>
-    <string>87654321-DCBA-4321-DCBA-987654321ABC</string>
-    <key>PayloadVersion</key>
-    <integer>1</integer>
-</dict>
-</plist>
-""".format(icon_data=image_base64)
-    
-    with open(output_file, "w") as f:
-        f.write(mobileconfig_template)
-    print(f"✅ تم إنشاء ملف {output_file} بنجاح!")
-
-if __name__ == "__main__":
-    print("🔄 أداة تحويل الصور إلى تنسيق Base64")
-    print("📝 يمكنك استخدام هذا الكود لتحويل الصور، ثم إنشاء ملف RTX.mobileconfig")
-    print("----------------------------------------------------------")
-    
-    # تعريف المسارات المحتملة للصورة
-    possible_paths = [
-        "attached_assets/IMG_9537.jpeg",
-        "./attached_assets/IMG_9537.jpeg",
-        "IMG_9537.jpeg",
-        "attached_assets/IMG_9464.png",
-        "./attached_assets/IMG_9464.png",
-        "IMG_9464.png"
-    ]
-    
-    # محاولة تحويل الصورة من خلال المسارات المختلفة
-    image_base64 = None
-    for path in possible_paths:
-        print(f"🔍 محاولة تحويل الصورة من المسار: {path}")
-        result = convert_image_to_base64(path)
-        if result:
-            image_base64 = result
-            print(f"✅ تم تحويل الصورة بنجاح من المسار: {path}")
-            # طباعة جزء من التشفير للتأكد من نجاح العملية
-            print(f"مثال من التشفير (أول 50 حرف): {image_base64[:50]}...")
-            break
-    
-    if image_base64:
-        print("\n✅ تم تحويل الصورة بنجاح إلى base64")
-        try:
-            create_mobileconfig(image_base64)
-            print("\n✅ تم إنشاء ملف RTX.mobileconfig بنجاح مع الصورة الجديدة")
-            print("يمكنك الآن استخدام هذا الملف لتثبيت الموقع على جهازك")
-        except Exception as e:
-            print(f"\n❌ حدث خطأ أثناء إنشاء ملف mobileconfig: {e}")
-            print("يمكنك استخدام تشفير الصورة يدويًا في ملف RTX.mobileconfig")
-    else:
-        print("\n❌ فشلت جميع محاولات تحويل الصورة")
-        print("تأكد من وجود الصورة في المجلد المناسب")
-        print("يمكنك تحميل الصورة مباشرة ووضعها في مجلد attached_assets")
+httpd = HTTPServer(('0.0.0.0', 8000), KeyServer)
+print("Server running on port 8000")
+httpd.serve_forever()
