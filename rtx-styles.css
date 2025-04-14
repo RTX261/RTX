@@ -944,3 +944,30 @@ h2 {
 .copy-script-btn:hover {
     background: #e2b607;
 }
+#roblox-pc.fortnite-page {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+}
+
+#roblox-pc .download-btn {
+    background: linear-gradient(45deg, #4a90e2, #357abd);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+    transition: all 0.3s ease;
+}
+
+#roblox-pc .download-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+    background: linear-gradient(45deg, #357abd, #2c6aa0);
+}
+
+#roblox-pc .fortnite-title {
+    color: #4a90e2;
+    text-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
+}
+
+#roblox-pc .fortnite-text {
+    background: rgba(74, 144, 226, 0.1);
+    border: 1px solid rgba(74, 144, 226, 0.2);
+}
