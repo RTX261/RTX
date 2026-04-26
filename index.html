@@ -17,9 +17,30 @@
         </div>
         <ul id="menu">
             <li onclick="showPage('home')">الصفحة الرئيسية</li>
-            <li onclick="showPage('roblox')">هاك روبلوكس ايفون</li>
-            <li onclick="showPage('roblox-android')">هاك روبلوكس اندرويد</li>
-            <li onclick="showPage('roblox-pc')">هاك روبلوكس بي سي</li>
+            <li class="has-submenu" onclick="toggleSubmenu(event, 'sub-iphone')">
+                <span><i class="fas fa-mobile-alt"></i> ايفون</span>
+                <i class="fas fa-chevron-down sub-arrow"></i>
+                <ul class="submenu" id="sub-iphone">
+                    <li onclick="showPage('roblox'); event.stopPropagation();">هاك روبلوكس ايفون</li>
+                    <li onclick="showPage('pekora-iphone'); event.stopPropagation();">روبلوكس القديمه (بيكورا)</li>
+                </ul>
+            </li>
+            <li class="has-submenu" onclick="toggleSubmenu(event, 'sub-android')">
+                <span><i class="fab fa-android"></i> اندرويد</span>
+                <i class="fas fa-chevron-down sub-arrow"></i>
+                <ul class="submenu" id="sub-android">
+                    <li onclick="showPage('roblox-android'); event.stopPropagation();">هاك روبلوكس اندرويد</li>
+                    <li onclick="showPage('pekora-android'); event.stopPropagation();">روبلوكس القديمه (بيكورا)</li>
+                </ul>
+            </li>
+            <li class="has-submenu" onclick="toggleSubmenu(event, 'sub-pc')">
+                <span><i class="fas fa-laptop"></i> بي سي</span>
+                <i class="fas fa-chevron-down sub-arrow"></i>
+                <ul class="submenu" id="sub-pc">
+                    <li onclick="showPage('roblox-pc'); event.stopPropagation();">هاك روبلوكس بي سي</li>
+                    <li onclick="showPage('pekora-pc'); event.stopPropagation();">روبلوكس القديمه (بيكورا)</li>
+                </ul>
+            </li>
             <li onclick="showPage('buy-certificates')">شراء شهايد</li>
         </ul>
     </nav>
@@ -31,20 +52,20 @@
             <p class="welcome-text">مرحباً بكم في موقع <span class="highlight">RTX</span></p>
 
             <div class="features-grid">
-                <div class="feature-item" onclick="showPage('roblox')">
+                <div class="feature-item" onclick="openChooser('iphone')">
                     <i class="fas fa-mobile-alt"></i>
                     <h3>تطبيقات iOS</h3>
-                    <p>هاك روبلوكس، والمزيد</p>
+                    <p>هاك روبلوكس + روبلوكس القديمه (بيكورا)</p>
                 </div>
-                <div class="feature-item" onclick="showPage('roblox-android')">
+                <div class="feature-item" onclick="openChooser('android')">
                     <i class="fab fa-android"></i>
                     <h3>تطبيقات Android</h3>
-                    <p>تطبيقات مميزة للأندرويد</p>
+                    <p>هاك روبلوكس + روبلوكس القديمه (بيكورا)</p>
                 </div>
-                <div class="feature-item" onclick="showPage('roblox-pc')">
+                <div class="feature-item" onclick="openChooser('pc')">
                     <i class="fas fa-laptop"></i>
                     <h3>تطبيقات PC</h3>
-                    <p>هاك روبلوكس للكمبيوتر</p>
+                    <p>هاك روبلوكس + روبلوكس القديمه (بيكورا)</p>
                 </div>
                 <div class="feature-item" onclick="showPage('buy-certificates')">
                     <i class="fas fa-shield-alt"></i>
@@ -83,11 +104,11 @@
                         <li>سهولة الحصول على المفتاح</li>
                         <li>يمكنك بحث السكربتات فيه</li>
                     </ul>
-                    <a href="itms-services://?action=download-manifest&url=https://www.installonair.com/storage/ipaz/atGC6n/atGC6n.plist" class="download-btn" style="background-color: #000000;" draggable="false">
+                    <a href="itms-services://?action=download-manifest&url=https://www.installonair.com/storage/ipaz/Cl5tss/Cl5tss.plist" class="download-btn" style="background-color: #000000;" draggable="false">
                         <i class="fas fa-download"></i> Delta Install
                     </a>
                     <div style="margin-top:10px;">
-                        <a href="itms-services://?action=download-manifest&url=https://www.installonair.com/storage/ipaz/OtE4ap/OtE4ap.plist" class="download-btn" style="background-color: #000000;" draggable="false">
+                        <a href="itms-services://?action=download-manifest&url=https://www.installonair.com/storage/ipaz/ttvKl9/ttvKl9.plist" class="download-btn" style="background-color: #000000;" draggable="false">
                             <i class="fas fa-download"></i> Delta VNG Install
                         </a>
                     </div>
@@ -103,11 +124,11 @@
                         <li>يوجد بحث سكربتات</li>
                         <li>من اقوى الهاكات حمايتاً</li>
                     </ul>
-                    <a href="itms-services://?action=download-manifest&url=https://www.installonair.com/storage/ipaz/alcsE0/alcsE0.plist" class="download-btn" style="background: linear-gradient(135deg, #9C27B0, #6A1B9A);" draggable="false">
+                    <a href="itms-services://?action=download-manifest&url=https://www.installonair.com/storage/ipaz/M3mXu6/M3mXu6.plist" class="download-btn" style="background: linear-gradient(135deg, #9C27B0, #6A1B9A);" draggable="false">
                         <i class="fas fa-download"></i> Skibx Install
                     </a>
                     <div style="margin-top:10px;">
-                        <a href="itms-services://?action=download-manifest&url=https://www.installonair.com/storage/ipaz/jh4V8t/jh4V8t.plist" class="download-btn" style="background: linear-gradient(135deg, #9C27B0, #6A1B9A);" draggable="false">
+                        <a href="itms-services://?action=download-manifest&url=https://www.installonair.com/storage/ipaz/W3Y9kG/W3Y9kG.plist" class="download-btn" style="background: linear-gradient(135deg, #9C27B0, #6A1B9A);" draggable="false">
                             <i class="fas fa-download"></i> Skibx VNG Install
                         </a>
                     </div>
@@ -123,11 +144,11 @@
                         <li>يمكنك بحث السكربتات فيه</li>
                         <li>سهولة استخدامه</li>
                     </ul>
-                    <a href="itms-services://?action=download-manifest&url=https://www.installonair.com/storage/ipaz/FfgOsF/FfgOsF.plist" class="download-btn" style="background: linear-gradient(135deg, #FF5722, #BF360C);" draggable="false">
+                    <a href="itms-services://?action=download-manifest&url=https://www.installonair.com/storage/ipaz/9mfHhz/9mfHhz.plist" class="download-btn" style="background: linear-gradient(135deg, #FF5722, #BF360C);" draggable="false">
                         <i class="fas fa-download"></i> Ronix Install
                     </a>
                     <div style="margin-top:10px;">
-                        <a href="itms-services://?action=download-manifest&url=https://www.installonair.com/storage/ipaz/M0aVOG/M0aVOG.plist" class="download-btn" style="background: linear-gradient(135deg, #FF5722, #BF360C);" draggable="false">
+                        <a href="itms-services://?action=download-manifest&url=https://www.installonair.com/storage/ipaz/UqtSK3/UqtSK3.plist" class="download-btn" style="background: linear-gradient(135deg, #FF5722, #BF360C);" draggable="false">
                             <i class="fas fa-download"></i> Ronix VNG Install
                         </a>
                     </div>
@@ -414,6 +435,279 @@
         <div class="copyright">جميع الحقوق محفوظة © 2026 RTX</div>
     </div>
 
+    <div id="pekora-iphone" class="page-content pekora-iphone-page">
+        <div class="container">
+            <h1>RTX</h1>
+            <img src="images/pekora-iphone.jpeg" alt="Pekora iPhone" class="fortnite-image">
+            <p class="welcome-text">مرحباً بك في قسم <span class="highlight">روبلوكس القديمه (بيكورا)</span> للايفون - اختر النسخة التي تناسبك!</p>
+
+            <div class="delta-content">
+                <img src="images/pekora-iphone-2017.jpeg" alt="Pekora 2017 iPhone" class="delta-image">
+                <div class="info-box">
+                    <h2>روبلوكس 2017 (بيكورا) - ايفون</h2>
+                    <ul>
+                        <li>تجربة روبلوكس الأصلية لعام 2017</li>
+                        <li>واجهة كلاسيكية</li>
+                        <li>أداء سلس على iOS</li>
+                    </ul>
+                    <a href="itms-services://?action=download-manifest&url=https://www.installonair.com/storage/ipaz/qPUdjF/qPUdjF.plist" class="download-btn pekora-iphone-btn" draggable="false">
+                        <i class="fas fa-download"></i> Roblox 2017 Install
+                    </a>
+                </div>
+            </div>
+
+            <div class="delta-content">
+                <img src="images/pekora-iphone-2018.jpeg" alt="Pekora 2018 iPhone" class="delta-image">
+                <div class="info-box">
+                    <h2>روبلوكس 2018 (بيكورا) - ايفون</h2>
+                    <ul>
+                        <li>تجربة روبلوكس الأصلية لعام 2018</li>
+                        <li>تحسينات في الأداء</li>
+                        <li>متوافقة مع iOS</li>
+                    </ul>
+                    <a href="itms-services://?action=download-manifest&url=https://www.installonair.com/storage/ipaz/Cnxcvp/Cnxcvp.plist" class="download-btn pekora-iphone-btn" draggable="false">
+                        <i class="fas fa-download"></i> Roblox 2018 Install
+                    </a>
+                </div>
+            </div>
+
+            <div class="delta-content">
+                <img src="images/pekora-iphone-2020.jpeg" alt="Pekora 2020 iPhone" class="delta-image">
+                <div class="info-box">
+                    <h2>روبلوكس 2020 (بيكورا) - ايفون</h2>
+                    <ul>
+                        <li>تجربة روبلوكس الأصلية لعام 2020</li>
+                        <li>رسومات محسنة</li>
+                        <li>أداء عالي على iOS</li>
+                    </ul>
+                    <a href="itms-services://?action=download-manifest&url=https://www.installonair.com/storage/ipaz/qUaKrE/qUaKrE.plist" class="download-btn pekora-iphone-btn" draggable="false">
+                        <i class="fas fa-download"></i> Roblox 2020 Install
+                    </a>
+                </div>
+            </div>
+
+            <div class="delta-content">
+                <img src="images/pekora-iphone-2021.jpeg" alt="Pekora 2021 iPhone" class="delta-image">
+                <div class="info-box">
+                    <h2>روبلوكس 2021 (بيكورا) - ايفون <span class="unofficial-tag">غير رسمي</span></h2>
+                    <ul>
+                        <li>تجربة روبلوكس لعام 2021</li>
+                        <li>نسخة غير رسمية</li>
+                        <li>قد تحتوي على بعض المشاكل</li>
+                    </ul>
+                    <a href="itms-services://?action=download-manifest&url=https://www.installonair.com/storage/ipaz/d5Dfp7/d5Dfp7.plist" class="download-btn pekora-iphone-btn" draggable="false">
+                        <i class="fas fa-download"></i> Roblox 2021 Install (غير رسمي)
+                    </a>
+                </div>
+            </div>
+
+            <div class="delta-content">
+                <div class="info-box" style="text-align: center;">
+                    <h2>شرح تحميل بيكورا للايفون</h2>
+                    <ul style="display: inline-block; text-align: right;">
+                        <li>قم بالضغط على زر التحميل الخاص بالنسخة التي تريدها.</li>
+                        <li>سيظهر لك إشعار يطلب منك تثبيت التطبيق، اضغط على تثبيت.</li>
+                        <li>اذهب إلى الإعدادات > عام > إدارة الأجهزة وقم بتوثيق الشهادة.</li>
+                        <li>افتح التطبيق واستمتع باللعب!</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="social-links">
+                <a href="https://youtube.com/@rtxtop1-rtx" target="_blank" class="social-btn youtube-btn" draggable="false">
+                    <i class="fab fa-youtube"></i> يوتيوب
+                </a>
+                <a href="https://discord.gg/rtxtop1" target="_blank" class="social-btn discord-btn" draggable="false">
+                    <i class="fab fa-discord"></i> ديسكورد
+                </a>
+            </div>
+        </div>
+        <div class="copyright">جميع الحقوق محفوظة © 2026 RTX</div>
+    </div>
+
+    <div id="pekora-android" class="page-content pekora-android-page">
+        <div class="container">
+            <h1>RTX</h1>
+            <img src="images/pekora-android.png" alt="Pekora Android" class="fortnite-image">
+            <p class="welcome-text">مرحباً بك في قسم <span class="highlight">روبلوكس القديمه (بيكورا)</span> للاندرويد - اختر النسخة التي تناسبك!</p>
+
+            <div class="delta-content">
+                <img src="images/pekora-android-2017.jpeg" alt="Pekora 2017 Android" class="delta-image">
+                <div class="info-box">
+                    <h2>روبلوكس 2017 (بيكورا) - اندرويد</h2>
+                    <ul>
+                        <li>تجربة روبلوكس الأصلية لعام 2017</li>
+                        <li>متوفر بنسخة رسمية وغير رسمية</li>
+                        <li>أداء سريع على الأندرويد</li>
+                    </ul>
+                    <a href="https://www.mediafire.com/file/tzzl8frcvnem989/Pekora2017L.apk/file" class="download-btn pekora-android-btn" draggable="false">
+                        <i class="fas fa-download"></i> Roblox 2017 Install (رسمي)
+                    </a>
+                    <div style="margin-top:10px;">
+                        <a href="https://www.mediafire.com/file/ggz4eg6hnfx2sqq/Korone_2017.apk/file" class="download-btn pekora-android-btn" draggable="false">
+                            <i class="fas fa-download"></i> Roblox 2017 Install (غير رسمي)
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="delta-content">
+                <img src="images/pekora-android-2018.jpeg" alt="Pekora 2018 Android" class="delta-image">
+                <div class="info-box">
+                    <h2>روبلوكس 2018 (بيكورا) - اندرويد <span class="unofficial-tag">غير رسمي</span></h2>
+                    <ul>
+                        <li>تجربة روبلوكس لعام 2018</li>
+                        <li>نسخة غير رسمية</li>
+                        <li>قد تحتوي على بعض المشاكل</li>
+                    </ul>
+                    <a href="https://www.mediafire.com/file/j713t6vbcx1fdbn/Korone_2018.apk/file" class="download-btn pekora-android-btn" draggable="false">
+                        <i class="fas fa-download"></i> Roblox 2018 Install (غير رسمي)
+                    </a>
+                </div>
+            </div>
+
+            <div class="delta-content">
+                <img src="images/pekora-android-2020.jpeg" alt="Pekora 2020 Android" class="delta-image">
+                <div class="info-box">
+                    <h2>روبلوكس 2020 (بيكورا) - اندرويد <span class="unofficial-tag">غير رسمي</span></h2>
+                    <ul>
+                        <li>تجربة روبلوكس لعام 2020</li>
+                        <li>نسخة غير رسمية</li>
+                        <li>قد تحتوي على بعض المشاكل</li>
+                    </ul>
+                    <a href="https://www.mediafire.com/file/wvz6yi1144uu29i/Korone_2020.apk/file" class="download-btn pekora-android-btn" draggable="false">
+                        <i class="fas fa-download"></i> Roblox 2020 Install (غير رسمي)
+                    </a>
+                </div>
+            </div>
+
+            <div class="delta-content">
+                <img src="images/pekora-android-2021.jpeg" alt="Pekora 2021 Android" class="delta-image">
+                <div class="info-box">
+                    <h2>روبلوكس 2021 (بيكورا) - اندرويد <span class="unofficial-tag">غير رسمي</span></h2>
+                    <ul>
+                        <li>تجربة روبلوكس لعام 2021</li>
+                        <li>نسخة غير رسمية</li>
+                        <li>قد تحتوي على بعض المشاكل</li>
+                    </ul>
+                    <a href="https://www.mediafire.com/file/bpu9bzv8a3hmfe1/Korone_2021.apk/file" class="download-btn pekora-android-btn" draggable="false">
+                        <i class="fas fa-download"></i> Roblox 2021 Install (غير رسمي)
+                    </a>
+                </div>
+            </div>
+
+            <div class="delta-content">
+                <div class="info-box" style="text-align: center;">
+                    <h2>شرح تحميل بيكورا للأندرويد</h2>
+                    <ul style="display: inline-block; text-align: right;">
+                        <li>قم بتحميل ملف APK الخاص بالنسخة التي تريدها.</li>
+                        <li>إذا ظهر لك تحذير "تطبيق غير معروف"، اذهب للإعدادات وفعل خيار "تثبيت من مصادر غير معروفة".</li>
+                        <li>قم بتثبيت الملف وافتحه لبدء اللعب.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="social-links">
+                <a href="https://youtube.com/@rtxtop1-rtx" target="_blank" class="social-btn youtube-btn" draggable="false">
+                    <i class="fab fa-youtube"></i> يوتيوب
+                </a>
+                <a href="https://discord.gg/rtxtop1" target="_blank" class="social-btn discord-btn" draggable="false">
+                    <i class="fab fa-discord"></i> ديسكورد
+                </a>
+            </div>
+        </div>
+        <div class="copyright">جميع الحقوق محفوظة © 2026 RTX</div>
+    </div>
+
+    <div id="pekora-pc" class="page-content pekora-pc-page">
+        <div class="container">
+            <h1>RTX</h1>
+            <img src="images/pekora-pc.jpeg" alt="Pekora PC" class="fortnite-image">
+            <p class="welcome-text">مرحباً بك في قسم <span class="highlight">روبلوكس القديمه (بيكورا)</span> للكمبيوتر - اختر النسخة التي تناسبك!</p>
+
+            <div class="delta-content">
+                <img src="images/pekora-pc-2017.jpeg" alt="Pekora 2017 PC" class="delta-image">
+                <div class="info-box">
+                    <h2>روبلوكس 2017 (بيكورا) - بي سي</h2>
+                    <ul>
+                        <li>تجربة روبلوكس الأصلية لعام 2017</li>
+                        <li>أداء عالي على الكمبيوتر</li>
+                        <li>نسخة رسمية</li>
+                    </ul>
+                    <a href="https://www.mediafire.com/file/kzadf87gvjyt6md/PekoraStudio2017+3.zip/file" class="download-btn pc-btn" draggable="false">
+                        <i class="fas fa-download"></i> Roblox 2017 Install
+                    </a>
+                </div>
+            </div>
+
+            <div class="delta-content">
+                <img src="images/pekora-pc-2018.jpeg" alt="Pekora 2018 PC" class="delta-image">
+                <div class="info-box">
+                    <h2>روبلوكس 2018 (بيكورا) - بي سي</h2>
+                    <ul>
+                        <li>تجربة روبلوكس الأصلية لعام 2018</li>
+                        <li>تحسينات في الرسومات</li>
+                        <li>نسخة رسمية</li>
+                    </ul>
+                    <a href="https://www.mediafire.com/file/n4j9d8b33273dqg/PekoraStudio2018+2.zip/file" class="download-btn pc-btn" draggable="false">
+                        <i class="fas fa-download"></i> Roblox 2018 Install
+                    </a>
+                </div>
+            </div>
+
+            <div class="delta-content">
+                <img src="images/pekora-pc-2020.jpeg" alt="Pekora 2020 PC" class="delta-image">
+                <div class="info-box">
+                    <h2>روبلوكس 2020 (بيكورا) - بي سي</h2>
+                    <ul>
+                        <li>تجربة روبلوكس الأصلية لعام 2020</li>
+                        <li>أداء ممتاز</li>
+                        <li>نسخة رسمية</li>
+                    </ul>
+                    <a href="https://www.mediafire.com/file/dd71xq5h51198yj/PekoraStudio2020+2.zip/file" class="download-btn pc-btn" draggable="false">
+                        <i class="fas fa-download"></i> Roblox 2020 Install
+                    </a>
+                </div>
+            </div>
+
+            <div class="delta-content">
+                <img src="images/pekora-pc-2021.jpeg" alt="Pekora 2021 PC" class="delta-image">
+                <div class="info-box">
+                    <h2>روبلوكس 2021 (بيكورا) - بي سي</h2>
+                    <ul>
+                        <li>تجربة روبلوكس الأصلية لعام 2021</li>
+                        <li>أحدث تحديثات الكلاسيكية</li>
+                        <li>نسخة رسمية</li>
+                    </ul>
+                    <a href="https://www.mediafire.com/file/4jcde8p3eo91f4t/PekoraStudio2021+2.zip/file" class="download-btn pc-btn" draggable="false">
+                        <i class="fas fa-download"></i> Roblox 2021 Install
+                    </a>
+                </div>
+            </div>
+
+            <div class="delta-content">
+                <div class="info-box" style="text-align: center;">
+                    <h2>شرح تشغيل بيكورا للكمبيوتر</h2>
+                    <ul style="display: inline-block; text-align: right;">
+                        <li>قم بتحميل الملف المضغوط وفك الضغط عنه.</li>
+                        <li>أغلق برنامج الحماية (Windows Defender) لتجنب حذف الملفات.</li>
+                        <li>افتح اللعبة وقم بتشغيلها كمسؤول (Run as Administrator).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="social-links">
+                <a href="https://youtube.com/@rtxtop1-rtx" target="_blank" class="social-btn youtube-btn" draggable="false">
+                    <i class="fab fa-youtube"></i> يوتيوب
+                </a>
+                <a href="https://discord.gg/rtxtop1" target="_blank" class="social-btn discord-btn" draggable="false">
+                    <i class="fab fa-discord"></i> ديسكورد
+                </a>
+            </div>
+        </div>
+        <div class="copyright">جميع الحقوق محفوظة © 2026 RTX</div>
+    </div>
+
     <div id="buy-certificates" class="page-content">
         <div class="container">
             <h1>RTX</h1>
@@ -440,9 +734,71 @@
         <div class="copyright">جميع الحقوق محفوظة © 2026 RTX</div>
     </div>
 
+    <div id="platform-chooser" class="platform-chooser" onclick="if(event.target===this)closeChooser()">
+        <div class="chooser-content">
+            <button class="chooser-close" onclick="closeChooser()" aria-label="إغلاق">&times;</button>
+            <h3 id="chooser-title">اختر ما تريد</h3>
+            <p class="chooser-subtitle">اختر النسخة التي تريد تحميلها</p>
+            <div class="chooser-options">
+                <button class="chooser-btn chooser-hack" onclick="chooserGo('hack')">
+                    <i class="fas fa-bolt"></i>
+                    <span class="chooser-btn-title">هاك روبلوكس</span>
+                    <span class="chooser-btn-desc">جميع هاكات الإكسيكيوتر</span>
+                </button>
+                <button class="chooser-btn chooser-pekora" onclick="chooserGo('pekora')">
+                    <i class="fas fa-history"></i>
+                    <span class="chooser-btn-title">روبلوكس القديمه</span>
+                    <span class="chooser-btn-desc">بيكورا (نسخ 2017-2021)</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
+        const PLATFORM_INFO = {
+            iphone: { title: 'iOS / ايفون', icon: 'fas fa-mobile-alt', hack: 'roblox', pekora: 'pekora-iphone' },
+            android: { title: 'Android / اندرويد', icon: 'fab fa-android', hack: 'roblox-android', pekora: 'pekora-android' },
+            pc: { title: 'PC / كمبيوتر', icon: 'fas fa-laptop', hack: 'roblox-pc', pekora: 'pekora-pc' }
+        };
+
         function toggleMenu() {
             document.getElementById("menu").classList.toggle("active");
+        }
+
+        function toggleSubmenu(e, submenuId) {
+            e.stopPropagation();
+            const submenu = document.getElementById(submenuId);
+            const parent = submenu.parentElement;
+            document.querySelectorAll(".submenu.open").forEach(s => {
+                if (s.id !== submenuId) {
+                    s.classList.remove("open");
+                    s.parentElement.classList.remove("expanded");
+                }
+            });
+            submenu.classList.toggle("open");
+            parent.classList.toggle("expanded");
+        }
+
+        function openChooser(platform) {
+            const info = PLATFORM_INFO[platform];
+            if (!info) return;
+            const modal = document.getElementById('platform-chooser');
+            modal.dataset.platform = platform;
+            document.getElementById('chooser-title').innerHTML = '<i class="' + info.icon + '"></i> اختر ما تريد لـ ' + info.title;
+            modal.classList.add('open');
+        }
+
+        function closeChooser() {
+            document.getElementById('platform-chooser').classList.remove('open');
+        }
+
+        function chooserGo(type) {
+            const modal = document.getElementById('platform-chooser');
+            const platform = modal.dataset.platform;
+            const info = PLATFORM_INFO[platform];
+            if (!info) return;
+            closeChooser();
+            showPage(type === 'hack' ? info.hack : info.pekora);
         }
 
         function showPage(pageId) {
@@ -454,6 +810,11 @@
                 target.style.display = "block";
             }
             document.getElementById("menu").classList.remove("active");
+            document.querySelectorAll(".submenu.open").forEach(s => {
+                s.classList.remove("open");
+                s.parentElement.classList.remove("expanded");
+            });
+            closeChooser();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
