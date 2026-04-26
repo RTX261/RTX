@@ -415,6 +415,297 @@ h1 {
   backdrop-filter: blur(15px);
 }
 
+/* Submenu styles */
+#menu li.has-submenu {
+  display: block !important;
+  position: relative;
+  padding: 0 !important;
+  background: rgba(138, 43, 226, 0.08) !important;
+  border: 1px solid rgba(138, 43, 226, 0.2);
+  border-radius: 14px !important;
+  overflow: hidden;
+  margin-bottom: 12px !important;
+  transition: var(--transition);
+}
+
+#menu li.has-submenu:hover {
+  background: rgba(138, 43, 226, 0.15) !important;
+  transform: none !important;
+}
+
+#menu li.has-submenu.expanded {
+  background: rgba(138, 43, 226, 0.18) !important;
+  border-color: rgba(138, 43, 226, 0.5);
+  box-shadow: 0 6px 16px rgba(138, 43, 226, 0.25);
+}
+
+#menu li.has-submenu > span {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #fff;
+}
+
+#menu li.has-submenu > span i {
+  font-size: 1.2rem;
+  color: var(--accent, #b388ff);
+}
+
+#menu li.has-submenu .sub-arrow {
+  position: absolute;
+  left: 22px;
+  top: 22px;
+  font-size: 0.85rem;
+  color: var(--accent, #b388ff);
+  transition: transform 0.3s ease;
+  pointer-events: none;
+}
+
+#menu li.has-submenu.expanded .sub-arrow {
+  transform: rotate(180deg);
+}
+
+.submenu {
+  list-style: none;
+  padding: 0 12px;
+  margin: 0;
+  width: 100%;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding-bottom 0.3s ease;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.submenu.open {
+  max-height: 300px;
+  padding-bottom: 12px;
+  padding-top: 8px;
+}
+
+.submenu li {
+  padding: 12px 16px !important;
+  margin-bottom: 6px !important;
+  margin-top: 4px !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-right: 3px solid var(--primary, #8a2be2) !important;
+  border-radius: 8px !important;
+  font-size: 0.92rem !important;
+  font-weight: 500 !important;
+  color: rgba(255, 255, 255, 0.85);
+  transition: var(--transition);
+}
+
+.submenu li:hover {
+  background: rgba(138, 43, 226, 0.25) !important;
+  color: #fff !important;
+  transform: translateX(-6px) !important;
+}
+
+/* Platform Chooser Modal */
+.platform-chooser {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  padding: 20px;
+}
+
+.platform-chooser.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.chooser-content {
+  background: linear-gradient(135deg, rgba(20, 20, 30, 0.98), rgba(30, 15, 50, 0.98));
+  border: 1px solid rgba(138, 43, 226, 0.4);
+  border-radius: 24px;
+  padding: 40px 30px 30px;
+  max-width: 520px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 25px 60px rgba(138, 43, 226, 0.4);
+  transform: scale(0.85);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.platform-chooser.open .chooser-content {
+  transform: scale(1);
+}
+
+.chooser-content h3 {
+  color: #fff;
+  font-size: 1.5rem;
+  margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.chooser-subtitle {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.95rem;
+  margin: 0 0 28px;
+}
+
+.chooser-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.chooser-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 24px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  cursor: pointer;
+  font-family: inherit;
+  color: #fff;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.chooser-btn i {
+  font-size: 2rem;
+  margin-bottom: 4px;
+}
+
+.chooser-btn-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.chooser-btn-desc {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.chooser-hack {
+  background: linear-gradient(135deg, rgba(138, 43, 226, 0.2), rgba(75, 0, 130, 0.3));
+  border-color: rgba(138, 43, 226, 0.4);
+}
+
+.chooser-hack:hover {
+  background: linear-gradient(135deg, rgba(138, 43, 226, 0.45), rgba(75, 0, 130, 0.5));
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(138, 43, 226, 0.4);
+}
+
+.chooser-pekora {
+  background: linear-gradient(135deg, rgba(255, 152, 0, 0.18), rgba(230, 81, 0, 0.25));
+  border-color: rgba(255, 152, 0, 0.4);
+}
+
+.chooser-pekora:hover {
+  background: linear-gradient(135deg, rgba(255, 152, 0, 0.4), rgba(230, 81, 0, 0.5));
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(255, 152, 0, 0.4);
+}
+
+.chooser-close {
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #fff;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+
+.chooser-close:hover {
+  background: rgba(255, 0, 0, 0.4);
+  transform: rotate(90deg);
+}
+
+@media (max-width: 480px) {
+  .chooser-options { grid-template-columns: 1fr; }
+  .chooser-content h3 { font-size: 1.2rem; }
+}
+
+/* Pekora pages */
+.pekora-iphone-btn {
+  background: linear-gradient(135deg, #9933ff, #4b0082) !important;
+  box-shadow: 0 10px 20px rgba(138, 43, 226, 0.4) !important;
+}
+
+.pekora-android-btn {
+  background: linear-gradient(135deg, #ff4d4d, #b30000) !important;
+  box-shadow: 0 10px 20px rgba(211, 47, 47, 0.4) !important;
+}
+
+#pekora-iphone {
+  background: linear-gradient(-45deg, #1a0033, #2e004a, #4b0082, #0d001a) !important;
+  background-size: 400% 400% !important;
+  animation: gradientBG 15s ease infinite !important;
+}
+
+#pekora-android {
+  background: linear-gradient(-45deg, #2c0000, #4a0000, #800000, #1a0000) !important;
+  background-size: 400% 400% !important;
+  animation: gradientBG 15s ease infinite !important;
+}
+
+#pekora-pc {
+  background: linear-gradient(-45deg, #001f3f, #003366, #004080, #000a1a) !important;
+  background-size: 400% 400% !important;
+  animation: gradientBG 15s ease infinite !important;
+}
+
+.pekora-iphone-page .delta-content {
+  background: rgba(138, 43, 226, 0.05) !important;
+  border: 1px solid rgba(138, 43, 226, 0.2) !important;
+  backdrop-filter: blur(15px);
+}
+
+.pekora-android-page .delta-content {
+  background: rgba(255, 0, 0, 0.05) !important;
+  border: 1px solid rgba(255, 0, 0, 0.2) !important;
+  backdrop-filter: blur(15px);
+}
+
+.pekora-pc-page .delta-content {
+  background: rgba(0, 102, 255, 0.05) !important;
+  border: 1px solid rgba(0, 102, 255, 0.2) !important;
+  backdrop-filter: blur(15px);
+}
+
+.unofficial-tag {
+  display: inline-block;
+  background: linear-gradient(135deg, #ff9800, #e65100);
+  color: #fff;
+  font-size: 0.7rem;
+  padding: 3px 10px;
+  border-radius: 12px;
+  margin-right: 8px;
+  vertical-align: middle;
+  font-weight: 700;
+  box-shadow: 0 4px 10px rgba(255, 152, 0, 0.3);
+}
+
 @media (max-width: 768px) {
   h1 { font-size: 2.5rem; }
   .logo-text { font-size: 1.5rem; }
