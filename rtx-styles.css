@@ -1,4 +1,4 @@
-root {
+:root {
   --primary: #8a2be2;
   --secondary: #4b0082;
   --accent: #00d4ff;
@@ -252,7 +252,7 @@ h1 {
   color: var(--accent);
   margin-bottom: 20px;
   font-size: 1.8rem;
- text-align: center;
+  text-align: center;
 }
 
 .info-box ul {
@@ -718,54 +718,48 @@ h1 {
 ::-webkit-scrollbar-track { background: var(--bg-dark); }
 ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
 
-/* ==========================================================================
-   Custom App Status Badges & Layout Extensions (Added for Operations Update)
-   ========================================================================== */
-.status-wrapper {
-  display: inline-flex;
-  align-items: center;
-  width: 100%;
-  max-width: 420px;
-  margin: 12px auto 2px auto;
-  direction: rtl;
-  text-align: right;
-}
-
+/* Status Badges */
 .status-badge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 14px;
-  border-radius: 10px;
-  font-size: 0.88rem;
+  justify-content: center;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
   font-weight: 700;
-  color: #ffffff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-  transition: var(--transition);
-  border: 1px solid transparent;
+  margin-right: 10px;
+  margin-bottom: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.status-badge i {
-  font-size: 0.95rem;
+.status-works {
+  background: linear-gradient(135deg, #00c853, #64dd17);
+  color: #fff;
+  box-shadow: 0 0 15px rgba(0, 200, 83, 0.4);
 }
 
-/* Working State (يعمل) */
-.status-badge.working {
-  background: linear-gradient(135deg, #2ecc71, #27ae60);
-  border-color: rgba(46, 204, 113, 0.4);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+.status-not-works {
+  background: linear-gradient(135deg, #d50000, #ff1744);
+  color: #fff;
+  box-shadow: 0 0 15px rgba(213, 0, 0, 0.4);
 }
 
-/* Not Working State (لا يعمل) */
-.status-badge.not-working {
-  background: linear-gradient(135deg, #e74c3c, #c0392b);
-  border-color: rgba(231, 76, 60, 0.4);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+.status-may-work {
+  background: linear-gradient(135deg, #ffab00, #ffd600);
+  color: #000;
+  box-shadow: 0 0 15px rgba(255, 171, 0, 0.4);
 }
 
-/* Testing / May Work State (قد يعمل) */
-.status-badge.testing {
-  background: linear-gradient(135deg, #f1c40f, #d35400);
-  border-color: rgba(241, 196, 15, 0.4);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+/* Adjust download button to accommodate badge if needed */
+.download-btn {
+  flex-direction: column;
+  height: auto;
+  padding: 20px 35px;
+}
+
+.download-btn i {
+  font-size: 1.2rem;
 }
