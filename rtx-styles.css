@@ -689,7 +689,7 @@ h1 {
   box-shadow: 0 4px 10px rgba(255, 152, 0, 0.3);
 }
 
-/* ========== NEW: Neon / Glassmorphism Status Badge (Pill) ========== */
+/* ========== Status Badge (Pill) with Icon Coloring ========== */
 .btn-wrapper {
   display: flex;
   flex-direction: column;
@@ -707,7 +707,7 @@ h1 {
   font-size: 0.95rem;
   font-weight: 700;
   padding: 8px 22px;
-  border-radius: 50px; /* Pill shape */
+  border-radius: 50px;
   border: 1.5px solid transparent;
   margin-bottom: 8px;
   background: transparent;
