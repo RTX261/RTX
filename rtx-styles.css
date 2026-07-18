@@ -99,7 +99,6 @@ nav {
   width: 45px;
   height: 45px;
   border-radius: 12px;
-  /* Clean background, no shadows */
   background: transparent;
   position: absolute;
   right: 0;
@@ -191,7 +190,7 @@ h1 {
   margin-bottom: 30px;
   animation: float 6s ease-in-out infinite;
   object-fit: contain;
-  pointer-events: none; /* Block image interactions */
+  pointer-events: none;
 }
 
 .welcome-text {
@@ -351,7 +350,6 @@ h1 {
   margin: 10px 0;
 }
 
-/* Status Indicator Badge */
 .btn-status {
   position: absolute;
   top: -8px;
@@ -387,7 +385,6 @@ h1 {
   box-shadow: 0 4px 12px rgba(255, 179, 0, 0.6);
 }
 
-/* Button Status States */
 .btn-working {
   background: linear-gradient(135deg, #4caf50, #2e7d32) !important;
   box-shadow: 0 10px 20px rgba(76, 175, 80, 0.4) !important;
@@ -486,7 +483,6 @@ h1 {
   backdrop-filter: blur(15px);
 }
 
-/* Submenu styles */
 #menu li.has-submenu {
   display: block !important;
   position: relative;
@@ -575,7 +571,6 @@ h1 {
   transform: translateX(-6px) !important;
 }
 
-/* Platform Chooser Modal */
 .platform-chooser {
   position: fixed;
   inset: 0;
@@ -717,7 +712,6 @@ h1 {
   .chooser-content h3 { font-size: 1.2rem; }
 }
 
-/* Pekora pages */
 .pekora-iphone-btn {
   background: linear-gradient(135deg, #9933ff, #4b0082) !important;
   box-shadow: 0 10px 20px rgba(138, 43, 226, 0.4) !important;
