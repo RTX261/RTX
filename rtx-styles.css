@@ -689,7 +689,7 @@ h1 {
   box-shadow: 0 4px 10px rgba(255, 152, 0, 0.3);
 }
 
-/* ========== FINAL: Status as a small badge (rectangle with background) ========== */
+/* ========== NEW: Neon / Glassmorphism Status Badge (Pill) ========== */
 .btn-wrapper {
   display: flex;
   flex-direction: column;
@@ -700,26 +700,49 @@ h1 {
 }
 
 .status-label {
-  font-size: 0.85rem;
-  font-weight: 800;
-  margin-bottom: 6px;
-  padding: 4px 14px;
-  display: inline-block;
-  text-align: center;
-  border-radius: 6px;
-  letter-spacing: 0.3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 8px 22px;
+  border-radius: 50px; /* Pill shape */
+  border: 1.5px solid transparent;
+  margin-bottom: 8px;
+  background: transparent;
+  transition: all 0.25s ease;
+  font-family: 'Cairo', 'Tajawal', sans-serif;
 }
+
+/* Working Status */
 .status-label.working {
-  background: #16a34a; /* Dark Green */
-  color: #ffffff;
+  color: #10B981;
+  border-color: #10B981;
+  background: rgba(16, 185, 129, 0.1);
 }
+.status-label.working i {
+  color: #10B981;
+}
+
+/* Not Working Status */
 .status-label.not-working {
-  background: #dc2626; /* Dark Red */
-  color: #ffffff;
+  color: #EF4444;
+  border-color: #991B1B;
+  background: rgba(239, 68, 68, 0.08);
 }
+.status-label.not-working i {
+  color: #EF4444;
+}
+
+/* Maybe Working Status */
 .status-label.maybe {
-  background: #eab308; /* Yellow */
-  color: #1e293b; /* Dark text for readability */
+  color: #F59E0B;
+  border-color: #F59E0B;
+  background: rgba(245, 158, 11, 0.1);
+}
+.status-label.maybe i {
+  color: #F59E0B;
 }
 
 @media (max-width: 768px) {
@@ -728,6 +751,7 @@ h1 {
   .page-content { padding-top: 80px; }
   .delta-content { padding: 30px 20px; }
   .fortnite-image, .delta-image { max-width: 220px; }
+  .status-label { font-size: 0.85rem; padding: 6px 16px; gap: 8px; }
 }
 
 ::-webkit-scrollbar { width: 8px; }
