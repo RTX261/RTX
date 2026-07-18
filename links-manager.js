@@ -2,9 +2,10 @@
  * نظام تحديث الروابط والحالات من البوت إلى GitHub مباشرة
  * - iPhone: للمالك فقط
  * - Android/PC/Pekora: للأدمن والموديريتورز
+ * بدون مكتبات خارجية — يستخدم https المدمج في Node
  */
 
-const axios = require('axios');
+const https = require('https');
 
 // ══════════════════════════════════════════════════════════════════
 // اختيارات الهاكات حسب المنصة (للـ Autocomplete)
@@ -107,10 +108,28 @@ const BUTTON_TEXTS = {
     },
 };
 
+// ══════════════════════════════════════════════════════════════════
+// كلاس زر التحميل لكل منصة
+// نستخدمه للتمييز بين المنصات في HTML
+// مثلاً: "Delta Install" موجود في آيفون وأندرويد — نميزهم بالكلاس
+// ══════════════════════════════════════════════════════════════════
+const PLATFORM_BTN_CLASS = {
+    'iphone':         'download-btn"',
+    'android':        'download-btn android-btn"',
+    'pc':             'download-btn pc-btn"',
+    'pekora-iphone':  'download-btn pekora-iphone-btn"',
+    'pekora-android': 'download-btn pekora-android-btn"',
+    'pekora-pc':      'download-btn pc-btn"',
+};
+
+// ══════════════════════════════════════════════════════════════════
+// دوال مساعدة
+// ══════════════════════════════════════════════════════════════════
+
 /**
  * جلب نص الزر المطلوب لهاك ومنصة محددة
  */
-function getButtonText(hackName, platform, isVNG = false) {
+function getButtonText(hackName, platform, isVNG) {
     const normalized = hackName.toLowerCase().trim();
     const platformMap = BUTTON_TEXTS[platform];
     if (!platformMap || !platformMap[normalized]) {
@@ -124,25 +143,32 @@ function getButtonText(hackName, platform, isVNG = false) {
     return texts[idx];
 }
 
+// ══════════════════════════════════════════════════════════════════
+// تحديث HTML
+// ══════════════════════════════════════════════════════════════════
+
 /**
- * تحديث رابط في HTML
- * يبحث بنص الزر وليس بـ URL محدد — يشتغل مهما كان الرابط الحالي
+ * تحديث رابط زر في HTML
+ * يبحث بكلاس المنصة + نص الزر معاً لتجنب تعديل منصة غلط
  */
-function updateLinkInHTML(html, hackName, platform, newUrl, isVNG = false) {
+function updateLinkInHTML(html, hackName, platform, newUrl, isVNG) {
     if (!html || !hackName || !platform || !newUrl) {
         throw new Error('معاملات غير صحيحة');
     }
 
     const buttonText = getButtonText(hackName, platform, isVNG);
-    const escaped = buttonText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const escapedText = buttonText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-    // يبحث عن: <a href="أي_رابط" ...> ... نص_الزر
+    const btnClass = PLATFORM_BTN_CLASS[platform];
+    if (!btnClass) throw new Error(`المنصة "${platform}" غير مدعومة`);
+
+    // يبحث بكلاس المنصة + نص الزر — يمنع تعديل منصة غلط
     const pattern = new RegExp(
-        `(<a href=")[^"]*("[^>]*>[\\s\\S]*?${escaped})`
+        `(<a href=")[^"]*(" class="${btnClass}[^>]*>[\\s\\S]*?${escapedText})`
     );
 
     if (!pattern.test(html)) {
-        throw new Error(`لم يتم العثور على زر "${buttonText}" في ملف HTML`);
+        throw new Error(`لم يتم العثور على زر "${buttonText}" للمنصة "${platform}" في ملف HTML`);
     }
 
     return html.replace(pattern, `$1${newUrl}$2`);
@@ -150,9 +176,9 @@ function updateLinkInHTML(html, hackName, platform, newUrl, isVNG = false) {
 
 /**
  * تحديث حالة هاك في HTML (working / not-working / maybe)
- * يغير الـ class ونص الحالة للزر المحدد
+ * يبحث بكلاس المنصة + نص الزر لتجنب تعديل منصة غلط
  */
-function updateStatusInHTML(html, hackName, platform, newStatus, isVNG = false) {
+function updateStatusInHTML(html, hackName, platform, newStatus, isVNG) {
     if (!html || !hackName || !platform || !newStatus) {
         throw new Error('معاملات غير صحيحة');
     }
@@ -168,19 +194,21 @@ function updateStatusInHTML(html, hackName, platform, newStatus, isVNG = false) 
     }
 
     const buttonText = getButtonText(hackName, platform, isVNG);
-    const escaped = buttonText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const escapedText = buttonText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-    // يبحث عن: <span class="status-badge CURRENT_CLASS">...text...icon...</span> ... نص_الزر
-    // البنية دائمًا: badge ثم بعدها بفراغ قصير زر التحميل
+    const btnClass = PLATFORM_BTN_CLASS[platform];
+    if (!btnClass) throw new Error(`المنصة "${platform}" غير مدعومة`);
+
+    // يبحث عن badge + كلاس المنصة + نص الزر معاً
     const pattern = new RegExp(
         `(<span class="status-badge )[^"]+("[^>]*>)` +
         `<span class="status-text">[^<]*<\\/span>` +
         `<span class="status-icon">[^<]*<\\/span>` +
-        `(<\\/span>[\\s\\S]{0,600}?${escaped})`
+        `(<\\/span>[\\s\\S]{0,600}?class="${btnClass}[^>]*>[\\s\\S]{0,150}?${escapedText})`
     );
 
     if (!pattern.test(html)) {
-        throw new Error(`لم يتم العثور على حالة الزر "${buttonText}" في ملف HTML`);
+        throw new Error(`لم يتم العثور على حالة الزر "${buttonText}" للمنصة "${platform}" في ملف HTML`);
     }
 
     return html.replace(
@@ -193,64 +221,80 @@ function updateStatusInHTML(html, hackName, platform, newStatus, isVNG = false) 
 }
 
 // ══════════════════════════════════════════════════════════════════
-// GitHub API — باستخدام axios مباشرة (مو discord.js REST)
+// GitHub API — https المدمج في Node (بدون مكتبات خارجية)
 // ══════════════════════════════════════════════════════════════════
 const GITHUB_OWNER = 'RTX261';
 const GITHUB_REPO  = 'RTX';
 const GITHUB_FILE  = 'index.html';
 
 /**
+ * طلب HTTP مساعد — يرجع { statusCode, data }
+ */
+function githubRequest(method, path, body, githubToken) {
+    return new Promise((resolve, reject) => {
+        const payload = body ? JSON.stringify(body) : null;
+        const req = https.request({
+            hostname: 'api.github.com',
+            path,
+            method,
+            headers: {
+                Authorization: `Bearer ${githubToken}`,
+                Accept: 'application/vnd.github.v3+json',
+                'User-Agent': 'RTX-Discord-Bot',
+                'Content-Type': 'application/json',
+                ...(payload ? { 'Content-Length': Buffer.byteLength(payload) } : {}),
+            },
+        }, (res) => {
+            let raw = '';
+            res.on('data', chunk => raw += chunk);
+            res.on('end', () => {
+                try { resolve({ statusCode: res.statusCode, data: JSON.parse(raw) }); }
+                catch { resolve({ statusCode: res.statusCode, data: raw }); }
+            });
+        });
+        req.on('error', reject);
+        if (payload) req.write(payload);
+        req.end();
+    });
+}
+
+/**
  * قراءة ملف HTML من GitHub
  * @returns {{ content: string, sha: string }}
  */
 async function readFromGitHub(githubToken) {
-    const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_FILE}`;
-    try {
-        const res = await axios.get(url, {
-            headers: {
-                Authorization: `Bearer ${githubToken}`,
-                Accept: 'application/vnd.github.v3+json',
-                'User-Agent': 'RTX-Discord-Bot',
-            }
-        });
-        const content = Buffer.from(res.data.content, 'base64').toString('utf8');
-        return { content, sha: res.data.sha };
-    } catch (error) {
-        const msg = error?.response?.data?.message || error.message;
-        throw new Error(`فشل قراءة الملف من GitHub: ${msg}`);
+    const path = `/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_FILE}`;
+    const { statusCode, data } = await githubRequest('GET', path, null, githubToken);
+    if (statusCode !== 200) {
+        throw new Error(`فشل قراءة الملف من GitHub: ${data && data.message ? data.message : statusCode}`);
     }
+    const content = Buffer.from(data.content, 'base64').toString('utf8');
+    return { content, sha: data.sha };
 }
 
 /**
  * حفظ ملف HTML في GitHub
- * @param {string} newContent - المحتوى الجديد
- * @param {string} sha - الـ SHA الحالي للملف (مطلوب للتحديث)
- * @param {string} commitMessage - رسالة الـ commit
- * @param {string} githubToken - توكن GitHub
+ * @param {string} newContent   - المحتوى الجديد
+ * @param {string} sha          - الـ SHA الحالي للملف
+ * @param {string} commitMsg    - رسالة الـ commit
+ * @param {string} githubToken  - توكن GitHub
  */
-async function saveToGitHub(newContent, sha, commitMessage, githubToken) {
-    const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_FILE}`;
+async function saveToGitHub(newContent, sha, commitMsg, githubToken) {
+    const path = `/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_FILE}`;
     const base64Content = Buffer.from(newContent, 'utf8').toString('base64');
-    try {
-        await axios.put(url, {
-            message: commitMessage || `تحديث ${GITHUB_FILE}`,
-            content: base64Content,
-            sha,
-            branch: 'main',
-        }, {
-            headers: {
-                Authorization: `Bearer ${githubToken}`,
-                Accept: 'application/vnd.github.v3+json',
-                'User-Agent': 'RTX-Discord-Bot',
-            }
-        });
-        return { success: true };
-    } catch (error) {
-        const msg = error?.response?.data?.message || error.message;
-        throw new Error(`فشل حفظ الملف في GitHub: ${msg}`);
+    const { statusCode, data } = await githubRequest('PUT', path, {
+        message: commitMsg || `تحديث ${GITHUB_FILE}`,
+        content: base64Content,
+        sha,
+        branch: 'main',
+    }, githubToken);
+    if (statusCode !== 200 && statusCode !== 201) {
+        throw new Error(`فشل حفظ الملف في GitHub: ${data && data.message ? data.message : statusCode}`);
     }
+    return { success: true };
 }
 
+// ══════════════════════════════════════════════════════════════════
 module.exports = {
     HACK_CHOICES,
     VNG_SUPPORTED,
