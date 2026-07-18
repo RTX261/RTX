@@ -703,23 +703,22 @@ h1 {
   font-size: 0.85rem;
   font-weight: 800;
   margin-bottom: 6px;
-  padding: 4px 16px;
+  padding: 4px 14px;
   display: inline-block;
   text-align: center;
-  border-radius: 8px;
+  border-radius: 6px;
   letter-spacing: 0.3px;
-  background: none !important; /* Fallback */
 }
 .status-label.working {
-  background: #22c55e; /* Vibrant Green */
+  background: #16a34a; /* Dark Green */
   color: #ffffff;
 }
 .status-label.not-working {
-  background: #ef4444; /* Red */
+  background: #dc2626; /* Dark Red */
   color: #ffffff;
 }
 .status-label.maybe {
-  background: #facc15; /* Bright Yellow */
+  background: #eab308; /* Yellow */
   color: #1e293b; /* Dark text for readability */
 }
 
