@@ -689,7 +689,7 @@ h1 {
   box-shadow: 0 4px 10px rgba(255, 152, 0, 0.3);
 }
 
-/* ========== FINAL: Status label exactly like "إعطاء" in the image ========== */
+/* ========== FINAL: Status as a small badge (rectangle with background) ========== */
 .btn-wrapper {
   display: flex;
   flex-direction: column;
@@ -700,23 +700,27 @@ h1 {
 }
 
 .status-label {
-  font-size: 1.05rem;
+  font-size: 0.85rem;
   font-weight: 800;
-  margin-bottom: 4px;
-  padding: 0 6px;
+  margin-bottom: 6px;
+  padding: 4px 16px;
   display: inline-block;
   text-align: center;
+  border-radius: 8px;
   letter-spacing: 0.3px;
-  background: none !important;
+  background: none !important; /* Fallback */
 }
 .status-label.working {
-  color: #22c55e; /* Vibrant Green like the image */
+  background: #22c55e; /* Vibrant Green */
+  color: #ffffff;
 }
 .status-label.not-working {
-  color: #ef4444; /* Red */
+  background: #ef4444; /* Red */
+  color: #ffffff;
 }
 .status-label.maybe {
-  color: #facc15; /* Yellow */
+  background: #facc15; /* Bright Yellow */
+  color: #1e293b; /* Dark text for readability */
 }
 
 @media (max-width: 768px) {
