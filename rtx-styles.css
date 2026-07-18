@@ -690,7 +690,7 @@ h1 {
 }
 
 /* ====================================================== */
-/* NEW STATUS BADGE DESIGN (Pill style with icons on left) */
+/* NEW STATUS BADGE DESIGN (Pill style - slimmer height) */
 /* ====================================================== */
 .btn-wrapper {
   display: flex;
@@ -706,7 +706,7 @@ h1 {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 12px 35px;
+  padding: 8px 30px;  /* تم التعديل هنا: 12px -> 8px */
   border-radius: 50px;
   font-family: 'Cairo', 'Tajawal', sans-serif;
   font-weight: 700;
@@ -714,7 +714,7 @@ h1 {
   border: 2px solid transparent;
   width: fit-content;
   min-width: 160px;
-  direction: rtl; /* يجعل الأيقونة على اليمين (بعد النص) */
+  direction: rtl;
   margin-bottom: 6px;
   background-color: transparent;
   transition: all 0.2s ease;
@@ -765,7 +765,7 @@ h1 {
   .page-content { padding-top: 80px; }
   .delta-content { padding: 30px 20px; }
   .fortnite-image, .delta-image { max-width: 220px; }
-  .status-badge { font-size: 15px; padding: 8px 22px; min-width: 130px; gap: 8px; }
+  .status-badge { font-size: 15px; padding: 6px 22px; min-width: 130px; gap: 8px; }
   .status-badge .status-icon { font-size: 18px; }
 }
 
