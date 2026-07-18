@@ -689,7 +689,9 @@ h1 {
   box-shadow: 0 4px 10px rgba(255, 152, 0, 0.3);
 }
 
-/* ========== Status Badge (Pill) with Icon Coloring ========== */
+/* ====================================================== */
+/* NEW STATUS BADGE DESIGN (Pill style with icons on left) */
+/* ====================================================== */
 .btn-wrapper {
   display: flex;
   flex-direction: column;
@@ -699,50 +701,62 @@ h1 {
   margin: 10px auto;
 }
 
-.status-label {
+.status-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  font-size: 0.95rem;
-  font-weight: 700;
-  padding: 8px 22px;
+  padding: 12px 35px;
   border-radius: 50px;
-  border: 1.5px solid transparent;
-  margin-bottom: 8px;
-  background: transparent;
-  transition: all 0.25s ease;
   font-family: 'Cairo', 'Tajawal', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  border: 2px solid transparent;
+  width: fit-content;
+  min-width: 160px;
+  direction: rtl; /* يجعل الأيقونة على اليمين (بعد النص) */
+  margin-bottom: 6px;
+  background-color: transparent;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
-/* Working Status */
-.status-label.working {
-  color: #10B981;
-  border-color: #10B981;
-  background: rgba(16, 185, 129, 0.1);
-}
-.status-label.working i {
-  color: #10B981;
+.status-badge .status-icon {
+  font-size: 22px;
+  line-height: 1;
 }
 
-/* Not Working Status */
-.status-label.not-working {
-  color: #EF4444;
-  border-color: #991B1B;
-  background: rgba(239, 68, 68, 0.08);
+/* Working (Green) */
+.status-badge.working {
+  color: #00E676;
+  border-color: #00E676;
+  background-color: rgba(0, 230, 118, 0.08);
+  text-shadow: 0 0 8px rgba(0, 230, 118, 0.3);
 }
-.status-label.not-working i {
-  color: #EF4444;
+.status-badge.working .status-icon {
+  color: #00E676;
 }
 
-/* Maybe Working Status */
-.status-label.maybe {
-  color: #F59E0B;
-  border-color: #F59E0B;
-  background: rgba(245, 158, 11, 0.1);
+/* Maybe (Yellow/Amber) */
+.status-badge.maybe {
+  color: #FFB300;
+  border-color: #FFB300;
+  background-color: rgba(255, 179, 0, 0.08);
+  text-shadow: 0 0 8px rgba(255, 179, 0, 0.3);
 }
-.status-label.maybe i {
-  color: #F59E0B;
+.status-badge.maybe .status-icon {
+  color: #FFB300;
+}
+
+/* Not Working (Red) */
+.status-badge.not-working {
+  color: #FF5252;
+  border-color: #FF5252;
+  background-color: rgba(255, 82, 82, 0.08);
+  text-shadow: 0 0 8px rgba(255, 82, 82, 0.3);
+}
+.status-badge.not-working .status-icon {
+  color: #FF5252;
 }
 
 @media (max-width: 768px) {
@@ -751,7 +765,8 @@ h1 {
   .page-content { padding-top: 80px; }
   .delta-content { padding: 30px 20px; }
   .fortnite-image, .delta-image { max-width: 220px; }
-  .status-label { font-size: 0.85rem; padding: 6px 16px; gap: 8px; }
+  .status-badge { font-size: 15px; padding: 8px 22px; min-width: 130px; gap: 8px; }
+  .status-badge .status-icon { font-size: 18px; }
 }
 
 ::-webkit-scrollbar { width: 8px; }
