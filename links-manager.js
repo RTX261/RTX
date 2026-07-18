@@ -172,12 +172,7 @@ function updateLinkInHTML(html, hackName, platform, newUrl, isVNG) {
     }
 
     // ✅ الإصلاح: نستخدم دالة بدل string replacement
-    // لأن إذا الرابط يحتوي على "$1" أو "    if (!pattern.test(html)) {
-        throw new Error(`لم يتم العثور على زر "${buttonText}" للمنصة "${platform}" في ملف HTML`);
-    }
-
-    return html.replace(pattern, `$1${newUrl}$2`);
-}" يسويها JavaScript مشكلة
+    // لأن الروابط التي تحتوي على "$1" أو "$&" تسبب خطأ مع string replacement
     return html.replace(pattern, (_, g1, g2) => g1 + newUrl + g2);
 }
 
@@ -220,10 +215,11 @@ function updateStatusInHTML(html, hackName, platform, newStatus, isVNG) {
 
     return html.replace(
         pattern,
-        `$1${cfg.cls}$2` +
-        `<span class="status-text">${cfg.text}</span>` +
-        `<span class="status-icon">${cfg.icon}</span>` +
-        `$3`
+        (_, g1, g2, g3) =>
+            g1 + cfg.cls + g2 +
+            `<span class="status-text">${cfg.text}</span>` +
+            `<span class="status-icon">${cfg.icon}</span>` +
+            g3
     );
 }
 
@@ -281,10 +277,6 @@ async function readFromGitHub(githubToken) {
 
 /**
  * حفظ ملف HTML في GitHub
- * @param {string} newContent   - المحتوى الجديد
- * @param {string} sha          - الـ SHA الحالي للملف
- * @param {string} commitMsg    - رسالة الـ commit
- * @param {string} githubToken  - توكن GitHub
  */
 async function saveToGitHub(newContent, sha, commitMsg, githubToken) {
     const path = `/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_FILE}`;
@@ -301,10 +293,8 @@ async function saveToGitHub(newContent, sha, commitMsg, githubToken) {
     return { success: true };
 }
 
-// ══════════════════════════════════════════════════════════════════
 /**
- * تحقق إن الرابط الجديد موجود فعلاً في ملف GitHub بعد الحفظ
- * @returns {{ ok: boolean, foundUrl: boolean }}
+ * تحقق إن الرابط الجديد موجود فعلاً في GitHub بعد الحفظ
  */
 async function verifyLinkInGitHub(githubToken, expectedUrl) {
     try {
