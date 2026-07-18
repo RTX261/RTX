@@ -171,7 +171,14 @@ function updateLinkInHTML(html, hackName, platform, newUrl, isVNG) {
         throw new Error(`لم يتم العثور على زر "${buttonText}" للمنصة "${platform}" في ملف HTML`);
     }
 
+    // ✅ الإصلاح: نستخدم دالة بدل string replacement
+    // لأن إذا الرابط يحتوي على "$1" أو "    if (!pattern.test(html)) {
+        throw new Error(`لم يتم العثور على زر "${buttonText}" للمنصة "${platform}" في ملف HTML`);
+    }
+
     return html.replace(pattern, `$1${newUrl}$2`);
+}" يسويها JavaScript مشكلة
+    return html.replace(pattern, (_, g1, g2) => g1 + newUrl + g2);
 }
 
 /**
@@ -295,6 +302,20 @@ async function saveToGitHub(newContent, sha, commitMsg, githubToken) {
 }
 
 // ══════════════════════════════════════════════════════════════════
+/**
+ * تحقق إن الرابط الجديد موجود فعلاً في ملف GitHub بعد الحفظ
+ * @returns {{ ok: boolean, foundUrl: boolean }}
+ */
+async function verifyLinkInGitHub(githubToken, expectedUrl) {
+    try {
+        const { content } = await readFromGitHub(githubToken);
+        return { ok: true, foundUrl: content.includes(expectedUrl) };
+    } catch (e) {
+        return { ok: false, foundUrl: false };
+    }
+}
+
+// ══════════════════════════════════════════════════════════════════
 module.exports = {
     HACK_CHOICES,
     VNG_SUPPORTED,
@@ -304,4 +325,5 @@ module.exports = {
     updateStatusInHTML,
     readFromGitHub,
     saveToGitHub,
+    verifyLinkInGitHub,
 };
