@@ -2,318 +2,297 @@
  * نظام تحديث الروابط والحالات من البوت إلى GitHub مباشرة
  * - iPhone: للمالك فقط
  * - Android/PC/Pekora: للأدمن والموديريتورز
- * بدون مكتبات خارجية — يستخدم https المدمج في Node
  */
 
-const https = require('https');
+const { REST, Routes } = require('discord.js');
 
-// ══════════════════════════════════════════════════════════════════
-// اختيارات الهاكات حسب المنصة (للـ Autocomplete)
-// ══════════════════════════════════════════════════════════════════
+// ============= قوائم الاختيار للـ autocomplete =============
 const HACK_CHOICES = {
-    'iphone': [
-        { name: 'دلتا',   value: 'delta' },
-        { name: 'رونيكس', value: 'ronix' },
-        { name: 'سكيبكس', value: 'skibx' },
-    ],
     'android': [
-        { name: 'دلتا',           value: 'delta'   },
-        { name: 'كوديكس',         value: 'codex'   },
-        { name: 'ارسيوس اكس نيو', value: 'arceus'  },
-        { name: 'رونيكس',         value: 'ronix'   },
-        { name: 'سكيبكس',         value: 'skibx'   },
-        { name: 'كرايبتك',        value: 'cryptic' },
-        { name: 'تريجون',         value: 'trigon'  },
-        { name: 'فيجا اكس',       value: 'vega'    },
+        { name: 'دلتا',        value: 'delta'   },
+        { name: 'كوديكس',      value: 'codex'   },
+        { name: 'ارسيوس اكس نيو', value: 'arceus' },
+        { name: 'رونيكس',      value: 'ronix'   },
+        { name: 'سكيبكس',      value: 'skibx'   },
+        { name: 'كرايبتك',     value: 'cryptic' },
+        { name: 'تريجون',      value: 'trigon'  },
+        { name: 'فيجا اكس',    value: 'vega'    }
+    ],
+    'iphone': [
+        { name: 'دلتا',        value: 'delta'   },
+        { name: 'سكيبكس',      value: 'skibx'   },
+        { name: 'رونيكس',      value: 'ronix'   }
     ],
     'pc': [
-        { name: 'سيمو',      value: 'semo'     },
-        { name: 'فيلوسيتي', value: 'velocity' },
-        { name: 'اكسينو',   value: 'xeno'     },
-        { name: 'رونيكس',   value: 'ronix'    },
-        { name: 'تريجون',   value: 'trigon'   },
+        { name: 'سيمو',        value: 'semo'     },
+        { name: 'فيلوسيتي',    value: 'velocity' },
+        { name: 'اكسينو',      value: 'xeno'     },
+        { name: 'رونيكس',      value: 'ronix'    },
+        { name: 'تريجون',      value: 'trigon'   }
     ],
     'pekora-iphone': [
-        { name: '2017', value: '2017' },
-        { name: '2018', value: '2018' },
-        { name: '2020', value: '2020' },
-        { name: '2021', value: '2021' },
+        { name: '2017',        value: '2017'     },
+        { name: '2018',        value: '2018'     },
+        { name: '2020',        value: '2020'     },
+        { name: '2021',        value: '2021'     }
     ],
     'pekora-android': [
-        { name: '2017 (رسمي)',      value: '2017-official'   },
+        { name: '2017 (رسمي)',     value: '2017-official'   },
         { name: '2017 (غير رسمي)', value: '2017-unofficial' },
-        { name: '2018',             value: '2018'            },
-        { name: '2020',             value: '2020'            },
-        { name: '2021',             value: '2021'            },
+        { name: '2018',            value: '2018'            },
+        { name: '2020',            value: '2020'            },
+        { name: '2021',            value: '2021'            }
     ],
     'pekora-pc': [
-        { name: '2017', value: '2017' },
-        { name: '2018', value: '2018' },
-        { name: '2020', value: '2020' },
-        { name: '2021', value: '2021' },
-    ],
+        { name: '2017',        value: '2017'     },
+        { name: '2018',        value: '2018'     },
+        { name: '2020',        value: '2020'     },
+        { name: '2021',        value: '2021'     }
+    ]
 };
 
-// الهاكات التي تدعم نسخة VNG
-const VNG_SUPPORTED = [
-    'iphone::delta', 'iphone::ronix', 'iphone::skibx',
-    'android::delta', 'android::codex', 'android::arceus',
-    'android::ronix', 'android::skibx', 'android::cryptic',
-];
+const VNG_SUPPORTED = ['دلتا', 'كوديكس', 'ارسيوس اكس نيو', 'رونيكس', 'سكيبكس', 'كرايبتك'];
 
-// ══════════════════════════════════════════════════════════════════
-// نصوص أزرار التحميل — نبحث بها في HTML بدل URLs محددة
-// ══════════════════════════════════════════════════════════════════
-const BUTTON_TEXTS = {
-    'iphone': {
-        'delta': ['Delta Install',      'Delta VNG Install'     ],
-        'ronix': ['Ronix Install',      'Ronix VNG Install'     ],
-        'skibx': ['Skibx Install',      'Skibx VNG Install'     ],
-    },
-    'android': {
-        'delta':   ['Delta Install',          'Delta VNG Install'       ],
-        'codex':   ['CODEX Install',          'CODEX VNG Install'       ],
-        'arceus':  ['Arceus X Neo Install',   'Arceus X Neo VNG Install'],
-        'ronix':   ['Ronix Install',          'Ronix VNG Install'       ],
-        'skibx':   ['Skibx Install',          'Skibx VNG Install'       ],
-        'cryptic': ['Cryptic Install',        'Cryptic VNG Install'     ],
-        'trigon':  ['Trigon Install'                                      ],
-        'vega':    ['Vega X Install'                                      ],
-    },
-    'pc': {
-        'semo':     ['Semo Install'    ],
-        'velocity': ['Velocity Install'],
-        'xeno':     ['Xeno Install'    ],
-        'ronix':    ['Ronix Install'   ],
-        'trigon':   ['Trigon Install'  ],
-    },
-    'pekora-iphone': {
-        '2017': ['Roblox 2017 Install'],
-        '2018': ['Roblox 2018 Install'],
-        '2020': ['Roblox 2020 Install'],
-        '2021': ['Roblox 2021 Install'],
-    },
-    'pekora-android': {
-        '2017-official':   ['Roblox 2017 Install (رسمي)'    ],
-        '2017-unofficial': ['Roblox 2017 Install (غير رسمي)'],
-        '2018':            ['Roblox 2018 Install'            ],
-        '2020':            ['Roblox 2020 Install'            ],
-        '2021':            ['Roblox 2021 Install'            ],
-    },
-    'pekora-pc': {
-        '2017': ['Roblox 2017 Install'],
-        '2018': ['Roblox 2018 Install'],
-        '2020': ['Roblox 2020 Install'],
-        '2021': ['Roblox 2021 Install'],
-    },
-};
-
-// ══════════════════════════════════════════════════════════════════
-// كلاس زر التحميل لكل منصة
-// نستخدمه للتمييز بين المنصات في HTML
-// مثلاً: "Delta Install" موجود في آيفون وأندرويد — نميزهم بالكلاس
-// ══════════════════════════════════════════════════════════════════
-const PLATFORM_BTN_CLASS = {
-    'iphone':         'download-btn"',
-    'android':        'download-btn android-btn"',
-    'pc':             'download-btn pc-btn"',
-    'pekora-iphone':  'download-btn pekora-iphone-btn"',
-    'pekora-android': 'download-btn pekora-android-btn"',
-    'pekora-pc':      'download-btn pc-btn"',
-};
-
-// ══════════════════════════════════════════════════════════════════
-// دوال مساعدة
-// ══════════════════════════════════════════════════════════════════
+// ============= دوال التحديث =============
 
 /**
- * جلب نص الزر المطلوب لهاك ومنصة محددة
+ * تحديث رابط في الـ HTML
  */
-function getButtonText(hackName, platform, isVNG) {
-    const normalized = hackName.toLowerCase().trim();
-    const platformMap = BUTTON_TEXTS[platform];
-    if (!platformMap || !platformMap[normalized]) {
-        throw new Error(`الهاك "${hackName}" غير مدعوم للمنصة "${platform}"`);
-    }
-    const texts = platformMap[normalized];
-    const idx = isVNG ? 1 : 0;
-    if (!texts[idx]) {
-        throw new Error(`نسخة VNG غير مدعومة لـ "${hackName}" على "${platform}"`);
-    }
-    return texts[idx];
-}
-
-// ══════════════════════════════════════════════════════════════════
-// تحديث HTML
-// ══════════════════════════════════════════════════════════════════
-
-/**
- * تحديث رابط زر في HTML
- * يبحث بكلاس المنصة + نص الزر معاً لتجنب تعديل منصة غلط
- */
-function updateLinkInHTML(html, hackName, platform, newUrl, isVNG) {
+function updateLinkInHTML(html, hackName, platform, newUrl, isVNG = false) {
     if (!html || !hackName || !platform || !newUrl) {
         throw new Error('معاملات غير صحيحة');
     }
 
-    const buttonText = getButtonText(hackName, platform, isVNG);
-    const escapedText = buttonText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const normalized = hackName.toLowerCase().trim();
+    
+    const patterns = {
+        'iphone': {
+            'delta': [
+                /(<a href=")itms-services:\/\/\?action=download-manifest&url=https:\/\/delta\.bz\/manifest\.plist(".*?Delta Install)/,
+                /(<a href=")itms-services:\/\/\?action=download-manifest&url=https:\/\/www\.installonair\.com\/storage\/ipaz\/x5eYMW\/x5eYMW\.plist(".*?Delta VNG Install)/
+            ],
+            'ronix': [
+                /(<a href=")itms-services:\/\/\?action=download-manifest&url=https:\/\/www\.installonair\.com\/storage\/ipaz\/KvQcmP\/KvQcmP\.plist(".*?Ronix Install)/,
+                /(<a href=")itms-services:\/\/\?action=download-manifest&url=https:\/\/www\.installonair\.com\/storage\/ipaz\/lgqV2v\/lgqV2v\.plist(".*?Ronix VNG Install)/
+            ],
+            'skibx': [
+                /(<a href=")itms-services:\/\/\?action=download-manifest&url=https:\/\/www\.installonair\.com\/storage\/ipaz\/pyzvF7\/pyzvF7\.plist(".*?Skibx Install)/,
+                /(<a href=")itms-services:\/\/\?action=download-manifest&url=https:\/\/www\.installonair\.com\/storage\/ipaz\/peM8yI\/peM8yI\.plist(".*?Skibx VNG Install)/
+            ]
+        },
+        'android': {
+            'delta': [
+                /(<a href=")https:\/\/www\.mediafire\.com\/file\/v6sogoz9kn9iduw\/Delta-2\.716\.875\.apk\/file(".*?Delta Install)/,
+                /(<a href=")https:\/\/www\.mediafire\.com\/file\/nopi33zoga9mfu1\/Delta-2\.711\.871-VN\.apk\/file(".*?Delta VNG Install)/
+            ],
+            'codex': [
+                /(<a href=")https:\/\/www\.mediafire\.com\/file\/4cadggxj7k5vktx\/Codex\+v2\.716\.apk\/file(".*?CODEX Install)/,
+                /(<a href=")https:\/\/www\.mediafire\.com\/file\/3py7clwl1zxm5oo\/Codex\+V2\.710\.707\.apk\/file(".*?CODEX VNG Install)/
+            ],
+            'arceus': [
+                /(<a href=")https:\/\/www\.mediafire\.com\/file\/nli72kkxnkrh4g7\/Roblox\.-\.Arceus\.X\.v5\.1\.4\.2\.apk\/file(".*?Arceus X Neo Install)/,
+                /(<a href=")https:\/\/www\.mediafire\.com\/file\/l8239o9vm625amg\/Roblox\.-\.VNG\.Arceus\.X\.v5\.1\.4\.2\.apk\/file(".*?Arceus X Neo VNG Install)/
+            ],
+            'ronix': [
+                /(<a href=")https:\/\/www\.mediafire\.com\/file\/cut0tioprp921tt\/Ronix_32Bits-2\.710\.707\.apk\/file(".*?Ronix Install)/,
+                /(<a href=")https:\/\/www\.mediafire\.com\/file\/cut0tioprp921tt\/Ronix_32Bits-2\.710\.707\.apk\/file(".*?Ronix VNG Install)/
+            ],
+            'skibx': [
+                /(<a href=")https:\/\/www\.mediafire\.com\/file\/khh1d18x0sbdfc6\/SkibX-2\.707\.734\.apk\/file(".*?Skibx Install)/,
+                /(<a href=")https:\/\/www\.mediafire\.com\/file\/khh1d18x0sbdfc6\/SkibX-2\.707\.734\.apk\/file(".*?Skibx VNG Install)/
+            ],
+            'cryptic': [
+                /(<a href=")https:\/\/www\.mediafire\.com\/file\/2cw9hn5kg5x1vk1\/Cryptic\.2\.689\.CrypticExecutor\.com\+\[rtxtop1\]\.apk\/file(".*?Cryptic Install)/,
+                /(<a href=")https:\/\/www\.mediafire\.com\/file\/2cw9hn5kg5x1vk1\/Cryptic\.2\.689\.CrypticExecutor\.com\+\[rtxtop1\]\.apk\/file(".*?Cryptic VNG Install)/
+            ],
+            'trigon': [
+                /(<a href=")https:\/\/www\.mediafire\.com\/file\/3b0k4ks6s1scwey\/Trigon_2\.716\.875\.apk\/file(".*?Trigon Install)/
+            ],
+            'vega': [
+                /(<a href=")https:\/\/www\.mediafire\.com\/file\/a1xkbytour4xksc\/Vega\.X\+8\.apk\/file(".*?Vega X Install)/
+            ]
+        },
+        'pc': {
+            'semo': [
+                /(<a href=")https:\/\/www\.dropbox\.com\/scl\/fi\/ppuzmw1nqixti0t55r3y9\/Semo-Executor-v3\.50\.rar\?rlkey=nf99s3g8r9krjfcvwedxmgqwy&st=lt6s1bf9&dl=1(".*?Semo Install)/
+            ],
+            'velocity': [
+                /(<a href=")https:\/\/www\.mediafire\.com\/file\/f0egpgwh11qvtz5\/Velocity\.zip\/file(".*?Velocity Install)/
+            ],
+            'xeno': [
+                /(<a href=")https:\/\/www\.mediafire\.com\/file\/2ge30y7r9ufi9gt\/Xeno-v1\.3\.30\.zip\/file(".*?Xeno Install)/
+            ],
+            'ronix': [
+                /(<a href=")https:\/\/wrdcdn\.net\/r\/154522\/1769203129478\/RonixInstaller_NEW\.exe(".*?Ronix Install)/
+            ],
+            'trigon': [
+                /(<a href=")https:\/\/www\.mediafire\.com\/file\/jwmwp9xhriyqkql\/Trigon_Evo_0\.2\.6\.exe\/file(".*?Trigon Install)/
+            ]
+        },
+        'pekora-iphone': {
+            '2017': [
+                /(<a href=")itms-services:\/\/\?action=download-manifest&url=https:\/\/www\.installonair\.com\/storage\/ipaz\/HwcaUw\/HwcaUw\.plist(".*?Roblox 2017 Install)/
+            ],
+            '2018': [
+                /(<a href=")itms-services:\/\/\?action=download-manifest&url=https:\/\/www\.installonair\.com\/storage\/ipaz\/phrr2u\/phrr2u\.plist(".*?Roblox 2018 Install)/
+            ],
+            '2020': [
+                /(<a href=")itms-services:\/\/\?action=download-manifest&url=https:\/\/www\.installonair\.com\/storage\/ipaz\/wnJK0j\/wnJK0j\.plist(".*?Roblox 2020 Install)/
+            ],
+            '2021': [
+                /(<a href=")itms-services:\/\/\?action=download-manifest&url=https:\/\/www\.installonair\.com\/storage\/ipaz\/McEPO8\/McEPO8\.plist(".*?Roblox 2021 Install)/
+            ]
+        },
+        'pekora-android': {
+            '2017-official': [
+                /(<a href=")https:\/\/www\.mediafire\.com\/file\/tzzl8frcvnem989\/Pekora2017L\.apk\/file(".*?Roblox 2017 Install \(رسمي\))/
+            ],
+            '2017-unofficial': [
+                /(<a href=")https:\/\/www\.mediafire\.com\/file\/ggz4eg6hnfx2sqq\/Korone_2017\.apk\/file(".*?Roblox 2017 Install \(غير رسمي\))/
+            ],
+            '2018': [
+                /(<a href=")https:\/\/www\.mediafire\.com\/file\/j713t6vbcx1fdbn\/Korone_2018\.apk\/file(".*?Roblox 2018 Install)/
+            ],
+            '2020': [
+                /(<a href=")https:\/\/www\.mediafire\.com\/file\/wvz6yi1144uu29i\/Korone_2020\.apk\/file(".*?Roblox 2020 Install)/
+            ],
+            '2021': [
+                /(<a href=")https:\/\/www\.mediafire\.com\/file\/bpu9bzv8a3hmfe1\/Korone_2021\.apk\/file(".*?Roblox 2021 Install)/
+            ]
+        },
+        'pekora-pc': {
+            '2017': [
+                /(<a href=")https:\/\/www\.mediafire\.com\/file\/kzadf87gvjyt6md\/PekoraStudio2017\+3\.zip\/file(".*?Roblox 2017 Install)/
+            ],
+            '2018': [
+                /(<a href=")https:\/\/www\.mediafire\.com\/file\/n4j9d8b33273dqg\/PekoraStudio2018\+2\.zip\/file(".*?Roblox 2018 Install)/
+            ],
+            '2020': [
+                /(<a href=")https:\/\/www\.mediafire\.com\/file\/dd71xq5h51198yj\/PekoraStudio2020\+2\.zip\/file(".*?Roblox 2020 Install)/
+            ],
+            '2021': [
+                /(<a href=")https:\/\/www\.mediafire\.com\/file\/4jcde8p3eo91f4t\/PekoraStudio2021\+2\.zip\/file(".*?Roblox 2021 Install)/
+            ]
+        }
+    };
 
-    const btnClass = PLATFORM_BTN_CLASS[platform];
-    if (!btnClass) throw new Error(`المنصة "${platform}" غير مدعومة`);
-
-    // يبحث بكلاس المنصة + نص الزر — يمنع تعديل منصة غلط
-    const pattern = new RegExp(
-        `(<a href=")[^"]*(" class="${btnClass}[^>]*>[\\s\\S]*?${escapedText})`
-    );
-
-    if (!pattern.test(html)) {
-        throw new Error(`لم يتم العثور على زر "${buttonText}" للمنصة "${platform}" في ملف HTML`);
+    const platformPatterns = patterns[platform];
+    if (!platformPatterns || !platformPatterns[normalized]) {
+        throw new Error(`الهاك "${hackName}" غير مدعوم للمنصة "${platform}"`);
     }
 
-    // ✅ الإصلاح: نستخدم دالة بدل string replacement
-    // لأن الروابط التي تحتوي على "$1" أو "$&" تسبب خطأ مع string replacement
-    return html.replace(pattern, (_, g1, g2) => g1 + newUrl + g2);
+    let result = html;
+    const regexList = platformPatterns[normalized];
+    const targetIdx = isVNG ? 1 : 0;
+    if (regexList[targetIdx]) {
+        result = result.replace(regexList[targetIdx], `$1${newUrl}$2`);
+    }
+
+    return result;
 }
 
 /**
- * تحديث حالة هاك في HTML (working / not-working / maybe)
- * يبحث بكلاس المنصة + نص الزر لتجنب تعديل منصة غلط
+ * تحديث حالة الهاك في الـ HTML
+ * (يفترض وجود data-hack و data-platform في عناصر status-badge)
  */
-function updateStatusInHTML(html, hackName, platform, newStatus, isVNG) {
-    if (!html || !hackName || !platform || !newStatus) {
+function updateStatusInHTML(html, hackName, platform, status) {
+    if (!html || !hackName || !platform || !status) {
         throw new Error('معاملات غير صحيحة');
     }
 
     const statusMap = {
-        'working':     { cls: 'working',     text: 'يعمل',    icon: '✓' },
-        'not-working': { cls: 'not-working', text: 'لا يعمل', icon: '✕' },
-        'maybe':       { cls: 'maybe',       text: 'قد يعمل', icon: '⚠' },
+        'يعمل':    { class: 'working',    icon: '✓', text: 'يعمل' },
+        'لا يعمل': { class: 'not-working', icon: '✕', text: 'لا يعمل' },
+        'قد يعمل': { class: 'maybe',      icon: '⚠', text: 'قد يعمل' }
     };
-    const cfg = statusMap[newStatus];
-    if (!cfg) {
-        throw new Error('الحالة غير صحيحة. استخدم: working أو not-working أو maybe');
-    }
+    const target = statusMap[status];
+    if (!target) throw new Error(`حالة غير معروفة: ${status}`);
 
-    const buttonText = getButtonText(hackName, platform, isVNG);
-    const escapedText = buttonText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-
-    const btnClass = PLATFORM_BTN_CLASS[platform];
-    if (!btnClass) throw new Error(`المنصة "${platform}" غير مدعومة`);
-
-    // يبحث عن badge + كلاس المنصة + نص الزر معاً
-    const pattern = new RegExp(
-        `(<span class="status-badge )[^"]+("[^>]*>)` +
-        `<span class="status-text">[^<]*<\\/span>` +
-        `<span class="status-icon">[^<]*<\\/span>` +
-        `(<\\/span>[\\s\\S]{0,600}?class="${btnClass}[^>]*>[\\s\\S]{0,150}?${escapedText})`
+    // نبحث عن status-badge بالسمات المطابقة
+    const regex = new RegExp(
+        `(<span[^>]*class="[^"]*status-badge[^"]*"\\s+data-hack="${hackName}"\\s+data-platform="${platform}"[^>]*>)(.*?)(</span>)`,
+        'gi'
     );
+    const newContent = `<span class="status-text">${target.text}</span><span class="status-icon">${target.icon}</span>`;
+    const result = html.replace(regex, `$1${newContent}$3`);
 
-    if (!pattern.test(html)) {
-        throw new Error(`لم يتم العثور على حالة الزر "${buttonText}" للمنصة "${platform}" في ملف HTML`);
+    // إذا لم يجد، حاول عن طريق النص العادي (fallback)
+    if (result === html) {
+        // محاولة البحث عن status-badge بدون السمات (تحديث أقل دقة)
+        const fallbackRegex = new RegExp(
+            `(<span[^>]*class="[^"]*status-badge[^"]*"[^>]*>)(.*?)(</span>)`,
+            'gi'
+        );
+        // نبحث عن أقرب status-badge إلى اسم الهاك في العنوان (حل تقريبي)
+        // لكن لن نعقد الأمور، نرمي خطأ
+        throw new Error(`لم أجد الهاك "${hackName}" للمنصة "${platform}" في الـ HTML. تأكد من وجود data-hack و data-platform.`);
     }
 
-    return html.replace(
-        pattern,
-        (_, g1, g2, g3) =>
-            g1 + cfg.cls + g2 +
-            `<span class="status-text">${cfg.text}</span>` +
-            `<span class="status-icon">${cfg.icon}</span>` +
-            g3
-    );
+    return result;
 }
 
-// ══════════════════════════════════════════════════════════════════
-// GitHub API — https المدمج في Node (بدون مكتبات خارجية)
-// ══════════════════════════════════════════════════════════════════
-const GITHUB_OWNER = 'RTX261';
-const GITHUB_REPO  = 'RTX';
-const GITHUB_FILE  = 'index.html';
+// ============= دوال GitHub =============
 
 /**
- * طلب HTTP مساعد — يرجع { statusCode, data }
+ * حفظ الملف في GitHub
  */
-function githubRequest(method, path, body, githubToken) {
-    return new Promise((resolve, reject) => {
-        const payload = body ? JSON.stringify(body) : null;
-        const req = https.request({
-            hostname: 'api.github.com',
-            path,
-            method,
-            headers: {
-                Authorization: `Bearer ${githubToken}`,
-                Accept: 'application/vnd.github.v3+json',
-                'User-Agent': 'RTX-Discord-Bot',
-                'Content-Type': 'application/json',
-                ...(payload ? { 'Content-Length': Buffer.byteLength(payload) } : {}),
-            },
-        }, (res) => {
-            let raw = '';
-            res.on('data', chunk => raw += chunk);
-            res.on('end', () => {
-                try { resolve({ statusCode: res.statusCode, data: JSON.parse(raw) }); }
-                catch { resolve({ statusCode: res.statusCode, data: raw }); }
-            });
-        });
-        req.on('error', reject);
-        if (payload) req.write(payload);
-        req.end();
-    });
-}
-
-/**
- * قراءة ملف HTML من GitHub
- * @returns {{ content: string, sha: string }}
- */
-async function readFromGitHub(githubToken) {
-    const path = `/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_FILE}`;
-    const { statusCode, data } = await githubRequest('GET', path, null, githubToken);
-    if (statusCode !== 200) {
-        throw new Error(`فشل قراءة الملف من GitHub: ${data && data.message ? data.message : statusCode}`);
-    }
-    const content = Buffer.from(data.content, 'base64').toString('utf8');
-    return { content, sha: data.sha };
-}
-
-/**
- * حفظ ملف HTML في GitHub
- */
-async function saveToGitHub(newContent, sha, commitMsg, githubToken) {
-    const path = `/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_FILE}`;
-    const base64Content = Buffer.from(newContent, 'utf8').toString('base64');
-    const { statusCode, data } = await githubRequest('PUT', path, {
-        message: commitMsg || `تحديث ${GITHUB_FILE}`,
-        content: base64Content,
-        sha,
-        branch: 'main',
-    }, githubToken);
-    if (statusCode !== 200 && statusCode !== 201) {
-        throw new Error(`فشل حفظ الملف في GitHub: ${data && data.message ? data.message : statusCode}`);
-    }
-    return { success: true };
-}
-
-/**
- * تحقق إن الرابط الجديد موجود فعلاً في GitHub بعد الحفظ
- */
-async function verifyLinkInGitHub(githubToken, expectedUrl) {
+async function saveToGitHub(filename, content, commitMessage, githubToken) {
+    const octokit = new REST({ auth: githubToken });
+    
     try {
-        const { content } = await readFromGitHub(githubToken);
-        return { ok: true, foundUrl: content.includes(expectedUrl) };
-    } catch (e) {
-        return { ok: false, foundUrl: false };
+        // محاولة جلب الملف الحالي للحصول على sha
+        let sha = null;
+        try {
+            const current = await octokit.get(
+                Routes.repos('RTX261', 'RTX', 'contents', filename)
+            );
+            sha = current.data.sha;
+        } catch (e) {
+            // الملف غير موجود، سننشئه
+        }
+
+        const base64Content = Buffer.from(content, 'utf8').toString('base64');
+        const updateData = {
+            message: commitMessage || `تحديث ${filename}`,
+            content: base64Content,
+            branch: 'main'
+        };
+        if (sha) updateData.sha = sha;
+
+        await octokit.put(
+            Routes.repos('RTX261', 'RTX', 'contents', filename),
+            updateData
+        );
+        return { success: true };
+    } catch (error) {
+        console.error('❌ خطأ في حفظ الملف في GitHub:', error);
+        throw error;
     }
 }
 
-// ══════════════════════════════════════════════════════════════════
+/**
+ * قراءة الملف من GitHub
+ */
+async function readFromGitHub(filename, githubToken) {
+    const octokit = new REST({ auth: githubToken });
+    
+    try {
+        const file = await octokit.get(
+            Routes.repos('RTX261', 'RTX', 'contents', filename)
+        );
+        const content = Buffer.from(file.data.content, 'base64').toString('utf8');
+        return { content, sha: file.data.sha };
+    } catch (error) {
+        console.error('❌ خطأ في قراءة الملف من GitHub:', error);
+        throw error;
+    }
+}
+
 module.exports = {
     HACK_CHOICES,
     VNG_SUPPORTED,
-    BUTTON_TEXTS,
-    getButtonText,
     updateLinkInHTML,
     updateStatusInHTML,
-    readFromGitHub,
     saveToGitHub,
-    verifyLinkInGitHub,
+    readFromGitHub
 };
