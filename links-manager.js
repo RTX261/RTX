@@ -4,29 +4,34 @@
  * - Android/PC/Pekora: للأدمن والموديريتورز
  */
 
-const { REST, Routes, PermissionsBitField } = require('discord.js');
+const { REST, Routes } = require('discord.js');
 
 // ═══════════════════════════════════════════════════════════════
 // نقطة البحث والتعديل في HTML
 // ═══════════════════════════════════════════════════════════════
 
 /**
- * تحديث رابط في الـ HTML
+ * تحديث رابط أو حالة في الـ HTML (دقيق لكل زر)
  * @param {string} html - محتوى الملف الأصلي
  * @param {string} hackName - اسم الهاك (delta, ronix, إلخ)
  * @param {string} platform - المنصة (iphone, android, pc, pekora-iphone, إلخ)
- * @param {string} newUrl - الرابط الجديد
+ * @param {string|null} newUrl - الرابط الجديد (null إذا كنت تريد تغيير الحالة فقط)
  * @param {boolean} isVNG - نسخة VNG؟
+ * @param {string|null} newStatus - الحالة الجديدة (working, not-working, maybe) أو null
  * @returns {string} محتوى HTML المعدل
  */
-function updateLinkInHTML(html, hackName, platform, newUrl, isVNG = false) {
-    if (!html || !hackName || !platform || !newUrl) {
-        throw new Error('معاملات غير صحيحة');
+function updateLinkInHTML(html, hackName, platform, newUrl = null, isVNG = false, newStatus = null) {
+    if (!html || !hackName || !platform) {
+        throw new Error('معاملات غير صحيحة: html, hackName, platform مطلوبة');
+    }
+
+    if (!newUrl && !newStatus) {
+        throw new Error('يجب تحديد رابط أو حالة على الأقل');
     }
 
     const normalized = hackName.toLowerCase().trim();
     
-    // patterns للبحث عن الروابط في HTML
+    // ════════ patterns (نفس التي كانت موجودة) ════════
     const patterns = {
         'iphone': {
             'delta': [
@@ -143,13 +148,76 @@ function updateLinkInHTML(html, hackName, platform, newUrl, isVNG = false) {
         throw new Error(`الهاك "${hackName}" غير مدعوم للمنصة "${platform}"`);
     }
 
-    let result = html;
     const regexList = platformPatterns[normalized];
-    
-    // تحديد أي نسخة (عادي أو VNG)
     const targetIdx = isVNG ? 1 : 0;
-    if (regexList[targetIdx]) {
-        result = result.replace(regexList[targetIdx], `$1${newUrl}$2`);
+    const targetRegex = regexList[targetIdx];
+    if (!targetRegex) {
+        throw new Error(`لا يوجد رابط ${isVNG ? 'VNG' : 'عادي'} للهاك "${hackName}" على منصة "${platform}"`);
+    }
+
+    let result = html;
+
+    // ─── 1. تحديث الرابط (إذا أُعطي) ───
+    if (newUrl) {
+        result = result.replace(targetRegex, `$1${newUrl}$2`);
+        // بعد تغيير الرابط، نعيد تعيين targetRegex لأن النص تغير، لكننا نحتاج إلى العثور على مكان الزر لتغيير الحالة.
+        // لذا سنبحث عن الرابط الجديد في النص الناتج.
+    }
+
+    // ─── 2. تحديث الحالة (إذا أُعطيت) ───
+    if (newStatus) {
+        const statusMap = {
+            'working': { class: 'status-working', text: 'يعمل' },
+            'not-working': { class: 'status-not-working', text: 'لا يعمل' },
+            'maybe': { class: 'status-maybe', text: 'قد يعمل' }
+        };
+
+        const newStatusData = statusMap[newStatus];
+        if (!newStatusData) throw new Error(`حالة غير معروفة: ${newStatus}`);
+
+        // نبحث عن مكان الزر المطابق في النص الحالي (باستخدام الرابط المحدد)
+        // نستخدم Regex للبحث عن الـ <a> الذي يحتوي على الرابط الجديد أو القديم
+        // نبني Regex للبحث عن الـ <a> بناءً على اسم الهاك والمنصة
+        // الطريقة الأسهل: نبحث عن الـ <a> الذي يحتوي على النص المميز للزر
+        let searchPattern;
+        if (isVNG) {
+            searchPattern = new RegExp(`(<a[^>]*>.*?${hackName}.*?VNG Install.*?<\\/a>)`, 'i');
+        } else {
+            searchPattern = new RegExp(`(<a[^>]*>.*?${hackName}.*?Install.*?<\\/a>)`, 'i');
+        }
+
+        // نبحث عن موضع الـ <a> في النص
+        const match = searchPattern.exec(result);
+        if (match) {
+            const anchorStart = match.index;
+            const anchorEnd = anchorStart + match[0].length;
+
+            // نبحث للخلف عن بداية div.btn-wrapper
+            const beforeAnchor = result.substring(0, anchorStart);
+            const wrapperStart = beforeAnchor.lastIndexOf('<div class="btn-wrapper">');
+            if (wrapperStart !== -1) {
+                // نبحث للأمام عن نهاية div.btn-wrapper
+                const afterAnchor = result.substring(anchorEnd);
+                const wrapperEndIndex = afterAnchor.indexOf('</div>');
+                if (wrapperEndIndex !== -1) {
+                    const wrapperEnd = anchorEnd + wrapperEndIndex + 6; // +6 لإغلاق </div>
+
+                    // استخراج محتوى الـ div
+                    const beforeWrapper = result.substring(0, wrapperStart);
+                    const wrapperContent = result.substring(wrapperStart, wrapperEnd);
+                    const afterWrapper = result.substring(wrapperEnd);
+
+                    // استبدال الحالة داخل الـ wrapperContent فقط
+                    const statusRegex = /<span class="status status-\w+">[^<]*<\/span>/;
+                    const newWrapperContent = wrapperContent.replace(statusRegex, (oldSpan) => {
+                        return `<span class="status ${newStatusData.class}">${newStatusData.text}</span>`;
+                    });
+
+                    // إعادة تجميع النص
+                    result = beforeWrapper + newWrapperContent + afterWrapper;
+                }
+            }
+        }
     }
 
     return result;
@@ -162,7 +230,6 @@ async function saveToGitHub(filename, content, commitMessage, githubToken) {
     const octokit = new REST({ auth: githubToken });
     
     try {
-        // احصل ع��ى SHA الملف الحالي
         const currentFile = await octokit.get(
             Routes.repos('RTX261', 'RTX', 'contents', filename)
         ).catch(() => null);
