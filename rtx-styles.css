@@ -689,7 +689,7 @@ h1 {
   box-shadow: 0 4px 10px rgba(255, 152, 0, 0.3);
 }
 
-/* ========== NEW: Status label ABOVE the button ========== */
+/* ========== IMPROVED: Status label ABOVE the button (clear & with icons) ========== */
 .btn-wrapper {
   display: flex;
   flex-direction: column;
@@ -700,12 +700,14 @@ h1 {
 }
 
 .status-label {
-  font-size: 0.8rem;
-  font-weight: 700;
-  margin-bottom: 2px;
-  padding: 0 8px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+  padding: 0 6px;
   display: inline-block;
   text-align: center;
+  letter-spacing: 0.5px;
+  background: none !important;
 }
 .status-label.working {
   color: #4caf50; /* Green */
