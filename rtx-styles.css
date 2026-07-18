@@ -296,23 +296,8 @@ h1 {
   -webkit-user-drag: none;
 }
 
-.feature-item {
-  background: var(--card-bg);
-  padding: 30px;
-  border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  transition: var(--transition);
-  cursor: pointer;
-}
-
-#menu li {
-  padding: 15px 20px;
-  margin-bottom: 10px;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: var(--transition);
-  font-weight: 600;
+.social-btn {
+  max-width: 300px;
 }
 
 .download-btn:active, .social-btn:active, .feature-item:active, #menu li:active {
@@ -704,30 +689,32 @@ h1 {
   box-shadow: 0 4px 10px rgba(255, 152, 0, 0.3);
 }
 
-/* ========== NEW: Status badges for download buttons ========== */
-.status {
-  display: inline-block;
-  font-size: 0.65rem;
-  padding: 2px 10px;
-  border-radius: 20px;
-  margin-right: 8px;
+/* ========== NEW: Status label ABOVE the button ========== */
+.btn-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 420px;
+  margin: 10px auto;
+}
+
+.status-label {
+  font-size: 0.8rem;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  vertical-align: middle;
-  line-height: 1.4;
+  margin-bottom: 2px;
+  padding: 0 8px;
+  display: inline-block;
+  text-align: center;
 }
-.status-working {
-  background: #4caf50;
-  color: #fff;
+.status-label.working {
+  color: #4caf50; /* Green */
 }
-.status-not-working {
-  background: #e53935;
-  color: #fff;
+.status-label.not-working {
+  color: #ef5350; /* Red */
 }
-.status-maybe {
-  background: #ff8f00;
-  color: #fff;
+.status-label.maybe {
+  color: #ffca28; /* Yellow */
 }
 
 @media (max-width: 768px) {
