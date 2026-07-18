@@ -689,7 +689,7 @@ h1 {
   box-shadow: 0 4px 10px rgba(255, 152, 0, 0.3);
 }
 
-/* ========== Status label above button ========== */
+/* ========== FINAL: Status label exactly like "إعطاء" in the image ========== */
 .btn-wrapper {
   display: flex;
   flex-direction: column;
@@ -700,7 +700,7 @@ h1 {
 }
 
 .status-label {
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 800;
   margin-bottom: 4px;
   padding: 0 6px;
@@ -710,13 +710,13 @@ h1 {
   background: none !important;
 }
 .status-label.working {
-  color: #22c55e;
+  color: #22c55e; /* Vibrant Green like the image */
 }
 .status-label.not-working {
-  color: #ef4444;
+  color: #ef4444; /* Red */
 }
 .status-label.maybe {
-  color: #facc15;
+  color: #facc15; /* Yellow */
 }
 
 @media (max-width: 768px) {
