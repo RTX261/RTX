@@ -180,9 +180,12 @@ function updateLinkInHTML(html, hackName, platform, newUrl, isVNG) {
     const btnClass = PLATFORM_BTN_CLASS[platform];
     if (!btnClass) throw new Error(`المنصة "${platform}" غير مدعومة`);
 
-    // يبحث بكلاس المنصة + نص الزر — يمنع تعديل منصة غلط
+    // يبحث بكلاس المنصة + نص الزر — يمنع التجاوز بين الأزرار
+    // [^>]*> تتوقف عند إغلاق <a> بدل [\s\S]*? التي تقفز عبر أزرار متعددة
+    // ملاحظة: btnClass يتضمن علامة " في نهايته لذا لا نضيف " إضافية
     const pattern = new RegExp(
-        `(<a href=")[^"]*(" class="${btnClass}[^>]*>[\\s\\S]*?${escapedText})`
+        `(<a href=")[^"]*(" class="${btnClass}[^>]*>\\s*<i[^>]*></i>\\s*${escapedText})`,
+        'is'
     );
 
     if (!pattern.test(html)) {
