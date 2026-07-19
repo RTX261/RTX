@@ -222,12 +222,14 @@ function updateStatusInHTML(html, hackName, platform, newStatus, isVNG) {
     const btnClass = PLATFORM_BTN_CLASS[platform];
     if (!btnClass) throw new Error(`المنصة "${platform}" غير مدعومة`);
 
-    // يبحث عن badge + كلاس المنصة + نص الزر معاً
+    // يبحث عن badge ثم مباشرة الزر بعده — بدون تجاوز tags
+    // [^>]* تتوقف عند أول > فلا تتجاوز الـ <a> tag إلى الأزرار التالية
     const pattern = new RegExp(
         `(<span class="status-badge )[^"]+("[^>]*>)` +
         `<span class="status-text">[^<]*<\\/span>` +
         `<span class="status-icon">[^<]*<\\/span>` +
-        `(<\\/span>[\\s\\S]{0,600}?class="${btnClass}[^>]*>[\\s\\S]{0,150}?${escapedText})`
+        `(<\\/span>\\s*<a[^>]*class="${btnClass}[^>]*>\\s*<i[^>]*><\\/i>\\s*${escapedText})`,
+        'is'
     );
 
     if (!pattern.test(html)) {
