@@ -1,342 +1,1019 @@
-/**
- * نظام تحديث الروابط والحالات من البوت إلى GitHub مباشرة
- * - iPhone: للمالك فقط
- * - Android/PC/Pekora: للأدمن والموديريتورز
- * بدون مكتبات خارجية — يستخدم https المدمج في Node
- */
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>RTX</title>
+    <link rel="stylesheet" href="rtx-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <base href="./">
+</head>
+<body oncontextmenu="return false" onselectstart="return false" ondragstart="return false" oncopy="return false" oncut="return false" onpaste="return false">
 
-const https = require('https');
+<nav>
+    <div class="nav-container">
+        <div class="logo-text">RTX</div>
+        <div class="menu-icon" onclick="toggleMenu()">☰</div>
+    </div>
+    <ul id="menu">
+        <li onclick="showPage('home')">الصفحة الرئيسية</li>
+        <li class="has-submenu" onclick="toggleSubmenu(event, 'sub-iphone')">
+            <span><i class="fas fa-mobile-alt"></i> ايفون</span>
+            <i class="fas fa-chevron-down sub-arrow"></i>
+            <ul class="submenu" id="sub-iphone">
+                <li onclick="showPage('roblox'); event.stopPropagation();">هاك روبلوكس ايفون</li>
+                <li onclick="showPage('pekora-iphone'); event.stopPropagation();">روبلوكس القديمه (بيكورا)</li>
+            </ul>
+        </li>
+        <li class="has-submenu" onclick="toggleSubmenu(event, 'sub-android')">
+            <span><i class="fab fa-android"></i> اندرويد</span>
+            <i class="fas fa-chevron-down sub-arrow"></i>
+            <ul class="submenu" id="sub-android">
+                <li onclick="showPage('roblox-android'); event.stopPropagation();">هاك روبلوكس اندرويد</li>
+                <li onclick="showPage('pekora-android'); event.stopPropagation();">روبلوكس القديمه (بيكورا)</li>
+            </ul>
+        </li>
+        <li class="has-submenu" onclick="toggleSubmenu(event, 'sub-pc')">
+            <span><i class="fas fa-laptop"></i> بي سي</span>
+            <i class="fas fa-chevron-down sub-arrow"></i>
+            <ul class="submenu" id="sub-pc">
+                <li onclick="showPage('roblox-pc'); event.stopPropagation();">هاك روبلوكس بي سي</li>
+                <li onclick="showPage('pekora-pc'); event.stopPropagation();">روبلوكس القديمه (بيكورا)</li>
+            </ul>
+        </li>
+        <li onclick="showPage('buy-certificates')">شراء شهايد</li>
+    </ul>
+</nav>
 
-// ══════════════════════════════════════════════════════════════════
-// اختيارات الهاكات حسب المنصة (للـ Autocomplete)
-// ══════════════════════════════════════════════════════════════════
-const HACK_CHOICES = {
-    'iphone': [
-        { name: 'دلتا',   value: 'delta' },
-        { name: 'رونيكس', value: 'ronix' },
-        { name: 'سكيبكس', value: 'skibx' },
-    ],
-    'android': [
-        { name: 'دلتا',           value: 'delta'   },
-        { name: 'كوديكس',         value: 'codex'   },
-        { name: 'ارسيوس اكس نيو', value: 'arceus'  },
-        { name: 'رونيكس',         value: 'ronix'   },
-        { name: 'سكيبكس',         value: 'skibx'   },
-        { name: 'كرايبتك',        value: 'cryptic' },
-        { name: 'تريجون',         value: 'trigon'  },
-        { name: 'فيجا اكس',       value: 'vega'    },
-    ],
-    'pc': [
-        { name: 'سيمو',      value: 'semo'     },
-        { name: 'فيلوسيتي', value: 'velocity' },
-        { name: 'اكسينو',   value: 'xeno'     },
-        { name: 'رونيكس',   value: 'ronix'    },
-        { name: 'تريجون',   value: 'trigon'   },
-    ],
-    'pekora-iphone': [
-        { name: '2017', value: '2017' },
-        { name: '2018', value: '2018' },
-        { name: '2020', value: '2020' },
-        { name: '2021', value: '2021' },
-    ],
-    'pekora-android': [
-        { name: '2017 (رسمي)',      value: '2017-official'   },
-        { name: '2017 (غير رسمي)', value: '2017-unofficial' },
-        { name: '2018',             value: '2018'            },
-        { name: '2020',             value: '2020'            },
-        { name: '2021',             value: '2021'            },
-    ],
-    'pekora-pc': [
-        { name: '2017', value: '2017' },
-        { name: '2018', value: '2018' },
-        { name: '2020', value: '2020' },
-        { name: '2021', value: '2021' },
-    ],
-};
+<div id="home" class="page-content">
+    <div class="container">
+        <h1>RTX</h1>
+        <img src="https://i.postimg.cc/jqyMWGC2/IMG-9464.jpg" alt="RTX logo" class="fortnite-image">
+        <p class="welcome-text">مرحباً بكم في موقع <span class="highlight">RTX</span></p>
 
-// الهاكات التي تدعم نسخة VNG
-const VNG_SUPPORTED = [
-    'iphone::delta', 'iphone::ronix', 'iphone::skibx',
-    'android::delta', 'android::codex', 'android::arceus',
-    'android::ronix', 'android::skibx', 'android::cryptic',
-];
+        <div class="features-grid">
+            <div class="feature-item" onclick="openChooser('iphone')">
+                <i class="fas fa-mobile-alt"></i>
+                <h3>تطبيقات iOS</h3>
+                <p>هاك روبلوكس + روبلوكس القديمه (بيكورا)</p>
+            </div>
+            <div class="feature-item" onclick="openChooser('android')">
+                <i class="fab fa-android"></i>
+                <h3>تطبيقات Android</h3>
+                <p>هاك روبلوكس + روبلوكس القديمه (بيكورا)</p>
+            </div>
+            <div class="feature-item" onclick="openChooser('pc')">
+                <i class="fas fa-laptop"></i>
+                <h3>تطبيقات PC</h3>
+                <p>هاك روبلوكس + روبلوكس القديمه (بيكورا)</p>
+            </div>
+            <div class="feature-item" onclick="showPage('buy-certificates')">
+                <i class="fas fa-shield-alt"></i>
+                <h3>حماية وأمان</h3>
+                <p>تطبيقات آمنة وموثوقة</p>
+            </div>
+        </div>
 
-// ══════════════════════════════════════════════════════════════════
-// نصوص أزرار التحميل — نبحث بها في HTML بدل URLs محددة
-// ══════════════════════════════════════════════════════════════════
-const BUTTON_TEXTS = {
-    'iphone': {
-        'delta': ['Delta Install',      'Delta VNG Install'     ],
-        'ronix': ['Ronix Install',      'Ronix VNG Install'     ],
-        'skibx': ['Skibx Install',      'Skibx VNG Install'     ],
-    },
-    'android': {
-        'delta':   ['Delta Install',          'Delta VNG Install'       ],
-        'codex':   ['CODEX Install',          'CODEX VNG Install'       ],
-        'arceus':  ['Arceus X Neo Install',   'Arceus X Neo VNG Install'],
-        'ronix':   ['Ronix Install',          'Ronix VNG Install'       ],
-        'skibx':   ['Skibx Install',          'Skibx VNG Install'       ],
-        'cryptic': ['Cryptic Install',        'Cryptic VNG Install'     ],
-        'trigon':  ['Trigon Install'                                      ],
-        'vega':    ['Vega X Install'                                      ],
-    },
-    'pc': {
-        'semo':     ['Semo Install'    ],
-        'velocity': ['Velocity Install'],
-        'xeno':     ['Xeno Install'    ],
-        'ronix':    ['Ronix Install'   ],
-        'trigon':   ['Trigon Install'  ],
-    },
-    'pekora-iphone': {
-        '2017': ['Roblox 2017 Install'],
-        '2018': ['Roblox 2018 Install'],
-        '2020': ['Roblox 2020 Install'],
-        '2021': ['Roblox 2021 Install'],
-    },
-    'pekora-android': {
-        '2017-official':   ['Roblox 2017 Install (رسمي)'    ],
-        '2017-unofficial': ['Roblox 2017 Install (غير رسمي)'],
-        '2018':            ['Roblox 2018 Install'            ],
-        '2020':            ['Roblox 2020 Install'            ],
-        '2021':            ['Roblox 2021 Install'            ],
-    },
-    'pekora-pc': {
-        '2017': ['Roblox 2017 Install'],
-        '2018': ['Roblox 2018 Install'],
-        '2020': ['Roblox 2020 Install'],
-        '2021': ['Roblox 2021 Install'],
-    },
-};
+        <div class="social-links">
+            <a href="https://www.mediafire.com/" target="_blank" class="social-btn discord-btn" draggable="false">
+                <i class="fab fa-discord"></i> ديسكورد
+            </a>
+            <a href="https://rtx261.github.io/RTX/RTX.mobileconfig" class="social-btn app-btn" draggable="false">
+                <i class="fas fa-mobile-alt"></i> تنزيل الموقع
+            </a>
+            <a href="https://youtube.com/@rtxtop1-rtx" target="_blank" class="social-btn youtube-btn" draggable="false">
+                <i class="fab fa-youtube"></i> يوتيوب
+            </a>
+        </div>
+    </div>
+    <div class="copyright">جميع الحقوق محفوظة © 2026 RTX</div>
+</div>
 
-// ══════════════════════════════════════════════════════════════════
-// كلاس زر التحميل لكل منصة
-// نستخدمه للتمييز بين المنصات في HTML
-// مثلاً: "Delta Install" موجود في آيفون وأندرويد — نميزهم بالكلاس
-// ══════════════════════════════════════════════════════════════════
-const PLATFORM_BTN_CLASS = {
-    'iphone':         'download-btn"',
-    'android':        'download-btn android-btn"',
-    'pc':             'download-btn pc-btn"',
-    'pekora-iphone':  'download-btn pekora-iphone-btn"',
-    'pekora-android': 'download-btn pekora-android-btn"',
-    'pekora-pc':      'download-btn pc-btn"',
-};
+<!-- ====== iOS RO BLOX ====== -->
+<div id="roblox" class="page-content">
+    <div class="container">
+        <h1>RTX</h1>
+        <img src="https://i.postimg.cc/sDFbqYGQ/IMG-9633.jpg" alt="Roblox logo" class="fortnite-image">
+        <p class="welcome-text">مرحباً بك في موقع <span class="highlight">RTX</span> هنا لدينا هاك دلتا للايفون</p>
 
-// ══════════════════════════════════════════════════════════════════
-// دوال مساعدة
-// ══════════════════════════════════════════════════════════════════
+        <div class="delta-content">
+            <img src="https://i.postimg.cc/JhrQQYV2/E367-C7-D2-4750-4524-ADD5-B9-A8-DA953734.png" alt="Delta Features" class="delta-image">
+            <div class="info-box">
+                <h2>مميزات هاك دلتا</h2>
+                <ul>
+                    <li>من اقوى الهاكات حمايتاً</li>
+                    <li>سهولة الحصول على المفتاح</li>
+                    <li>يمكنك بحث السكربتات فيه</li>
+                </ul>
+                <div class="btn-wrapper">
+                    <span class="status-badge not-working"><span class="status-text">لا يعمل</span><span class="status-icon">✕</span></span>
+                    <a href="https://www.mediafire.com/file/" class="download-btn" style="background-color: #000000;" draggable="false">
+                        <i class="fas fa-download"></i> Delta Install
+                    </a>
+                </div>
+                <div style="margin-top:10px;">
+                    <div class="btn-wrapper">
+                        <span class="status-badge not-working"><span class="status-text">لا يعمل</span><span class="status-icon">✕</span></span>
+                        <a href="https://فلاوي-القوت.com" class="download-btn" style="background-color: #000000;" draggable="false">
+                            <i class="fas fa-download"></i> Delta VNG Install
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-// تحويل الأسماء العربية إلى القيم الإنجليزية
-const ARABIC_TO_VALUE = {
-    'دلتا': 'delta', 'delta': 'delta',
-    'كوديكس': 'codex', 'codex': 'codex',
-    'ارسيوس': 'arceus', 'ارسيوس اكس نيو': 'arceus', 'arceus': 'arceus',
-    'رونيكس': 'ronix', 'ronix': 'ronix',
-    'سكيبكس': 'skibx', 'skibx': 'skibx',
-    'كرايبتك': 'cryptic', 'cryptic': 'cryptic',
-    'تريجون': 'trigon', 'trigon': 'trigon',
-    'فيجا': 'vega', 'فيجا اكس': 'vega', 'vega': 'vega',
-    'سيمو': 'semo', 'semo': 'semo',
-    'فيلوسيتي': 'velocity', 'velocity': 'velocity',
-    'اكسينو': 'xeno', 'xeno': 'xeno',
-    '2017': '2017', '2018': '2018', '2020': '2020', '2021': '2021',
-    '2017-official': '2017-official', '2017-unofficial': '2017-unofficial',
-};
+        <div class="delta-content">
+            <img src="https://i.postimg.cc/3xNZTSKc/IMG-2739.jpg" alt="Skipx Features" class="delta-image">
+            <div class="info-box">
+                <h2>مميزات هاك سكيبكس</h2>
+                <ul>
+                    <li>من غير مفتاح</li>
+                    <li>يوجد بحث سكربتات</li>
+                    <li>من اقوى الهاكات حمايتاً</li>
+                </ul>
+                <div class="btn-wrapper">
+                    <span class="status-badge not-working"><span class="status-text">لا يعمل</span><span class="status-icon">✕</span></span>
+                    <a href="itms-services://?action=download-manifest&url=https://www.installonair.com/storage/ipaz/pyzvF7/pyzvF7.plist" class="download-btn" style="background: linear-gradient(135deg, #9C27B0, #6A1B9A);" draggable="false">
+                        <i class="fas fa-download"></i> Skibx Install
+                    </a>
+                </div>
+                <div style="margin-top:10px;">
+                    <div class="btn-wrapper">
+                        <span class="status-badge maybe"><span class="status-text">قد يعمل</span><span class="status-icon">⚠</span></span>
+                        <a href="https://www.mediafire.com/file/" class="download-btn" style="background: linear-gradient(135deg, #9C27B0, #6A1B9A);" draggable="false">
+                            <i class="fas fa-download"></i> Skibx VNG Install
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-/**
- * جلب نص الزر المطلوب لهاك ومنصة محددة
- */
-function getButtonText(hackName, platform, isVNG) {
-    const raw = hackName.toLowerCase().trim();
-    const normalized = ARABIC_TO_VALUE[raw] || ARABIC_TO_VALUE[hackName.trim()] || raw;
-    const platformMap = BUTTON_TEXTS[platform];
-    if (!platformMap || !platformMap[normalized]) {
-        throw new Error(`الهاك "${hackName}" غير مدعوم للمنصة "${platform}"`);
-    }
-    const texts = platformMap[normalized];
-    const idx = isVNG ? 1 : 0;
-    if (!texts[idx]) {
-        throw new Error(`نسخة VNG غير مدعومة لـ "${hackName}" على "${platform}"`);
-    }
-    return texts[idx];
-}
+        <div class="delta-content">
+            <img src="https://i.postimg.cc/K8kr3JYQ/togif.gif" alt="Ronix Features" class="delta-image">
+            <div class="info-box">
+                <h2>مميزات هاك رونيكس</h2>
+                <ul>
+                    <li>خلفيه و قائمه اسطوريه</li>
+                    <li>يمكنك بحث السكربتات فيه</li>
+                    <li>سهولة استخدامه</li>
+                </ul>
+                <div class="btn-wrapper">
+                    <span class="status-badge working"><span class="status-text">يعمل</span><span class="status-icon">✓</span></span>
+                    <a href="itms-services://?action=download-manifest&url=https://www.installonair.com/storage/ipaz/KvQcmP/KvQcmP.plist" class="download-btn" style="background: linear-gradient(135deg, #FF5722, #BF360C);" draggable="false">
+                        <i class="fas fa-download"></i> Ronix Install
+                    </a>
+                </div>
+                <div style="margin-top:10px;">
+                    <div class="btn-wrapper">
+                        <span class="status-badge maybe"><span class="status-text">قد يعمل</span><span class="status-icon">⚠</span></span>
+                        <a href="https://www.mediafire.com/file/" class="download-btn" style="background: linear-gradient(135deg, #FF5722, #BF360C);" draggable="false">
+                            <i class="fas fa-download"></i> Ronix VNG Install
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-// ══════════════════════════════════════════════════════════════════
-// تحديث HTML
-// ══════════════════════════════════════════════════════════════════
+        <div class="delta-content">
+            <div class="info-box" style="text-align: center;">
+                <h2>شرح تحميل الهاك</h2>
+                <ul style="display: inline-block; text-align: right;">
+                    <li>قم بالضغط على زر التحميل الخاص بالهاك الذي تريده.</li>
+                    <li>سيظهر لك إشعار يطلب منك تثبيت التطبيق، اضغط على تثبيت.</li>
+                    <li>اذهب إلى الإعدادات > عام > إدارة الأجهزة وقم بتوثيق الشهادة.</li>
+                    <li>افتح التطبيق واستمتع باللعب!</li>
+                </ul>
+            </div>
+        </div>
 
-/**
- * تحديث رابط زر في HTML
- * يبحث بكلاس المنصة + نص الزر معاً لتجنب تعديل منصة غلط
- */
-function updateLinkInHTML(html, hackName, platform, newUrl, isVNG) {
-    if (!html || !hackName || !platform || !newUrl) {
-        throw new Error('معاملات غير صحيحة');
-    }
+        <div class="social-links">
+            <a href="https://discord.gg/rtxtop1" target="_blank" class="social-btn discord-btn" draggable="false">
+                <i class="fab fa-discord"></i> ديسكورد
+            </a>
+            <a href="https://rtx261.github.io/RTX/RTX.mobileconfig" class="social-btn app-btn" draggable="false">
+                <i class="fas fa-mobile-alt"></i> تنزيل الموقع
+            </a>
+            <a href="https://youtube.com/@rtxtop1-rtx" target="_blank" class="social-btn youtube-btn" draggable="false">
+                <i class="fab fa-youtube"></i> يوتيوب
+            </a>
+        </div>
+    </div>
+    <div class="copyright">جميع الحقوق محفوظة © 2026 RTX</div>
+</div>
 
-    const buttonText = getButtonText(hackName, platform, isVNG);
-    const escapedText = buttonText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+<!-- ====== Android RO BLOX ====== -->
+<div id="roblox-android" class="page-content">
+    <div class="container">
+        <h1>RTX</h1>
+        <img src="https://i.postimg.cc/7LbBfhTr/IMG-9631.png" alt="Roblox Android" class="fortnite-image">
+        <p class="welcome-text">قم بتنزيل هاك روبلوكس للأندرويد واستمتع بمميزات حصرية!</p>
 
-    const btnClass = PLATFORM_BTN_CLASS[platform];
-    if (!btnClass) throw new Error(`المنصة "${platform}" غير مدعومة`);
+        <div class="delta-content">
+            <img src="https://i.postimg.cc/JhrQQYV2/E367-C7-D2-4750-4524-ADD5-B9-A8-DA953734.png" alt="Delta Features" class="delta-image">
+            <div class="info-box">
+                <h2>مميزات هاك دلتا</h2>
+                <ul>
+                    <li>من اقوى الهاكات حمايتاً</li>
+                    <li>سهولة الحصول على المفتاح</li>
+                    <li>يمكنك بحث السكربتات فيه</li>
+                </ul>
+                <div class="btn-wrapper">
+                    <span class="status-badge working"><span class="status-text">يعمل</span><span class="status-icon">✓</span></span>
+                    <a href="https://discord.gg/qp4ADvdP8" class="download-btn android-btn" draggable="false">
+                        <i class="fas fa-download"></i> Delta Install
+                    </a>
+                </div>
+                <div style="margin-top:10px;">
+                    <div class="btn-wrapper">
+                        <span class="status-badge not-working"><span class="status-text">لا يعمل</span><span class="status-icon">✕</span></span>
+                        <a href="https://www.mediafire.com/file/cri936gp9gz9qzv/Delta-2.717.985-VN.apk/file" class="download-btn android-btn" draggable="false">
+                            <i class="fas fa-download"></i> Delta VNG Install
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    // يبحث بكلاس المنصة + نص الزر — يمنع التجاوز بين الأزرار
-    // [^>]*> تتوقف عند إغلاق <a> بدل [\s\S]*? التي تقفز عبر أزرار متعددة
-    // ملاحظة: btnClass يتضمن علامة " في نهايته لذا لا نضيف " إضافية
-    const pattern = new RegExp(
-        `(<a href=")[^"]*(" class="${btnClass}[^>]*>\\s*<i[^>]*></i>\\s*${escapedText})`,
-        'is'
-    );
+        <div class="delta-content">
+            <img src="https://i.postimg.cc/vZgLmbJg/IMG-0210.webp" alt="Codex Features" class="delta-image">
+            <div class="info-box">
+                <h2>مميزات هاك كوديكس</h2>
+                <ul>
+                    <li>حمايه جيده</li>
+                    <li>خلفية الهاك جيده</li>
+                    <li>بحث سكربتات متطور</li>
+                </ul>
+                <div class="btn-wrapper">
+                    <span class="status-badge working"><span class="status-text">يعمل</span><span class="status-icon">✓</span></span>
+                    <a href="https://www.mediafire.com/file/q8a5393hwlz2ml1/Codex+v2.726.apk/file" class="download-btn android-btn" draggable="false">
+                        <i class="fas fa-download"></i> CODEX Install
+                    </a>
+                </div>
+                <div style="margin-top:10px;">
+                    <div class="btn-wrapper">
+                        <span class="status-badge maybe"><span class="status-text">قد يعمل</span><span class="status-icon">⚠</span></span>
+                        <a href="https://www.mediafire.com/file/3py7clwl1zxm5oo/Codex+V2.710.707.apk/file" class="download-btn android-btn" draggable="false">
+                            <i class="fas fa-download"></i> CODEX VNG Install
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    if (!pattern.test(html)) {
-        throw new Error(`لم يتم العثور على زر "${buttonText}" للمنصة "${platform}" في ملف HTML`);
-    }
+        <div class="delta-content">
+            <img src="https://i.postimg.cc/T10Hb1Yr/IMG-0211.jpg" alt="Arceus X Neo Features" class="delta-image">
+            <div class="info-box">
+                <h2>مميزات هاك ارسيوس اكس نيو</h2>
+                <ul>
+                    <li>حمايه ممتازه</li>
+                    <li>سهولة الحصول على المفتاح</li>
+                    <li>من افضل الهاكات</li>
+                </ul>
+                <div class="btn-wrapper">
+                    <span class="status-badge working"><span class="status-text">يعمل</span><span class="status-icon">✓</span></span>
+                    <a href="https://www.mediafire.com/file/tchylvrx9q548sj/Roblox.Arceus.X.NEO.2.2.5.apk/file" class="download-btn android-btn" draggable="false">
+                        <i class="fas fa-download"></i> Arceus X Neo Install
+                    </a>
+                </div>
+                <div style="margin-top:10px;">
+                    <div class="btn-wrapper">
+                        <span class="status-badge maybe"><span class="status-text">قد يعمل</span><span class="status-icon">⚠</span></span>
+                        <a href="https://www.mediafire.com/file/kokmytxnkzryr2p/Roblox.-.VNG.Arceus.X.NEO.2.1.6.apk/file" class="download-btn android-btn" draggable="false">
+                            <i class="fas fa-download"></i> Arceus X Neo VNG Install
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    // ✅ الإصلاح: نستخدم دالة بدل string replacement
-    // لأن الروابط التي تحتوي على "$1" أو "$&" تسبب خطأ مع string replacement
-    return html.replace(pattern, (_, g1, g2) => g1 + newUrl + g2);
-}
+        <div class="delta-content">
+            <img src="https://i.postimg.cc/3xNZTSKc/IMG-2739.jpg" alt="Skipx Features" class="delta-image">
+            <div class="info-box">
+                <h2>مميزات هاك سكيبكس</h2>
+                <ul>
+                    <li>من غير مفتاح</li>
+                    <li>يوجد بحث سكربتات</li>
+                    <li>من اقوى الهاكات حمايتاً</li>
+                </ul>
+                <div class="btn-wrapper">
+                    <span class="status-badge maybe"><span class="status-text">قد يعمل</span><span class="status-icon">⚠</span></span>
+                    <a href="https://www.mediafire.com/file/khh1d18x0sbdfc6/SkibX-2.707.734.apk/file" class="download-btn android-btn" draggable="false">
+                        <i class="fas fa-download"></i> Skibx Install
+                    </a>
+                </div>
+                <div style="margin-top:10px;">
+                    <div class="btn-wrapper">
+                        <span class="status-badge maybe"><span class="status-text">قد يعمل</span><span class="status-icon">⚠</span></span>
+                        <a href="https://www.mediafire.com/file/khh1d18x0sbdfc6/SkibX-2.707.734.apk/file" class="download-btn android-btn" draggable="false">
+                            <i class="fas fa-download"></i> Skibx VNG Install
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-/**
- * تحديث حالة هاك في HTML (working / not-working / maybe)
- * يبحث بكلاس المنصة + نص الزر لتجنب تعديل منصة غلط
- */
-function updateStatusInHTML(html, hackName, platform, newStatus, isVNG) {
-    if (!html || !hackName || !platform || !newStatus) {
-        throw new Error('معاملات غير صحيحة');
-    }
+        <div class="delta-content">
+            <img src="https://i.postimg.cc/90kgbSZM/30-DD9793-DD7-B-4-F30-8516-52-A9156-CDB2-E.png" alt="Cryptic Features" class="delta-image">
+            <div class="info-box">
+                <h2>مميزات هاك كرايبتك</h2>
+                <ul>
+                    <li>حمايه جيده</li>
+                    <li>قائمه و خلفيه مميزه</li>
+                    <li>سهولة الاستخدام</li>
+                </ul>
+                <div class="btn-wrapper">
+                    <span class="status-badge working"><span class="status-text">يعمل</span><span class="status-icon">✓</span></span>
+                    <a href="https://www.mediafire.com/file/2cw9hn5kg5x1vk1/Cryptic.2.689.CrypticExecutor.com+[rtxtop1].apk/file" class="download-btn android-btn" draggable="false">
+                        <i class="fas fa-download"></i> Cryptic Install
+                    </a>
+                </div>
+                <div style="margin-top:10px;">
+                    <div class="btn-wrapper">
+                        <span class="status-badge maybe"><span class="status-text">قد يعمل</span><span class="status-icon">⚠</span></span>
+                        <a href="https://www.mediafire.com/file/2cw9hn5kg5x1vk1/Cryptic.2.689.CrypticExecutor.com+[rtxtop1].apk/file" class="download-btn android-btn" draggable="false">
+                            <i class="fas fa-download"></i> Cryptic VNG Install
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    const statusMap = {
-        'working':     { cls: 'working',     text: 'يعمل',    icon: '✓' },
-        'not-working': { cls: 'not-working', text: 'لا يعمل', icon: '✕' },
-        'maybe':       { cls: 'maybe',       text: 'قد يعمل', icon: '⚠' },
+        <div class="delta-content">
+            <img src="https://i.postimg.cc/K8kr3JYQ/togif.gif" alt="Ronix Features" class="delta-image">
+            <div class="info-box">
+                <h2>مميزات هاك رونيكس</h2>
+                <ul>
+                    <li>خلفيه و قائمه اسطوريه</li>
+                    <li>يمكنك بحث السكربتات فيه</li>
+                    <li>سهولة استخدامه</li>
+                </ul>
+                <div class="btn-wrapper">
+                    <span class="status-badge working"><span class="status-text">يعمل</span><span class="status-icon">✓</span></span>
+                    <a href="https://www.mediafire.com/file/arjvslvfejkn8dy/Roblox.-.Arceus.X.v5.1.5.1.apk/file" class="download-btn android-btn" draggable="false">
+                        <i class="fas fa-download"></i> Ronix Install
+                    </a>
+                </div>
+                <div style="margin-top:10px;">
+                    <div class="btn-wrapper">
+                        <span class="status-badge maybe"><span class="status-text">قد يعمل</span><span class="status-icon">⚠</span></span>
+                        <a href="https://www.mediafire.com/file/cut0tioprp921tt/Ronix_32Bits-2.710.707.apk/file" class="download-btn android-btn" draggable="false">
+                            <i class="fas fa-download"></i> Ronix VNG Install
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="delta-content">
+            <img src="https://i.postimg.cc/pVBsdmST/44-CA8-C7-A-50-BD-4-B09-9-AF1-5-E232-BA37165.png" alt="Trigon Features" class="delta-image">
+            <div class="info-box">
+                <h2>مميزات هاك تريجون</h2>
+                <ul>
+                    <li>حمايه ممتازه</li>
+                    <li>سهولة الحصول على المفتاح</li>
+                    <li>سهولة الاستخدام</li>
+                </ul>
+                <div class="btn-wrapper">
+                    <span class="status-badge working"><span class="status-text">يعمل</span><span class="status-icon">✓</span></span>
+                    <a href="https://www.mediafire.com/file/1p5mhe2y2hh97z1/2.726.1142_trigon.apk/file" class="download-btn android-btn" draggable="false">
+                        <i class="fas fa-download"></i> Trigon Install
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="delta-content">
+            <img src="https://i.postimg.cc/D00bkwJ5/IMG-0264.png" alt="Vega X Features" class="delta-image">
+            <div class="info-box">
+                <h2>مميزات هاك فيجا اكس</h2>
+                <ul>
+                    <li>سهولة الحصول على المفتاح</li>
+                    <li>سهولة الاستخدام</li>
+                    <li>حمايه جيده</li>
+                </ul>
+                <div class="btn-wrapper">
+                    <span class="status-badge working"><span class="status-text">يعمل</span><span class="status-icon">✓</span></span>
+                    <a href="https://www.mediafire.com/file/a1xkbytour4xksc/Vega.X+8.apk/file" class="download-btn android-btn" draggable="false">
+                        <i class="fas fa-download"></i> Vega X Install
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="delta-content">
+            <div class="info-box" style="text-align: center;">
+                <h2>شرح تحميل الهاك للأندرويد</h2>
+                <ul style="display: inline-block; text-align: right;">
+                    <li>قم بتحميل ملف APK الخاص بالهاك.</li>
+                    <li>إذا ظهر لك تحذير "تطبيق غير معروف"، اذهب للإعدادات وفعل خيار "تثبيت من مصادر غير معروفة".</li>
+                    <li>قم بتثبيت الملف وافتحه لبدء اللعب.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="social-links">
+            <a href="https://discord.gg/rtxtop1" target="_blank" class="social-btn discord-btn" draggable="false">
+                <i class="fab fa-discord"></i> ديسكورد
+            </a>
+            <a href="https://rtx261.github.io/RTX/RTX.mobileconfig" class="social-btn app-btn" draggable="false">
+                <i class="fas fa-mobile-alt"></i> تنزيل الموقع
+            </a>
+            <a href="https://youtube.com/@rtxtop1-rtx" target="_blank" class="social-btn youtube-btn" draggable="false">
+                <i class="fab fa-youtube"></i> يوتيوب
+            </a>
+        </div>
+    </div>
+    <div class="copyright">جميع الحقوق محفوظة © 2026 RTX</div>
+</div>
+
+<!-- ====== PC RO BLOX ====== -->
+<div id="roblox-pc" class="page-content">
+    <div class="container">
+        <h1>RTX</h1>
+        <img src="https://i.postimg.cc/NMbx4DRr/D03-DBAF5-031-F-4-F8-D-A1-DA-620-A5-BEED6-A4.jpg" alt="Roblox PC" class="fortnite-image">
+        <p class="welcome-text">قم بتنزيل هاك روبلوكس للكمبيوتر واستمتع بمميزات حصرية!</p>
+
+        <div class="delta-content">
+            <img src="https://i.postimg.cc/4xtBj52Z/4219495-A-FC75-4-E7-A-9546-B644-BCF4-EA85.png" alt="Semo Features" class="delta-image">
+            <div class="info-box">
+                <h2>مميزات هاك سيمو</h2>
+                <ul>
+                    <li>من افضل الهاكات حمايتاً</li>
+                    <li>لايوجد مفتاح</li>
+                    <li>سهولة الاستخدام</li>
+                </ul>
+                <div class="btn-wrapper">
+                    <span class="status-badge working"><span class="status-text">يعمل</span><span class="status-icon">✓</span></span>
+                    <a href="https://discord.gg/qp4ADvdP8" class="download-btn pc-btn" draggable="false">
+                        <i class="fas fa-download"></i> Semo Install
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="delta-content">
+            <img src="https://i.postimg.cc/J7d5g8q9/IMG-4356.png" alt="Velocity Features" class="delta-image">
+            <div class="info-box">
+                <h2>مميزات هاك فيلوسيتي</h2>
+                <ul>
+                    <li>أداء سريع وفعال</li>
+                    <li>واجهة مستخدم متقدمة</li>
+                    <li>حماية عالية الجودة</li>
+                </ul>
+                <div class="btn-wrapper">
+                    <span class="status-badge working"><span class="status-text">يعمل</span><span class="status-icon">✓</span></span>
+                    <a href="https://www.mediafire.com/file/f0egpgwh11qvtz5/Velocity.zip/file" class="download-btn pc-btn" draggable="false">
+                        <i class="fas fa-download"></i> Velocity Install
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="delta-content">
+            <img src="https://i.postimg.cc/j5ygNhNZ/AD101609-C2-A8-4-E25-A2-E0-FEDFA8-C740-CF.png" alt="Xeno Features" class="delta-image">
+            <div class="info-box">
+                <h2>مميزات هاك اكسينو</h2>
+                <ul>
+                    <li>حماية اسطوريه</li>
+                    <li>يمكنك بحث سكربتات فيه</li>
+                    <li>سهولة الاستخدام</li>
+                </ul>
+                <div class="btn-wrapper">
+                    <span class="status-badge not-working"><span class="status-text">لا يعمل</span><span class="status-icon">✕</span></span>
+                    <a href="https://www.mediafire.com/file/e2kjxf028x107uk/Xeno-v1.3.55.exe/file" class="download-btn pc-btn" draggable="false">
+                        <i class="fas fa-download"></i> Xeno Install
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="delta-content">
+            <img src="https://i.postimg.cc/K8kr3JYQ/togif.gif" alt="Ronix Features" class="delta-image">
+            <div class="info-box">
+                <h2>مميزات هاك رونيكس</h2>
+                <ul>
+                    <li>خلفيه و قائمه اسطوريه</li>
+                    <li>يمكنك بحث السكربتات فيه</li>
+                    <li>سهولة استخدامه</li>
+                </ul>
+                <div class="btn-wrapper">
+                    <span class="status-badge working"><span class="status-text">يعمل</span><span class="status-icon">✓</span></span>
+                    <a href="https://wrdcdn.net/r/154522/1769203129478/RonixInstaller_NEW.exe" class="download-btn pc-btn" draggable="false">
+                        <i class="fas fa-download"></i> Ronix Install
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="delta-content">
+            <img src="https://i.postimg.cc/pL7jDhDS/44-CA8-C7-A-50-BD-4-B09-9-AF1-5-E232-BA37165.png" alt="Trigon Features" class="delta-image">
+            <div class="info-box">
+                <h2>مميزات هاك تريجون</h2>
+                <ul>
+                    <li>حمايه ممتازه</li>
+                    <li>سهولة الحصول على المفتاح</li>
+                    <li>سهولة الاستخدام</li>
+                </ul>
+                <div class="btn-wrapper">
+                    <span class="status-badge working"><span class="status-text">يعمل</span><span class="status-icon">✓</span></span>
+                    <a href="https://www.mediafire.com/file/jwmwp9xhriyqkql/Trigon_Evo_0.2.6.exe/file" class="download-btn pc-btn" draggable="false">
+                        <i class="fas fa-download"></i> Trigon Install
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="delta-content">
+            <div class="info-box" style="text-align: center;">
+                <h2>شرح تشغيل الهاك للكمبيوتر</h2>
+                <ul style="display: inline-block; text-align: right;">
+                    <li>قم بتحميل الملف المضغوط وفك الضغط عنه.</li>
+                    <li>أغلق برنامج الحماية (Windows Defender) لتجنب حذف الهاك.</li>
+                    <li>افتح اللعبة ثم قم بتتشغيل الهاك كمسؤول (Run as Administrator).</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="social-links">
+            <a href="https://discord.gg/rtxtop1" target="_blank" class="social-btn discord-btn" draggable="false">
+                <i class="fab fa-discord"></i> ديسكورد
+            </a>
+            <a href="https://rtx261.github.io/RTX/RTX.mobileconfig" class="social-btn app-btn" draggable="false">
+                <i class="fas fa-mobile-alt"></i> تنزيل الموقع
+            </a>
+            <a href="https://youtube.com/@rtxtop1-rtx" target="_blank" class="social-btn youtube-btn" draggable="false">
+                <i class="fab fa-youtube"></i> يوتيوب
+            </a>
+        </div>
+    </div>
+    <div class="copyright">جميع الحقوق محفوظة © 2026 RTX</div>
+</div>
+
+<!-- ====== PEKORA iPhone ====== -->
+<div id="pekora-iphone" class="page-content pekora-iphone-page">
+    <div class="container">
+        <h1>RTX</h1>
+        <img src="https://i.postimg.cc/2S94Nh74/IMG-5013.jpg" alt="Pekora iPhone" class="fortnite-image">
+        <p class="welcome-text">مرحباً بك في قسم <span class="highlight">روبلوكس القديمه (بيكورا)</span> للايفون - اختر النسخة التي تناسبك!</p>
+
+        <div class="delta-content">
+            <img src="https://i.postimg.cc/WzKvP9zW/IMG-5030.jpg" alt="Pekora 2017 iPhone" class="delta-image">
+            <div class="info-box">
+                <h2>روبلوكس 2017 (بيكورا) - ايفون</h2>
+                <ul>
+                    <li>تجربة روبلوكس الأصلية لعام 2017</li>
+                    <li>واجهة كلاسيكية</li>
+                    <li>أداء سلس على iOS</li>
+                </ul>
+                <div class="btn-wrapper">
+                    <span class="status-badge working"><span class="status-text">يعمل</span><span class="status-icon">✓</span></span>
+                    <a href="itms-services://?action=download-manifest&url=https://www.installonair.com/storage/ipaz/HwcaUw/HwcaUw.plist" class="download-btn pekora-iphone-btn" draggable="false">
+                        <i class="fas fa-download"></i> Roblox 2017 Install
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="delta-content">
+            <img src="https://i.postimg.cc/CKNpKMds/IMG-5031.jpg" alt="Pekora 2018 iPhone" class="delta-image">
+            <div class="info-box">
+                <h2>روبلوكس 2018 (بيكورا) - ايفون</h2>
+                <ul>
+                    <li>تجربة روبلوكس الأصلية لعام 2018</li>
+                    <li>تحسينات في الأداء</li>
+                    <li>متوافقة مع iOS</li>
+                </ul>
+                <div class="btn-wrapper">
+                    <span class="status-badge working"><span class="status-text">يعمل</span><span class="status-icon">✓</span></span>
+                    <a href="itms-services://?action=download-manifest&url=https://www.installonair.com/storage/ipaz/phrr2u/phrr2u.plist" class="download-btn pekora-iphone-btn" draggable="false">
+                        <i class="fas fa-download"></i> Roblox 2018 Install
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="delta-content">
+            <img src="https://i.postimg.cc/W1GQ9pG5/IMG-5032.jpg" alt="Pekora 2020 iPhone" class="delta-image">
+            <div class="info-box">
+                <h2>روبلوكس 2020 (بيكورا) - ايفون</h2>
+                <ul>
+                    <li>تجربة روبلوكس الأصلية لعام 2020</li>
+                    <li>رسومات محسنة</li>
+                    <li>أداء عالي على iOS</li>
+                </ul>
+                <div class="btn-wrapper">
+                    <span class="status-badge working"><span class="status-text">يعمل</span><span class="status-icon">✓</span></span>
+                    <a href="itms-services://?action=download-manifest&url=https://www.installonair.com/storage/ipaz/wnJK0j/wnJK0j.plist" class="download-btn pekora-iphone-btn" draggable="false">
+                        <i class="fas fa-download"></i> Roblox 2020 Install
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="delta-content">
+            <img src="https://i.postimg.cc/PfBX9xDJ/IMG-5033.jpg" alt="Pekora 2021 iPhone" class="delta-image">
+            <div class="info-box">
+                <h2>روبلوكس 2021 (بيكورا) - ايفون <span class="unofficial-tag">غير رسمي</span></h2>
+                <ul>
+                    <li>تجربة روبلوكس لعام 2021</li>
+                    <li>نسخة غير رسمية</li>
+                    <li>قد تحتوي على بعض المشاكل</li>
+                </ul>
+                <div class="btn-wrapper">
+                    <span class="status-badge maybe"><span class="status-text">قد يعمل</span><span class="status-icon">⚠</span></span>
+                    <a href="itms-services://?action=download-manifest&url=https://www.installonair.com/storage/ipaz/McEPO8/McEPO8.plist" class="download-btn pekora-iphone-btn" draggable="false">
+                        <i class="fas fa-download"></i> Roblox 2021 Install (غير رسمي)
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="delta-content">
+            <div class="info-box" style="text-align: center;">
+                <h2>شرح تحميل بيكورا للايفون</h2>
+                <ul style="display: inline-block; text-align: right;">
+                    <li>قم بالضغط على زر التحميل الخاص بالنسخة التي تريدها.</li>
+                    <li>سيظهر لك إشعار يطلب منك تثبيت التطبيق، اضغط على تثبيت.</li>
+                    <li>اذهب إلى الإعدادات > عام > إدارة الأجهزة وقم بتوثيق الشهادة.</li>
+                    <li>افتح التطبيق واستمتع باللعب!</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="social-links">
+            <a href="https://discord.gg/rtxtop1" target="_blank" class="social-btn discord-btn" draggable="false">
+                <i class="fab fa-discord"></i> ديسكورد
+            </a>
+            <a href="https://rtx261.github.io/RTX/RTX.mobileconfig" class="social-btn app-btn" draggable="false">
+                <i class="fas fa-mobile-alt"></i> تنزيل الموقع
+            </a>
+            <a href="https://youtube.com/@rtxtop1-rtx" target="_blank" class="social-btn youtube-btn" draggable="false">
+                <i class="fab fa-youtube"></i> يوتيوب
+            </a>
+        </div>
+    </div>
+    <div class="copyright">جميع الحقوق محفوظة © 2026 RTX</div>
+</div>
+
+<!-- ====== PEKORA Android ====== -->
+<div id="pekora-android" class="page-content pekora-android-page">
+    <div class="container">
+        <h1>RTX</h1>
+        <img src="https://i.postimg.cc/fbLQJndm/B5A2C9B1-F1AB-4799-BAA3-F03ADFA84FD0.png" alt="Pekora Android" class="fortnite-image">
+        <p class="welcome-text">مرحباً بك في قسم <span class="highlight">روبلوكس القديمه (بيكورا)</span> للاندرويد - اختر النسخة التي تناسبك!</p>
+
+        <div class="delta-content">
+            <img src="https://i.postimg.cc/TwV0xhwR/IMG-5034.jpg" alt="Pekora 2017 Android" class="delta-image">
+            <div class="info-box">
+                <h2>روبلوكس 2017 (بيكورا) - اندرويد</h2>
+                <ul>
+                    <li>تجربة روبلوكس الأصلية لعام 2017</li>
+                    <li>متوفر بنسخة رسمية وغير رسمية</li>
+                    <li>أداء سريع على الأندرويد</li>
+                </ul>
+                <div class="btn-wrapper">
+                    <span class="status-badge working"><span class="status-text">يعمل</span><span class="status-icon">✓</span></span>
+                    <a href="https://www.mediafire.com/file/tzzl8frcvnem989/Pekora2017L.apk/file" class="download-btn pekora-android-btn" draggable="false">
+                        <i class="fas fa-download"></i> Roblox 2017 Install (رسمي)
+                    </a>
+                </div>
+                <div style="margin-top:10px;">
+                    <div class="btn-wrapper">
+                        <span class="status-badge maybe"><span class="status-text">قد يعمل</span><span class="status-icon">⚠</span></span>
+                        <a href="https://www.mediafire.com/file/ggz4eg6hnfx2sqq/Korone_2017.apk/file" class="download-btn pekora-android-btn" draggable="false">
+                            <i class="fas fa-download"></i> Roblox 2017 Install (غير رسمي)
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="delta-content">
+            <img src="https://i.postimg.cc/XNgLDZmK/IMG-5035.jpg" alt="Pekora 2018 Android" class="delta-image">
+            <div class="info-box">
+                <h2>روبلوكس 2018 (بيكورا) - اندرويد <span class="unofficial-tag">غير رسمي</span></h2>
+                <ul>
+                    <li>تجربة روبلوكس لعام 2018</li>
+                    <li>نسخة غير رسمية</li>
+                    <li>قد تحتوي على بعض المشاكل</li>
+                </ul>
+                <div class="btn-wrapper">
+                    <span class="status-badge maybe"><span class="status-text">قد يعمل</span><span class="status-icon">⚠</span></span>
+                    <a href="https://www.mediafire.com/file/j713t6vbcx1fdbn/Korone_2018.apk/file" class="download-btn pekora-android-btn" draggable="false">
+                        <i class="fas fa-download"></i> Roblox 2018 Install (غير رسمي)
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="delta-content">
+            <img src="https://i.postimg.cc/BnjC6m6V/IMG-5036.jpg" alt="Pekora 2020 Android" class="delta-image">
+            <div class="info-box">
+                <h2>روبلوكس 2020 (بيكورا) - اندرويد <span class="unofficial-tag">غير رسمي</span></h2>
+                <ul>
+                    <li>تجربة روبلوكس لعام 2020</li>
+                    <li>نسخة غير رسمية</li>
+                    <li>قد تحتوي على بعض المشاكل</li>
+                </ul>
+                <div class="btn-wrapper">
+                    <span class="status-badge maybe"><span class="status-text">قد يعمل</span><span class="status-icon">⚠</span></span>
+                    <a href="https://www.mediafire.com/file/wvz6yi1144uu29i/Korone_2020.apk/file" class="download-btn pekora-android-btn" draggable="false">
+                        <i class="fas fa-download"></i> Roblox 2020 Install (غير رسمي)
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="delta-content">
+            <img src="https://i.postimg.cc/Gt3F1QVh/IMG-5038.jpg" alt="Pekora 2021 Android" class="delta-image">
+            <div class="info-box">
+                <h2>روبلوكس 2021 (بيكورا) - اندرويد <span class="unofficial-tag">غير رسمي</span></h2>
+                <ul>
+                    <li>تجربة روبلوكس لعام 2021</li>
+                    <li>نسخة غير رسمية</li>
+                    <li>قد تحتوي على بعض المشاكل</li>
+                </ul>
+                <div class="btn-wrapper">
+                    <span class="status-badge maybe"><span class="status-text">قد يعمل</span><span class="status-icon">⚠</span></span>
+                    <a href="https://www.mediafire.com/file/bpu9bzv8a3hmfe1/Korone_2021.apk/file" class="download-btn pekora-android-btn" draggable="false">
+                        <i class="fas fa-download"></i> Roblox 2021 Install (غير رسمي)
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="delta-content">
+            <div class="info-box" style="text-align: center;">
+                <h2>شرح تحميل بيكورا للأندرويد</h2>
+                <ul style="display: inline-block; text-align: right;">
+                    <li>قم بتحميل ملف APK الخاص بالنسخة التي تريدها.</li>
+                    <li>إذا ظهر لك تحذير "تطبيق غير معروف"، اذهب للإعدادات وفعل خيار "تثبيت من مصادر غير معروفة".</li>
+                    <li>قم بتثبيت الملف وافتحه لبدء اللعب.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="social-links">
+            <a href="https://discord.gg/rtxtop1" target="_blank" class="social-btn discord-btn" draggable="false">
+                <i class="fab fa-discord"></i> ديسكورد
+            </a>
+            <a href="https://rtx261.github.io/RTX/RTX.mobileconfig" class="social-btn app-btn" draggable="false">
+                <i class="fas fa-mobile-alt"></i> تنزيل الموقع
+            </a>
+            <a href="https://youtube.com/@rtxtop1-rtx" target="_blank" class="social-btn youtube-btn" draggable="false">
+                <i class="fab fa-youtube"></i> يوتيوب
+            </a>
+        </div>
+    </div>
+    <div class="copyright">جميع الحقوق محفوظة © 2026 RTX</div>
+</div>
+
+<!-- ====== PEKORA PC ====== -->
+<div id="pekora-pc" class="page-content pekora-pc-page">
+    <div class="container">
+        <h1>RTX</h1>
+        <img src="https://i.postimg.cc/jSnzKCgJ/IMG-5015.jpg" alt="Pekora PC" class="fortnite-image">
+        <p class="welcome-text">مرحباً بك في قسم <span class="highlight">روبلوكس القديمه (بيكورا)</span> للكمبيوتر - اختر النسخة التي تناسبك!</p>
+
+        <div class="delta-content">
+            <img src="https://i.postimg.cc/854vwvcC/IMG-5041.jpg" alt="Pekora 2017 PC" class="delta-image">
+            <div class="info-box">
+                <h2>روبلوكس 2017 (بيكورا) - بي سي</h2>
+                <ul>
+                    <li>تجربة روبلوكس الأصلية لعام 2017</li>
+                    <li>أداء عالي على الكمبيوتر</li>
+                    <li>نسخة رسمية</li>
+                </ul>
+                <div class="btn-wrapper">
+                    <span class="status-badge working"><span class="status-text">يعمل</span><span class="status-icon">✓</span></span>
+                    <a href="https://www.mediafire.com/file/kzadf87gvjyt6md/PekoraStudio2017+3.zip/file" class="download-btn pc-btn" draggable="false">
+                        <i class="fas fa-download"></i> Roblox 2017 Install
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="delta-content">
+            <img src="https://i.postimg.cc/QxwT6h8p/IMG-5042.jpg" alt="Pekora 2018 PC" class="delta-image">
+            <div class="info-box">
+                <h2>روبلوكس 2018 (بيكورا) - بي سي</h2>
+                <ul>
+                    <li>تجربة روبلوكس الأصلية لعام 2018</li>
+                    <li>تحسينات في الرسومات</li>
+                    <li>نسخة رسمية</li>
+                </ul>
+                <div class="btn-wrapper">
+                    <span class="status-badge working"><span class="status-text">يعمل</span><span class="status-icon">✓</span></span>
+                    <a href="https://www.mediafire.com/file/n4j9d8b33273dqg/PekoraStudio2018+2.zip/file" class="download-btn pc-btn" draggable="false">
+                        <i class="fas fa-download"></i> Roblox 2018 Install
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="delta-content">
+            <img src="https://i.postimg.cc/TwdLyP9B/IMG-5043.jpg" alt="Pekora 2020 PC" class="delta-image">
+            <div class="info-box">
+                <h2>روبلوكس 2020 (بيكورا) - بي سي</h2>
+                <ul>
+                    <li>تجربة روبلوكس الأصلية لعام 2020</li>
+                    <li>أداء ممتاز</li>
+                    <li>نسخة رسمية</li>
+                </ul>
+                <div class="btn-wrapper">
+                    <span class="status-badge working"><span class="status-text">يعمل</span><span class="status-icon">✓</span></span>
+                    <a href="https://www.mediafire.com/file/dd71xq5h51198yj/PekoraStudio2020+2.zip/file" class="download-btn pc-btn" draggable="false">
+                        <i class="fas fa-download"></i> Roblox 2020 Install
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="delta-content">
+            <img src="https://i.postimg.cc/4NDY6PPY/IMG-5045.jpg" alt="Pekora 2021 PC" class="delta-image">
+            <div class="info-box">
+                <h2>روبلوكس 2021 (بيكورا) - بي سي</h2>
+                <ul>
+                    <li>تجربة روبلوكس الأصلية لعام 2021</li>
+                    <li>أحدث تحديثات الكلاسيكية</li>
+                    <li>نسخة رسمية</li>
+                </ul>
+                <div class="btn-wrapper">
+                    <span class="status-badge working"><span class="status-text">يعمل</span><span class="status-icon">✓</span></span>
+                    <a href="https://www.mediafire.com/file/4jcde8p3eo91f4t/PekoraStudio2021+2.zip/file" class="download-btn pc-btn" draggable="false">
+                        <i class="fas fa-download"></i> Roblox 2021 Install
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="delta-content">
+            <div class="info-box" style="text-align: center;">
+                <h2>شرح تشغيل بيكورا للكمبيوتر</h2>
+                <ul style="display: inline-block; text-align: right;">
+                    <li>قم بتحميل الملف المضغوط وفك الضغط عنه.</li>
+                    <li>أغلق برنامج الحماية (Windows Defender) لتجنب حذف الملفات.</li>
+                    <li>افتح اللعبة وقم بتشغيلها كمسؤول (Run as Administrator).</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="social-links">
+            <a href="https://discord.gg/rtxtop1" target="_blank" class="social-btn discord-btn" draggable="false">
+                <i class="fab fa-discord"></i> ديسكورد
+            </a>
+            <a href="https://rtx261.github.io/RTX/RTX.mobileconfig" class="social-btn app-btn" draggable="false">
+                <i class="fas fa-mobile-alt"></i> تنزيل الموقع
+            </a>
+            <a href="https://youtube.com/@rtxtop1-rtx" target="_blank" class="social-btn youtube-btn" draggable="false">
+                <i class="fab fa-youtube"></i> يوتيوب
+            </a>
+        </div>
+    </div>
+    <div class="copyright">جميع الحقوق محفوظة © 2026 RTX</div>
+</div>
+
+<!-- ====== BUY CERTIFICATES ====== -->
+<div id="buy-certificates" class="page-content">
+    <div class="container">
+        <h1>RTX</h1>
+        <img src="https://i.postimg.cc/jqyMWGC2/IMG-9464.jpg" alt="RTX logo" class="fortnite-image">
+        <p class="welcome-text">خدمة شراء شهايد المطورين للايفون بأسعار منافسة!</p>
+
+        <div class="delta-content">
+            <div class="info-box" style="text-align: center;">
+                <h2>لماذا تشتري شهادة؟</h2>
+                <ul style="display: inline-block; text-align: right;">
+                    <li>تثبيت تطبيقات بلس والألعاب المهكرة</li>
+                    <li>شهادة تدوم لمدة سنة كاملة</li>
+                    <li>دعم فني متواصل</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="social-links">
+            <a href="https://discord.gg/rtxtop1" target="_blank" class="social-btn discord-btn" draggable="false">
+                <i class="fab fa-discord"></i> تواصل عبر الديسكورد للشراء
+            </a>
+        </div>
+    </div>
+    <div class="copyright">جميع الحقوق محفوظة © 2026 RTX</div>
+</div>
+
+<!-- ====== PLATFORM CHOOSER ====== -->
+<div id="platform-chooser" class="platform-chooser" onclick="if(event.target===this)closeChooser()">
+    <div class="chooser-content">
+        <button class="chooser-close" onclick="closeChooser()" aria-label="إغلاق">&times;</button>
+        <h3 id="chooser-title">اختر ما تريد</h3>
+        <p class="chooser-subtitle">اختر النسخة التي تريد تحميلها</p>
+        <div class="chooser-options">
+            <button class="chooser-btn chooser-hack" onclick="chooserGo('hack')">
+                <i class="fas fa-bolt"></i>
+                <span class="chooser-btn-title">هاك روبلوكس</span>
+                <span class="chooser-btn-desc">جميع هاكات الإكسيكيوتر</span>
+            </button>
+            <button class="chooser-btn chooser-pekora" onclick="chooserGo('pekora')">
+                <i class="fas fa-history"></i>
+                <span class="chooser-btn-title">روبلوكس القديمه</span>
+                <span class="chooser-btn-desc">بيكورا (نسخ 2017-2021)</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const PLATFORM_INFO = {
+        iphone: { title: 'iOS / ايفون', icon: 'fas fa-mobile-alt', hack: 'roblox', pekora: 'pekora-iphone' },
+        android: { title: 'Android / اندرويد', icon: 'fab fa-android', hack: 'roblox-android', pekora: 'pekora-android' },
+        pc: { title: 'PC / كمبيوتر', icon: 'fas fa-laptop', hack: 'roblox-pc', pekora: 'pekora-pc' }
     };
-    const cfg = statusMap[newStatus];
-    if (!cfg) {
-        throw new Error('الحالة غير صحيحة. استخدم: working أو not-working أو maybe');
+
+    function toggleMenu() {
+        document.getElementById("menu").classList.toggle("active");
     }
 
-    const buttonText = getButtonText(hackName, platform, isVNG);
-    const escapedText = buttonText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-
-    const btnClass = PLATFORM_BTN_CLASS[platform];
-    if (!btnClass) throw new Error(`المنصة "${platform}" غير مدعومة`);
-
-    // يبحث عن badge ثم مباشرة الزر بعده — بدون تجاوز tags
-    // [^>]* تتوقف عند أول > فلا تتجاوز الـ <a> tag إلى الأزرار التالية
-    const pattern = new RegExp(
-        `(<span class="status-badge )[^"]+("[^>]*>)` +
-        `<span class="status-text">[^<]*<\\/span>` +
-        `<span class="status-icon">[^<]*<\\/span>` +
-        `(<\\/span>\\s*<a[^>]*class="${btnClass}[^>]*>\\s*<i[^>]*><\\/i>\\s*${escapedText})`,
-        'is'
-    );
-
-    if (!pattern.test(html)) {
-        throw new Error(`لم يتم العثور على حالة الزر "${buttonText}" للمنصة "${platform}" في ملف HTML`);
-    }
-
-    return html.replace(
-        pattern,
-        (_, g1, g2, g3) =>
-            g1 + cfg.cls + g2 +
-            `<span class="status-text">${cfg.text}</span>` +
-            `<span class="status-icon">${cfg.icon}</span>` +
-            g3
-    );
-}
-
-// ══════════════════════════════════════════════════════════════════
-// GitHub API — https المدمج في Node (بدون مكتبات خارجية)
-// ══════════════════════════════════════════════════════════════════
-const GITHUB_OWNER = 'RTX261';
-const GITHUB_REPO  = 'RTX';
-const GITHUB_FILE  = 'index.html';
-
-/**
- * طلب HTTP مساعد — يرجع { statusCode, data }
- */
-function githubRequest(method, path, body, githubToken) {
-    return new Promise((resolve, reject) => {
-        const payload = body ? JSON.stringify(body) : null;
-        const req = https.request({
-            hostname: 'api.github.com',
-            path,
-            method,
-            headers: {
-                Authorization: `Bearer ${githubToken}`,
-                Accept: 'application/vnd.github.v3+json',
-                'User-Agent': 'RTX-Discord-Bot',
-                'Content-Type': 'application/json',
-                ...(payload ? { 'Content-Length': Buffer.byteLength(payload) } : {}),
-            },
-        }, (res) => {
-            let raw = '';
-            res.on('data', chunk => raw += chunk);
-            res.on('end', () => {
-                try { resolve({ statusCode: res.statusCode, data: JSON.parse(raw) }); }
-                catch { resolve({ statusCode: res.statusCode, data: raw }); }
-            });
+    function toggleSubmenu(e, submenuId) {
+        e.stopPropagation();
+        const submenu = document.getElementById(submenuId);
+        const parent = submenu.parentElement;
+        document.querySelectorAll(".submenu.open").forEach(s => {
+            if (s.id !== submenuId) {
+                s.classList.remove("open");
+                s.parentElement.classList.remove("expanded");
+            }
         });
-        req.on('error', reject);
-        if (payload) req.write(payload);
-        req.end();
+        submenu.classList.toggle("open");
+        parent.classList.toggle("expanded");
+    }
+
+    function openChooser(platform) {
+        const info = PLATFORM_INFO[platform];
+        if (!info) return;
+        const modal = document.getElementById('platform-chooser');
+        modal.dataset.platform = platform;
+        document.getElementById('chooser-title').innerHTML = '<i class="' + info.icon + '"></i> اختر ما تريد لـ ' + info.title;
+        modal.classList.add('open');
+    }
+
+    function closeChooser() {
+        document.getElementById('platform-chooser').classList.remove('open');
+    }
+
+    function chooserGo(type) {
+        const modal = document.getElementById('platform-chooser');
+        const platform = modal.dataset.platform;
+        const info = PLATFORM_INFO[platform];
+        if (!info) return;
+        closeChooser();
+        showPage(type === 'hack' ? info.hack : info.pekora);
+    }
+
+    function showPage(pageId) {
+        document.querySelectorAll(".page-content").forEach(page => {
+            page.style.display = "none";
+        });
+        const target = document.getElementById(pageId);
+        if (target) {
+            target.style.display = "block";
+        }
+        document.getElementById("menu").classList.remove("active");
+        document.querySelectorAll(".submenu.open").forEach(s => {
+            s.classList.remove("open");
+            s.parentElement.classList.remove("expanded");
+        });
+        closeChooser();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        showPage('home');
+
+        const shield = (e) => {
+            if (e.target.tagName === 'A' || e.target.closest('a') || 
+                e.target.tagName === 'LI' || e.target.closest('li') || 
+                e.target.closest('.feature-item')) {
+                return true;
+            }
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        };
+
+        ['contextmenu', 'copy', 'cut', 'paste', 'selectstart', 'dragstart'].forEach(event => {
+            document.addEventListener(event, shield, true);
+        });
+
+        document.addEventListener('touchstart', function(e) {
+            if (e.touches.length > 1) e.preventDefault();
+        }, {passive: false});
+
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && (e.key === 'u' || e.key === 's' || e.key === 'i' || e.key === 'j' || e.key === 'c')) {
+                e.preventDefault();
+            }
+            if (e.key === 'F12') e.preventDefault();
+        });
     });
-}
-
-/**
- * قراءة ملف HTML من GitHub
- * @returns {{ content: string, sha: string }}
- */
-async function readFromGitHub(githubToken) {
-    const path = `/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_FILE}`;
-    const { statusCode, data } = await githubRequest('GET', path, null, githubToken);
-    if (statusCode !== 200) {
-        throw new Error(`فشل قراءة الملف من GitHub: ${data && data.message ? data.message : statusCode}`);
-    }
-    const content = Buffer.from(data.content, 'base64').toString('utf8');
-    return { content, sha: data.sha };
-}
-
-/**
- * حفظ ملف HTML في GitHub
- */
-async function saveToGitHub(newContent, sha, commitMsg, githubToken) {
-    const path = `/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_FILE}`;
-    const base64Content = Buffer.from(newContent, 'utf8').toString('base64');
-    const { statusCode, data } = await githubRequest('PUT', path, {
-        message: commitMsg || `تحديث ${GITHUB_FILE}`,
-        content: base64Content,
-        sha,
-        branch: 'main',
-    }, githubToken);
-    if (statusCode !== 200 && statusCode !== 201) {
-        throw new Error(`فشل حفظ الملف في GitHub: ${data && data.message ? data.message : statusCode}`);
-    }
-    return { success: true };
-}
-
-/**
- * تحقق إن الرابط الجديد موجود فعلاً في GitHub بعد الحفظ
- */
-async function verifyLinkInGitHub(githubToken, expectedUrl) {
-    try {
-        const { content } = await readFromGitHub(githubToken);
-        return { ok: true, foundUrl: content.includes(expectedUrl) };
-    } catch (e) {
-        return { ok: false, foundUrl: false };
-    }
-}
-
-// ══════════════════════════════════════════════════════════════════
-module.exports = {
-    HACK_CHOICES,
-    VNG_SUPPORTED,
-    BUTTON_TEXTS,
-    getButtonText,
-    updateLinkInHTML,
-    updateStatusInHTML,
-    readFromGitHub,
-    saveToGitHub,
-    verifyLinkInGitHub,
-};
+</script>
+</body>
+</html>
