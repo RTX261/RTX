@@ -67,10 +67,11 @@ const VNG_SUPPORTED = [
 // ══════════════════════════════════════════════════════════════════
 const BUTTON_TEXTS = {
     'iphone': {
-        'delta':   ['Delta Install'    ],
-        'delta-2': ['Delta VNG Install'],
-        'ronix':   ['Ronix Install',      'Ronix VNG Install'],
-        'skibx':   ['Skibx Install',      'Skibx VNG Install'],
+        // كلا الزرين نصهم "Delta Install" — التمييز يتم بالـ CSS class (delta-btn-1 / delta-btn-2)
+        'delta':   ['Delta Install'],
+        'delta-2': ['Delta Install'],
+        'ronix':   ['Ronix Install', 'Ronix VNG Install'],
+        'skibx':   ['Skibx Install', 'Skibx VNG Install'],
     },
     'android': {
         'delta':   ['Delta Install',          'Delta VNG Install'       ],
@@ -79,8 +80,8 @@ const BUTTON_TEXTS = {
         'ronix':   ['Ronix Install',          'Ronix VNG Install'       ],
         'skibx':   ['Skibx Install',          'Skibx VNG Install'       ],
         'cryptic': ['Cryptic Install',        'Cryptic VNG Install'     ],
-        'trigon':  ['Trigon Install'                                      ],
-        'vega':    ['Vega X Install'                                      ],
+        'trigon':  ['Trigon Install'                                     ],
+        'vega':    ['Vega X Install'                                     ],
     },
     'pc': {
         'semo':     ['Semo Install'    ],
@@ -124,9 +125,25 @@ const PLATFORM_BTN_CLASS = {
     'pekora-pc':      'download-btn pc-btn"',
 };
 
+// تجاوز الكلاس لأزرار تملك نفس النص في نفس المنصة
+// المفتاح: 'platform::hackValue'
+// ✅ دلتا آيفون: الزر 1 → delta-btn-1 | الزر 2 → delta-btn-2
+const HACK_BTN_CLASS_OVERRIDE = {
+    'iphone::delta':   'download-btn delta-btn-1"',
+    'iphone::delta-2': 'download-btn delta-btn-2"',
+};
+
 // ══════════════════════════════════════════════════════════════════
 // دوال مساعدة
 // ══════════════════════════════════════════════════════════════════
+
+/**
+ * يرجع كلاس الزر المناسب — يأخذ override إن وُجد، وإلا يرجع كلاس المنصة
+ */
+function getBtnClass(normalizedHack, platform) {
+    const key = `${platform}::${normalizedHack}`;
+    return HACK_BTN_CLASS_OVERRIDE[key] || PLATFORM_BTN_CLASS[platform];
+}
 
 // تحويل الأسماء العربية إلى القيم الإنجليزية
 const ARABIC_TO_VALUE = {
@@ -171,21 +188,23 @@ function getButtonText(hackName, platform, isVNG) {
 
 /**
  * تحديث رابط زر في HTML
- * يبحث بكلاس المنصة + نص الزر معاً لتجنب تعديل منصة غلط
+ * يبحث بكلاس الزر + نص الزر معاً لتجنب تعديل زر غلط
  */
 function updateLinkInHTML(html, hackName, platform, newUrl, isVNG) {
     if (!html || !hackName || !platform || !newUrl) {
         throw new Error('معاملات غير صحيحة');
     }
 
+    const raw = hackName.toLowerCase().trim();
+    const normalized = ARABIC_TO_VALUE[raw] || ARABIC_TO_VALUE[hackName.trim()] || raw;
+
     const buttonText = getButtonText(hackName, platform, isVNG);
     const escapedText = buttonText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-    const btnClass = PLATFORM_BTN_CLASS[platform];
+    // getBtnClass يرجع override إن وُجد (مثل delta-btn-1 / delta-btn-2)
+    const btnClass = getBtnClass(normalized, platform);
     if (!btnClass) throw new Error(`المنصة "${platform}" غير مدعومة`);
 
-    // يبحث بكلاس المنصة + نص الزر — يمنع التجاوز بين الأزرار
-    // [^>]*> تتوقف عند إغلاق <a> بدل [\s\S]*? التي تقفز عبر أزرار متعددة
     // ملاحظة: btnClass يتضمن علامة " في نهايته لذا لا نضيف " إضافية
     const pattern = new RegExp(
         `(<a href=")[^"]*(" class="${btnClass}[^>]*>\\s*<i[^>]*></i>\\s*${escapedText})`,
@@ -196,14 +215,13 @@ function updateLinkInHTML(html, hackName, platform, newUrl, isVNG) {
         throw new Error(`لم يتم العثور على زر "${buttonText}" للمنصة "${platform}" في ملف HTML`);
     }
 
-    // ✅ الإصلاح: نستخدم دالة بدل string replacement
-    // لأن الروابط التي تحتوي على "$1" أو "$&" تسبب خطأ مع string replacement
+    // نستخدم دالة بدل string replacement لأن الروابط التي تحتوي على "$1" أو "$&" تسبب خطأ
     return html.replace(pattern, (_, g1, g2) => g1 + newUrl + g2);
 }
 
 /**
  * تحديث حالة هاك في HTML (working / not-working / maybe)
- * يبحث بكلاس المنصة + نص الزر لتجنب تعديل منصة غلط
+ * يبحث بكلاس الزر + نص الزر لتجنب تعديل زر غلط
  */
 function updateStatusInHTML(html, hackName, platform, newStatus, isVNG) {
     if (!html || !hackName || !platform || !newStatus) {
@@ -220,14 +238,17 @@ function updateStatusInHTML(html, hackName, platform, newStatus, isVNG) {
         throw new Error('الحالة غير صحيحة. استخدم: working أو not-working أو maybe');
     }
 
+    const raw = hackName.toLowerCase().trim();
+    const normalized = ARABIC_TO_VALUE[raw] || ARABIC_TO_VALUE[hackName.trim()] || raw;
+
     const buttonText = getButtonText(hackName, platform, isVNG);
     const escapedText = buttonText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-    const btnClass = PLATFORM_BTN_CLASS[platform];
+    // getBtnClass يرجع override إن وُجد (مثل delta-btn-1 / delta-btn-2)
+    const btnClass = getBtnClass(normalized, platform);
     if (!btnClass) throw new Error(`المنصة "${platform}" غير مدعومة`);
 
     // يبحث عن badge ثم مباشرة الزر بعده — بدون تجاوز tags
-    // [^>]* تتوقف عند أول > فلا تتجاوز الـ <a> tag إلى الأزرار التالية
     const pattern = new RegExp(
         `(<span class="status-badge )[^"]+("[^>]*>)` +
         `<span class="status-text">[^<]*<\\/span>` +
