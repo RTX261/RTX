@@ -12,9 +12,10 @@ const https = require('https');
 // ══════════════════════════════════════════════════════════════════
 const HACK_CHOICES = {
     'iphone': [
-        { name: 'دلتا',   value: 'delta' },
-        { name: 'رونيكس', value: 'ronix' },
-        { name: 'سكيبكس', value: 'skibx' },
+        { name: 'دلتا (الزر 1)',   value: 'delta'   },
+        { name: 'دلتا (الزر 2)',   value: 'delta-2' },
+        { name: 'رونيكس',          value: 'ronix'   },
+        { name: 'سكيبكس',          value: 'skibx'   },
     ],
     'android': [
         { name: 'دلتا',           value: 'delta'   },
@@ -56,7 +57,7 @@ const HACK_CHOICES = {
 
 // الهاكات التي تدعم نسخة VNG
 const VNG_SUPPORTED = [
-    'iphone::delta', 'iphone::ronix', 'iphone::skibx',
+    'iphone::ronix', 'iphone::skibx',
     'android::delta', 'android::codex', 'android::arceus',
     'android::ronix', 'android::skibx', 'android::cryptic',
 ];
@@ -66,9 +67,10 @@ const VNG_SUPPORTED = [
 // ══════════════════════════════════════════════════════════════════
 const BUTTON_TEXTS = {
     'iphone': {
-        'delta': ['Delta Install',      'Delta VNG Install'     ],
-        'ronix': ['Ronix Install',      'Ronix VNG Install'     ],
-        'skibx': ['Skibx Install',      'Skibx VNG Install'     ],
+        'delta':   ['Delta Install'    ],
+        'delta-2': ['Delta VNG Install'],
+        'ronix':   ['Ronix Install',      'Ronix VNG Install'],
+        'skibx':   ['Skibx Install',      'Skibx VNG Install'],
     },
     'android': {
         'delta':   ['Delta Install',          'Delta VNG Install'       ],
@@ -129,6 +131,8 @@ const PLATFORM_BTN_CLASS = {
 // تحويل الأسماء العربية إلى القيم الإنجليزية
 const ARABIC_TO_VALUE = {
     'دلتا': 'delta', 'delta': 'delta',
+    'دلتا (الزر 1)': 'delta', 'delta-1': 'delta',
+    'دلتا (الزر 2)': 'delta-2', 'delta-2': 'delta-2',
     'كوديكس': 'codex', 'codex': 'codex',
     'ارسيوس': 'arceus', 'ارسيوس اكس نيو': 'arceus', 'arceus': 'arceus',
     'رونيكس': 'ronix', 'ronix': 'ronix',
