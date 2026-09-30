@@ -41,7 +41,14 @@
                 <li onclick="showPage('pekora-pc'); event.stopPropagation();">روبلوكس القديمه (بيكورا)</li>
             </ul>
         </li>
-        <li onclick="showPage('buy-certificates')">شراء شهايد</li>
+        <li class="has-submenu" onclick="toggleSubmenu(event, 'sub-store')">
+            <span><i class="fas fa-store"></i> متجر الهاكات والروب</span>
+            <i class="fas fa-chevron-down sub-arrow"></i>
+            <ul class="submenu" id="sub-store">
+                <li onclick="showPage('buy-certificates'); event.stopPropagation();">هاكات سنوية</li>
+                <li onclick="showPage('buy-robux'); event.stopPropagation();">شراء روب</li>
+            </ul>
+        </li>
     </ul>
 </nav>
 
@@ -67,10 +74,10 @@
                 <h3>تطبيقات PC</h3>
                 <p>هاك روبلوكس + روبلوكس القديمه (بيكورا)</p>
             </div>
-            <div class="feature-item" onclick="showPage('buy-certificates')">
-                <i class="fas fa-shield-alt"></i>
-                <h3>حماية وأمان</h3>
-                <p>تطبيقات آمنة وموثوقة</p>
+            <div class="feature-item" onclick="openStoreChooser()">
+                <i class="fas fa-store"></i>
+                <h3>المتجر</h3>
+                <p>اختر دلتا للايفون لمدة سنة أو روبوكس بالأسعار المناسبة</p>
             </div>
         </div>
 
@@ -878,23 +885,114 @@
     <div class="container">
         <h1>RTX</h1>
         <img src="https://i.postimg.cc/jqyMWGC2/IMG-9464.jpg" alt="RTX logo" class="fortnite-image">
-        <p class="welcome-text">خدمة شراء شهايد المطورين للايفون بأسعار منافسة!</p>
+        <p class="welcome-text"><span class="highlight">عروض الشهادات السنوية بأسعار مناسبة</span></p>
 
         <div class="delta-content">
             <div class="info-box" style="text-align: center;">
-                <h2>لماذا تشتري شهادة؟</h2>
+                <h2>شهادات الجوال السنوية</h2>
                 <ul style="display: inline-block; text-align: right;">
-                    <li>تثبيت تطبيقات بلس والألعاب المهكرة</li>
-                    <li>شهادة تدوم لمدة سنة كاملة</li>
-                    <li>دعم فني متواصل</li>
+                    <li>شهادة سنوية ضمان عشرة شهور بـ <strong>112.50 ريال</strong></li>
+                    <li>شهادة سنوية ضمان ستة شهور بـ <strong>93.75 ريال</strong></li>
+                    <li>شهادة سنوية ضمان ثلاثة شهور بـ <strong>75 ريال</strong></li>
+                    <li>شهادة سنوية ضمان شهرين بـ <strong>56.25 ريال</strong></li>
+                    <li>شهادة سنوية ضمان شهر بـ <strong>37.50 ريال</strong></li>
+                </ul>
+                <p class="highlight"><strong>فورية كلها</strong></p>
+            </div>
+        </div>
+
+        <div class="delta-content">
+            <div class="info-box" style="text-align: center;">
+                <h2>شهادة الآيباد</h2>
+                <ul style="display: inline-block; text-align: right;">
+                    <li>شهادة سنوية للآيباد</li>
+                    <li>ضمان عشرة شهور</li>
+                    <li>السعر: <strong>56.25 ريال</strong></li>
+                </ul>
+                <p class="highlight"><strong>فورية</strong></p>
+            </div>
+        </div>
+
+        <div class="delta-content">
+            <div class="info-box" style="text-align: center;">
+                <h2>مميزات الشهادة السنوية</h2>
+                <ul style="display: inline-block; text-align: right;">
+                    <li>هاك دلتا للايفون بشكل سنوي.</li>
+                    <li>تشغيل أي تطبيق مهكر يدعم الشهادة بشكل سنوي.</li>
+                    <li>ضمانات حسب الباقة الموضحة في الأسعار.</li>
+                    <li>شروحات للتثبيت والتفعيل.</li>
+                    <li>ملف دلتا وشرح استخدامه مع طلبك.</li>
+                    <li>دعم ومتابعة عبر تذكرة الشراء.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="delta-content">
+            <div class="info-box" style="text-align: center;">
+                <h2>طريقة الشراء</h2>
+                <ul style="display: inline-block; text-align: right;">
+                    <li>أول شيء ادخل سيرفر الديسكورد الخاص بنا.</li>
+                    <li>افتح تذكرة الشراء من داخل السيرفر.</li>
+                    <li>اكتب نوع الجهاز ومدة الضمان المطلوبة.</li>
+                    <li>يتم تأكيد الطلب والتفاصيل داخل التذكرة.</li>
                 </ul>
             </div>
         </div>
 
         <div class="social-links">
             <a href="https://discord.gg/rtxtop1" target="_blank" class="social-btn discord-btn" draggable="false">
-                <i class="fab fa-discord"></i> تواصل عبر الديسكورد للشراء
+                <i class="fab fa-discord"></i> افتح تذكرة الشراء في الديسكورد
             </a>
+        </div>
+    </div>
+    <div class="copyright">جميع الحقوق محفوظة © 2026 RTX</div>
+</div>
+
+<!-- ====== BUY ROBUX ====== -->
+<div id="buy-robux" class="page-content">
+    <div class="container">
+        <h1>RTX</h1>
+        <img src="https://i.postimg.cc/C1MV4RTq/IMG-7766.webp" alt="شعار شراء الروب" class="fortnite-image robux-logo-image">
+        <p class="welcome-text">شراء روبوكس بأسعار منافسة عن طريق الـ <span class="highlight">Game Pass</span></p>
+
+        <div class="delta-content">
+            <div class="info-box" style="text-align: center;">
+                <h2>أسعار الروب</h2>
+                <p>يمكنك طلب أي كمية تريدها، والأسعار التالية أمثلة توضيحية. يتم تأكيد قيمة الكمية المطلوبة داخل التذكرة.</p>
+            </div>
+        </div>
+
+        <div class="delta-content">
+            <div class="info-box" style="text-align: center;">
+                <h2>غير صافي</h2>
+                <p class="welcome-text"><strong>450 روب — 13.67 ريال</strong></p>
+                <p class="welcome-text"><strong>1000 روب — 30.50 ريال</strong></p>
+            </div>
+        </div>
+
+        <div class="delta-content">
+            <div class="info-box" style="text-align: center;">
+                <h2>صافي</h2>
+                <p class="welcome-text"><strong>450 روب — 19.30 ريال</strong></p>
+                <p class="welcome-text"><strong>1000 روب — 43 ريال</strong></p>
+            </div>
+        </div>
+
+        <div class="delta-content">
+            <div class="info-box" style="text-align: center;">
+                <h2>طريقة طلب الروب</h2>
+                <ul style="display: inline-block; text-align: right;">
+                    <li>أول شيء ادخل سيرفر الديسكورد الخاص بنا.</li>
+                    <li>افتح تذكرة شراء من داخل السيرفر.</li>
+                    <li>حدد الكمية التي تريدها، سواء 450 أو 1000 أو أي كمية أخرى.</li>
+                    <li>حدد هل تريدها صافي أو غير صافي.</li>
+                    <li>استلم رابط الـGame Pass وتعليمات الدفع من التذكرة.</li>
+                </ul>
+                <p class="highlight"><strong>الأسعار موضحة هنا، والتأكيد النهائي يتم داخل التذكرة.</strong></p>
+                <a href="https://discord.gg/rtxtop1" target="_blank" rel="noopener noreferrer" class="social-btn robux-discord-btn" draggable="false">
+                    <i class="fab fa-discord"></i> اطلب الآن من الديسكورد
+                </a>
+            </div>
         </div>
     </div>
     <div class="copyright">جميع الحقوق محفوظة © 2026 RTX</div>
@@ -916,6 +1014,26 @@
                 <i class="fas fa-history"></i>
                 <span class="chooser-btn-title">روبلوكس القديمه</span>
                 <span class="chooser-btn-desc">بيكورا (نسخ 2017-2021)</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="store-chooser" class="platform-chooser" onclick="if(event.target===this)closeStoreChooser()">
+    <div class="chooser-content">
+        <button class="chooser-close" onclick="closeStoreChooser()" aria-label="إغلاق">&times;</button>
+        <h3><i class="fas fa-store"></i> اختر من المتجر</h3>
+        <p class="chooser-subtitle">اختر الخدمة التي تريدها</p>
+        <div class="chooser-options">
+            <button class="chooser-btn chooser-certificates" onclick="storeGo('certificates')">
+                <i class="fas fa-mobile-alt"></i>
+                <span class="chooser-btn-title">هاك ايفون لمدة سنة (شهادة سنوية)</span>
+                <span class="chooser-btn-desc">دلتا للايفون</span>
+            </button>
+            <button class="chooser-btn chooser-robux" onclick="storeGo('robux')">
+                <i class="fas fa-coins"></i>
+                <span class="chooser-btn-title">روبوكس</span>
+                <span class="chooser-btn-desc">اطلب الكمية التي تناسبك</span>
             </button>
         </div>
     </div>
@@ -957,6 +1075,19 @@
 
     function closeChooser() {
         document.getElementById('platform-chooser').classList.remove('open');
+    }
+
+    function openStoreChooser() {
+        document.getElementById('store-chooser').classList.add('open');
+    }
+
+    function closeStoreChooser() {
+        document.getElementById('store-chooser').classList.remove('open');
+    }
+
+    function storeGo(type) {
+        closeStoreChooser();
+        showPage(type === 'certificates' ? 'buy-certificates' : 'buy-robux');
     }
 
     function chooserGo(type) {
