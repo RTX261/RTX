@@ -600,6 +600,28 @@ h1 {
   box-shadow: 0 10px 25px rgba(255, 152, 0, 0.4);
 }
 
+.chooser-certificates {
+  background: linear-gradient(135deg, rgba(192, 38, 130, 0.2), rgba(112, 26, 85, 0.3));
+  border-color: rgba(244, 114, 182, 0.4);
+}
+
+.chooser-certificates:hover {
+  background: linear-gradient(135deg, rgba(192, 38, 130, 0.45), rgba(112, 26, 85, 0.5));
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(192, 38, 130, 0.4);
+}
+
+.chooser-robux {
+  background: linear-gradient(135deg, rgba(0, 184, 148, 0.2), rgba(0, 107, 82, 0.3));
+  border-color: rgba(104, 242, 196, 0.4);
+}
+
+.chooser-robux:hover {
+  background: linear-gradient(135deg, rgba(0, 184, 148, 0.45), rgba(0, 107, 82, 0.5));
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 184, 148, 0.4);
+}
+
 .chooser-close {
   position: absolute;
   top: 12px;
@@ -757,6 +779,64 @@ h1 {
 }
 .status-badge.not-working .status-icon {
   color: #FF5252;
+}
+
+/* Purchase pages */
+#buy-certificates {
+  background: linear-gradient(-45deg, #21091e, #48133f, #7e255d, #160612) !important;
+  background-size: 400% 400% !important;
+  animation: gradientBG 15s ease infinite !important;
+}
+
+#buy-certificates .delta-content {
+  background: rgba(190, 70, 145, 0.1) !important;
+  border-color: rgba(244, 114, 182, 0.3) !important;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+#buy-certificates .info-box h2,
+#buy-certificates .highlight {
+  color: #f9a8d4 !important;
+}
+
+#buy-certificates .discord-btn {
+  background: linear-gradient(135deg, #c02682, #701a55) !important;
+  box-shadow: 0 10px 22px rgba(192, 38, 130, 0.3);
+}
+
+#buy-robux {
+  background: linear-gradient(-45deg, #031b15, #064b38, #087f62, #02130f) !important;
+  background-size: 400% 400% !important;
+  animation: gradientBG 15s ease infinite !important;
+}
+
+#buy-robux .delta-content {
+  background: rgba(0, 212, 160, 0.08) !important;
+  border-color: rgba(0, 240, 190, 0.28) !important;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+#buy-robux .info-box h2,
+#buy-robux .highlight {
+  color: #68f2c4 !important;
+}
+
+#buy-robux .social-btn {
+  background: linear-gradient(135deg, #00b894, #006b52) !important;
+  box-shadow: 0 10px 22px rgba(0, 184, 148, 0.3);
+}
+
+#buy-robux .robux-discord-btn {
+  margin-top: 18px;
+  background: linear-gradient(135deg, #00b894, #006b52) !important;
+}
+
+.robux-logo-image {
+  max-width: 230px !important;
+  padding: 16px;
+  background: #fff;
+  border: 4px solid rgba(245, 215, 110, 0.65);
+  box-shadow: 0 20px 45px rgba(0, 212, 160, 0.28), 0 0 25px rgba(245, 215, 110, 0.2);
 }
 
 @media (max-width: 768px) {
