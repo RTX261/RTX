@@ -1043,7 +1043,25 @@
     </div>
 </div>
 
+<button class="support-float" type="button" aria-label="الدعم الفني" onclick="showDiscordNotice('support')">
+    <i class="fas fa-headset" aria-hidden="true"></i>
+    <span>الدعم الفني</span>
+</button>
+
+<div id="discord-notice" class="discord-notice" aria-hidden="true" onclick="if(event.target===this)closeDiscordNotice()">
+    <div class="discord-notice-card" role="dialog" aria-modal="true" aria-labelledby="discord-notice-title">
+        <button class="discord-notice-close" type="button" onclick="closeDiscordNotice()" aria-label="إغلاق">&times;</button>
+        <div class="discord-notice-icon"><i class="fab fa-discord" aria-hidden="true"></i></div>
+        <h3 id="discord-notice-title">انضم إلى سيرفرنا</h3>
+        <p id="discord-notice-text">إذا صار أي تحديث بننزله هنا أول بأول.</p>
+        <a class="discord-notice-link" href="https://discord.gg/rtxtop1" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-discord" aria-hidden="true"></i> دخول سيرفر الديسكورد
+        </a>
+    </div>
+</div>
+
 <script>
+    const DISCORD_SERVER_URL = 'https://discord.gg/rtxtop1';
     const PLATFORM_INFO = {
         iphone: { title: 'iOS / ايفون', icon: 'fas fa-mobile-alt', hack: 'roblox', pekora: 'pekora-iphone' },
         android: { title: 'Android / اندرويد', icon: 'fab fa-android', hack: 'roblox-android', pekora: 'pekora-android' },
@@ -1089,6 +1107,31 @@
         document.getElementById('store-chooser').classList.remove('open');
     }
 
+    function showDiscordNotice(type = 'update') {
+        const notice = document.getElementById('discord-notice');
+        const title = document.getElementById('discord-notice-title');
+        const text = document.getElementById('discord-notice-text');
+        const link = notice?.querySelector('.discord-notice-link');
+        if (!notice || !title || !text) return;
+        if (type === 'support') {
+            title.textContent = 'الدعم الفني';
+            text.textContent = 'إذا تحتاج مساعدة، خش سيرفرنا ديسكورد وهناك دعم فني يساعدك.';
+        } else {
+            title.textContent = 'هذا الخيار لا يعمل حالياً';
+            text.textContent = 'خش سيرفرنا ديسكورد، وإذا صار أي تحديث بننزله هنا أول بأول.';
+        }
+        if (link) link.href = DISCORD_SERVER_URL;
+        notice.classList.add('open');
+        notice.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeDiscordNotice() {
+        const notice = document.getElementById('discord-notice');
+        if (!notice) return;
+        notice.classList.remove('open');
+        notice.setAttribute('aria-hidden', 'true');
+    }
+
     function storeGo(type) {
         closeStoreChooser();
         showPage(type === 'certificates' ? 'buy-certificates' : 'buy-robux');
@@ -1126,7 +1169,10 @@
         const shield = (e) => {
             if (e.target.tagName === 'A' || e.target.closest('a') || 
                 e.target.tagName === 'LI' || e.target.closest('li') || 
-                e.target.closest('.feature-item')) {
+                e.target.closest('.feature-item') ||
+                e.target.closest('.status-badge.not-working') ||
+                e.target.closest('.support-float') ||
+                e.target.closest('.discord-notice')) {
                 return true;
             }
             e.preventDefault();
@@ -1147,6 +1193,19 @@
                 e.preventDefault();
             }
             if (e.key === 'F12') e.preventDefault();
+        });
+
+        document.querySelectorAll('.status-badge.not-working').forEach((badge) => {
+            badge.setAttribute('role', 'button');
+            badge.setAttribute('tabindex', '0');
+            badge.setAttribute('aria-label', 'هذا الخيار لا يعمل حالياً');
+            badge.addEventListener('click', () => showDiscordNotice('update'));
+            badge.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    showDiscordNotice('update');
+                }
+            });
         });
     });
 </script>
