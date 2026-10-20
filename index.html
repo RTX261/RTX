@@ -1118,7 +1118,7 @@
             text.textContent = 'إذا تحتاج مساعدة، خش سيرفرنا ديسكورد وهناك دعم فني يساعدك.';
         } else {
             title.textContent = 'هذا الخيار لا يعمل حالياً';
-            text.textContent = 'خش سيرفرنا ديسكورد، وإذا صار أي تحديث بننزله هنا أول بأول.';
+            text.textContent = 'إذا كنت تبيه، خش سيرفرنا ديسكورد، وإذا صار أي تحديث بننزله هنا أول بأول.';
         }
         if (link) link.href = DISCORD_SERVER_URL;
         notice.classList.add('open');
@@ -1195,16 +1195,14 @@
             if (e.key === 'F12') e.preventDefault();
         });
 
-        document.querySelectorAll('.status-badge.not-working').forEach((badge) => {
-            badge.setAttribute('role', 'button');
-            badge.setAttribute('tabindex', '0');
-            badge.setAttribute('aria-label', 'هذا الخيار لا يعمل حالياً');
-            badge.addEventListener('click', () => showDiscordNotice('update'));
-            badge.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    showDiscordNotice('update');
-                }
+        document.querySelectorAll('.btn-wrapper').forEach((wrapper) => {
+            const unavailable = wrapper.querySelector('.status-badge.not-working');
+            const downloadButton = wrapper.querySelector('a.download-btn');
+            if (!unavailable || !downloadButton) return;
+            downloadButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                showDiscordNotice('update');
             });
         });
     });
