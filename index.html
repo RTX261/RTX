@@ -58,14 +58,6 @@
         <img src="https://i.postimg.cc/jqyMWGC2/IMG-9464.jpg" alt="RTX logo" class="fortnite-image">
         <p class="welcome-text">مرحباً بكم في موقع <span class="highlight">RTX</span></p>
 
-        <div class="visitor-counter" aria-live="polite" aria-label="عدد دخول الموقع">
-            <i class="fas fa-users" aria-hidden="true"></i>
-            <div class="visitor-counter-copy">
-                <span class="visitor-counter-label">عدد دخول الموقع</span>
-                <strong id="visitor-count">...</strong>
-            </div>
-        </div>
-
         <div class="features-grid">
             <div class="feature-item" onclick="openChooser('iphone')">
                 <i class="fas fa-mobile-alt"></i>
@@ -1068,12 +1060,8 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/counterapi/dist/counter.browser.min.js"></script>
 <script>
     const DISCORD_SERVER_URL = 'https://discord.gg/rtxtop1';
-    // عداد مشترك بين جميع زوار الموقع، وليس عداداً محلياً لكل جهاز.
-    const VISITOR_COUNTER_WORKSPACE = 'rtx261-website-2026';
-    const VISITOR_COUNTER_NAME = 'home-visits';
     const PLATFORM_INFO = {
         iphone: { title: 'iOS / ايفون', icon: 'fas fa-mobile-alt', hack: 'roblox', pekora: 'pekora-iphone' },
         android: { title: 'Android / اندرويد', icon: 'fab fa-android', hack: 'roblox-android', pekora: 'pekora-android' },
@@ -1177,7 +1165,6 @@
 
     document.addEventListener("DOMContentLoaded", function () {
         showPage('home');
-        initVisitorCounter();
 
         const shield = (e) => {
             if (e.target.tagName === 'A' || e.target.closest('a') || 
@@ -1220,32 +1207,6 @@
         });
     });
 
-    async function initVisitorCounter() {
-        const counterElement = document.getElementById('visitor-count');
-        if (!counterElement) return;
-        try {
-            const counter = new Counter({ workspace: VISITOR_COUNTER_WORKSPACE });
-            const result = await counter.up(VISITOR_COUNTER_NAME);
-            updateVisitorCount(result?.value);
-            // تحديث العرض كل 30 ثانية ليظهر الرقم المشترك الجديد أولاً بأول.
-            setInterval(async () => {
-                try {
-                    const latest = await counter.get(VISITOR_COUNTER_NAME);
-                    updateVisitorCount(latest?.value);
-                } catch {}
-            }, 30000);
-        } catch (error) {
-            console.warn('[VisitorCounter] تعذر تحميل عداد الزيارات:', error);
-            counterElement.textContent = '—';
-        }
-    }
-
-    function updateVisitorCount(value) {
-        const counterElement = document.getElementById('visitor-count');
-        if (!counterElement || value === undefined || value === null) return;
-        counterElement.textContent = Number(value).toLocaleString('ar-SA');
-        counterElement.title = String(value);
-    }
 </script>
 </body>
 </html>
